@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="numberBadge"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/notification_ti_height">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_title"
+            android:layout_width="@dimen/notification_ti_title_size"
+            android:layout_height="@dimen/notification_ti_title_size"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{title}"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textColor="@color/color_tab_title_selected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/text_view_badge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/notification_ti_badge_margin_start"
+            android:background="@drawable/bac_tv_badge"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/notification_ti_badge_padding_horizontal"
+            android:paddingVertical="@dimen/notification_ti_badge_padding_vertical"
+            android:stateListAnimator="@animator/animator_tab_badge"
+            android:text="@{numberBadge}"
+            android:textColor="?attr/colorOnError"
+            android:textSize="@dimen/notification_ti_badge"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_view_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

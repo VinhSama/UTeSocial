@@ -1,0 +1,17 @@
+<resources>
+    <!-- Application Name -->
+    <string name="app_name">UTeSocial</string>
+
+    <!-- Content Description -->
+    <string name="des_btn_create">Tạo bài viết mới</string>
+    <string name="des_btn_menu_notify">Mở menu tùy chọn thông báo</string>
+    <string name="des_sb_avatar">Mở giao diện tài khoản</string>
+    <string name="des_tl_notification">Hiển thị thông báo và yêu cầu bạn bè</string>
+
+    <!-- Text -->
+    <string name="str_hint_search">Tìm kiếm</string>
+    <string name="str_title_item_bnv">•</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

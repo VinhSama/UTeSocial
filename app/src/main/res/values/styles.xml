@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.UTeSocial.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/Widget.UTeSocial.BottomNavigationView.ActiveIndicator</item>
+        <item name="itemIconTint">@color/color_bnv_icon_selected</item>
+        <item name="itemTextAppearanceActive">@style/Widget.UTeSocial.BottomNavigationView.Text.Active</item>
+        <item name="itemTextColor">?attr/colorOnPrimaryContainer</item>
+    </style>
+
+    <style name="Widget.UTeSocial.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.UTeSocial.BottomNavigationView.Text.Active" parent="">
+        <item name="android:textSize">@dimen/main_it_title</item>
+    </style>
+
+    <style name="Widget.UTeSocial.FloatingActionButton.Home" parent="Widget.Material3.FloatingActionButton.Surface">
+        <item name="android:foreground">@drawable/for_fab_create</item>
+    </style>
+
+</resources>

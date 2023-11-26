@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:outlineProvider="none">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap|snapMargins">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:outlineAmbientShadowColor="@android:color/black"
+                android:outlineSpotShadowColor="@android:color/black"
+                android:paddingHorizontal="@dimen/main_sb_padding_horizontal"
+                app:elevation="@dimen/ele_level_2"
+                app:menu="@menu/menu_sb_home"
+                app:navigationIconTint="?attr/colorOnSurface"
+                tools:targetApi="p" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view_brand"
+                android:layout_width="@dimen/main_iv_name_width"
+                android:layout_height="@dimen/main_iv_name_height"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@android:color/transparent"
+                android:elevation="@dimen/ele_level_2"
+                android:src="@drawable/ima_app_name" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginHorizontal="@dimen/main_tv_hint_margin_horizontal"
+                android:elevation="@dimen/ele_level_2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/str_hint_search"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/main_tv_hint"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</layout>

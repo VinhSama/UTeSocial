@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BottomAppBarCustom">
+        <attr name="fab" format="reference" />
+        <attr name="sizeCornerAll" format="dimension" />
+        <attr name="sizeCornerBottomLeft" format="dimension" />
+        <attr name="sizeCornerBottomRight" format="dimension" />
+        <attr name="sizeCornerTopLeft" format="dimension" />
+        <attr name="sizeCornerTopRight" format="dimension" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- * Density-independent Pixels * -->
+    <!-- Avatar -->
+    <dimen name="ava_size_menu">30dp</dimen>
+    <!-- Elevation -->
+    <dimen name="ele_level_0">0dp</dimen>
+    <dimen name="ele_level_1">1dp</dimen>
+    <dimen name="ele_level_2">3dp</dimen>
+    <!-- BottomAppBarCustom -->
+    <dimen name="bab_custom_corner_default">0dp</dimen>
+    <dimen name="bab_custom_corner_max">40dp</dimen>
+    <!-- Transition -->
+    <dimen name="transition_x_tab_home">20dp</dimen>
+    <dimen name="transition_y_bnv_height">80dp</dimen>
+    <dimen name="transition_y_fab_home_margin">-12dp</dimen>
+    <!-- Activity Main -->
+    <dimen name="main_bab_corner_top_left">24dp</dimen>
+    <dimen name="main_bab_corner_top_right">24dp</dimen>
+    <dimen name="main_bab_cradle_margin">12dp</dimen>
+    <dimen name="main_bab_cradle_rounded_corner_radius">12dp</dimen>
+    <dimen name="main_bnv_margin_end">8dp</dimen>
+    <dimen name="main_bnv_item_padding_bottom">16dp</dimen>
+    <dimen name="main_bnv_item_padding_top">16dp</dimen>
+    <dimen name="main_iv_name_height">22dp</dimen>
+    <dimen name="main_iv_name_width">120dp</dimen>
+    <dimen name="main_rl_action_height">88dp</dimen>
+    <dimen name="main_sb_padding_horizontal">4dp</dimen>
+    <dimen name="main_tv_hint_margin_horizontal">76dp</dimen>
+    <!-- Fragment Notification -->
+    <dimen name="notification_ti_badge_margin_start">4dp</dimen>
+    <dimen name="notification_ti_badge_padding_horizontal">7dp</dimen>
+    <dimen name="notification_ti_badge_padding_vertical">2dp</dimen>
+    <dimen name="notification_ti_height">48dp</dimen>
+    <dimen name="notification_ti_title_size">0dp</dimen>
+    <dimen name="notification_tl_tab_indicator_height">2dp</dimen>
+    <dimen name="notification_vp_height">0dp</dimen>
+    <!-- Fragment Notify -->
+    <dimen name="notify_btn_menu_height">20dp</dimen>
+    <dimen name="notify_btn_menu_width">0dp</dimen>
+    <dimen name="notify_cl_item_height">80dp</dimen>
+    <dimen name="notify_cl_item_padding_horizontal">16dp</dimen>
+    <dimen name="notify_cl_item_padding_vertical">8dp</dimen>
+    <dimen name="notify_iv_avatar_height">56dp</dimen>
+    <dimen name="notify_iv_avatar_width">0dp</dimen>
+    <dimen name="notify_ll_content_margin_horizontal">16dp</dimen>
+    <dimen name="notify_ll_content_size">0dp</dimen>
+    <dimen name="notify_tv_content_margin_bottom">4dp</dimen>
+
+    <!-- * Scale-independent Pixels * -->
+    <!-- Activity Main -->
+    <dimen name="main_it_title">20sp</dimen>
+    <dimen name="main_tv_hint">16sp</dimen>
+    <!-- Fragment Notification -->
+    <dimen name="notification_ti_badge">11sp</dimen>
+    <!-- Fragment Notify -->
+    <dimen name="notify_tv_content">15sp</dimen>
+    <dimen name="notify_tv_date">13sp</dimen>
+</resources>

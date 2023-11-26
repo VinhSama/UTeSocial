@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="duration_0">0</integer>
+    <integer name="duration_85">85</integer>
+    <integer name="duration_130">130</integer>
+    <integer name="duration_200">200</integer>
+    <integer name="duration_750">750</integer>
+    <integer name="duration_3000">3000</integer>
+    <integer name="duration_3500">3500</integer>
+</resources>

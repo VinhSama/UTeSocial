@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.utesocial.android.core.presentation.util.BottomAppBarCustom
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:addElevationShadow="true"
+        app:elevation="@dimen/ele_level_2"
+        app:fab="@id/floating_action_button_create"
+        app:fabAlignmentMode="center"
+        app:fabAnchorMode="cradle"
+        app:fabCradleMargin="@dimen/main_bab_cradle_margin"
+        app:fabCradleRoundedCornerRadius="@dimen/main_bab_cradle_rounded_corner_radius"
+        app:hideOnScroll="true"
+        app:sizeCornerTopLeft="@dimen/main_bab_corner_top_left"
+        app:sizeCornerTopRight="@dimen/main_bab_corner_top_right">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_view"
+            style="@style/Widget.UTeSocial.BottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/main_bnv_margin_end"
+            android:background="@android:color/transparent"
+            app:elevation="@dimen/ele_level_0"
+            app:itemPaddingBottom="@dimen/main_bnv_item_padding_bottom"
+            app:itemPaddingTop="@dimen/main_bnv_item_padding_top"
+            app:menu="@menu/menu_bnv_home" />
+
+    </com.utesocial.android.core.presentation.util.BottomAppBarCustom>
+
+</layout>
