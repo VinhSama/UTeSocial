@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ite_fra_notify_cl_height"
+        android:paddingVertical="@dimen/ite_fra_notify_cl_padding_vertical"
+        android:paddingStart="@dimen/ite_fra_notify_cl_padding_start"
+        android:paddingEnd="@dimen/ite_fra_notify_cl_padding_end">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view_avatar"
+            android:layout_width="@dimen/ite_fra_notify_iv_avatar_width"
+            android:layout_height="@dimen/ite_fra_notify_iv_avatar_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/linear_layout_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_content"
+            android:layout_width="@dimen/ite_fra_notify_ll_content_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ite_fra_notify_ll_content_margin_start"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_menu"
+            app:layout_constraintStart_toEndOf="@id/image_view_avatar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ite_fra_notify_tv_content_margin_bottom"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/ite_fra_notify_tv_content_line_spacing_extra"
+                android:maxLines="2"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="@dimen/ite_fra_notify_tv_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/ite_fra_notify_tv_date" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_menu"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/ite_fra_notify_btn_menu_width"
+            android:layout_height="@dimen/ite_fra_notify_btn_menu_height"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/des_ite_fra_notify_btn_menu"
+            app:icon="@drawable/ico_ellipsis_regular"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/colorOnSurface"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linear_layout_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

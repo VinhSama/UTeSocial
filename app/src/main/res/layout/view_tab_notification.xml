@@ -15,44 +15,53 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_main"
+        android:id="@+id/constraint_layout_tab"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/notification_ti_height">
+        android:layout_height="@dimen/tab_notification_cl_height">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_title"
-            android:layout_width="@dimen/notification_ti_title_size"
-            android:layout_height="@dimen/notification_ti_title_size"
+            android:layout_width="@dimen/tab_notification_tv_title_size"
+            android:layout_height="@dimen/tab_notification_tv_title_size"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
             android:text="@{title}"
             android:textAppearance="?attr/textAppearanceTitleSmall"
-            android:textColor="@color/color_tab_title_selected"
+            android:textColor="@color/color_fra_notification_tab_title_selected"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/text_view_badge"
+            app:layout_constraintEnd_toStartOf="@id/frame_layout_badge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_view_badge"
+        <FrameLayout
+            android:id="@+id/frame_layout_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/notification_ti_badge_margin_start"
-            android:background="@drawable/bac_tv_badge"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/notification_ti_badge_padding_horizontal"
-            android:paddingVertical="@dimen/notification_ti_badge_padding_vertical"
-            android:stateListAnimator="@animator/animator_tab_badge"
-            android:text="@{numberBadge}"
-            android:textColor="?attr/colorOnError"
-            android:textSize="@dimen/notification_ti_badge"
-            android:textStyle="bold"
-            android:visibility="gone"
+            android:stateListAnimator="@animator/animator_fra_notification_tab_container_badge_enabled"
+            android:visibility="@{numberBadge != 0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_view_title"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tab_notification_tv_badge_margin_start"
+                android:background="@drawable/bac_tv_badge"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/tab_notification_tv_badge_padding_horizontal"
+                android:paddingVertical="@dimen/tab_notification_tv_badge_padding_vertical"
+                android:stateListAnimator="@animator/animator_fra_notification_tab_text_badge_enabled"
+                android:text="@{numberBadge}"
+                android:textColor="?attr/colorOnError"
+                android:textSize="@dimen/tab_notification_tv_badge"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -19,7 +19,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior.OnScr
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior.STATE_SCROLLED_DOWN
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior.STATE_SCROLLED_UP
 import com.utesocial.android.R
-import com.utesocial.android.core.presentation.util.BottomAppBarCustom
+import com.utesocial.android.core.presentation.view.BottomAppBarCustom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -70,7 +70,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun setAnimatorActionBar(screen: View) {
-        val abHeight = resources.getDimension(R.dimen.main_rl_action_height)
+        val abHeight = resources.getDimension(R.dimen.act_main_top_rl_action_height)
         val clLayoutParams = screen.layoutParams as LayoutParams
 
         vaShowTopBar = ValueAnimator.ofFloat(-abHeight, 0F).apply {
@@ -146,7 +146,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun setAnimatorBottomBar(bottomViewOnScrollBehavior: OnScrollStateChangedListener) {
-        val bbHeight = resources.getDimension(R.dimen.transition_y_bnv_height)
+        val bbHeight = resources.getDimension(R.dimen.tra_act_main_bnv_height)
         val delayStateChange = resources.getInteger(R.integer.duration_130).toLong()
 
         vaShowBottomBar = ValueAnimator.ofFloat(bbHeight, 0F).apply {

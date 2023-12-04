@@ -15,7 +15,7 @@
         android:width="24dp"
         android:height="24dp"
         android:bottom="20dp"
-        android:drawable="@drawable/ico_plus_regular_home"
+        android:drawable="@drawable/ico_plus_regular_main"
         android:end="20dp"
         android:gravity="center"
         android:start="20dp"

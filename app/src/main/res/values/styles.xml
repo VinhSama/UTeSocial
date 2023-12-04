@@ -3,8 +3,8 @@
 
     <style name="Widget.UTeSocial.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="itemActiveIndicatorStyle">@style/Widget.UTeSocial.BottomNavigationView.ActiveIndicator</item>
-        <item name="itemIconTint">@color/color_bnv_icon_selected</item>
-        <item name="itemTextAppearanceActive">@style/Widget.UTeSocial.BottomNavigationView.Text.Active</item>
+        <item name="itemIconTint">@color/color_act_main_bnv_icon_selected</item>
+        <item name="itemTextAppearanceActive">@style/Widget.UTeSocial.BottomNavigationView.ItemText.Active</item>
         <item name="itemTextColor">?attr/colorOnPrimaryContainer</item>
     </style>
 
@@ -12,11 +12,11 @@
         <item name="android:color">@android:color/transparent</item>
     </style>
 
-    <style name="Widget.UTeSocial.BottomNavigationView.Text.Active" parent="">
-        <item name="android:textSize">@dimen/main_it_title</item>
+    <style name="Widget.UTeSocial.BottomNavigationView.ItemText.Active" parent="">
+        <item name="android:textSize">@dimen/act_main_bottom_bnv_item_text</item>
     </style>
 
-    <style name="Widget.UTeSocial.FloatingActionButton.Home" parent="Widget.Material3.FloatingActionButton.Surface">
+    <style name="Widget.UTeSocial.FloatingActionButton.Main" parent="Widget.Material3.FloatingActionButton.Surface">
         <item name="android:foreground">@drawable/for_fab_create</item>
     </style>
 

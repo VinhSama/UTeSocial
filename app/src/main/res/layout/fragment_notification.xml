@@ -8,29 +8,29 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_main"
+        android:id="@+id/constraint_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature_notification.presentation.element.NotificationFragment">
+        tools:context=".feature_notification.presentation.notification.element.NotificationFragment">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/des_tl_notification"
+            android:contentDescription="@string/des_fra_notification_tl"
             app:layout_constraintBottom_toTopOf="@id/view_pager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabIndicatorColor="?attr/colorSecondary"
             app:tabIndicatorFullWidth="true"
-            app:tabIndicatorHeight="@dimen/notification_tl_tab_indicator_height"
+            app:tabIndicatorHeight="@dimen/fra_notification_tl_tab_indicator_height"
             app:tabMode="fixed" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/notification_vp_height"
+            android:layout_height="@dimen/fra_notification_vp_height"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

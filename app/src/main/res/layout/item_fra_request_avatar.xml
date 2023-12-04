@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bac_iv_list_avatar">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view_avatar"
+            android:layout_width="@dimen/ite_fra_request_avatar_iv_size"
+            android:layout_height="@dimen/ite_fra_request_avatar_iv_size"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/ite_fra_request_avatar_iv_margin"
+            app:srcCompat="@drawable/ico_circle_user_duotone" />
+
+    </RelativeLayout>
+
+</layout>

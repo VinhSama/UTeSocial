@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature_home.presentation.element.HomeFragment">
+        tools:context=".feature_settings.presentation.element.SettingsFragment">
 
         <TextView
             android:layout_width="match_parent"

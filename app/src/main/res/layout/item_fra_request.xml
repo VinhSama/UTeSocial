@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/ite_fra_request_cl_padding_vertical"
+        android:paddingStart="@dimen/ite_fra_request_cl_padding_start"
+        android:paddingEnd="@dimen/ite_fra_request_cl_padding_end">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view_avatar"
+            android:layout_width="@dimen/ite_fra_request_iv_avatar_width"
+            android:layout_height="@dimen/ite_fra_request_iv_avatar_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/linear_layout_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ico_circle_user_duotone" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_content"
+            android:layout_width="@dimen/ite_fra_request_ll_content_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ite_fra_request_ll_content_margin_start"
+            android:layout_marginEnd="@dimen/ite_fra_request_ll_content_margin_end"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_accept"
+            app:layout_constraintStart_toEndOf="@id/image_view_avatar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Nguyễn Quang Vinh"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="@dimen/ite_fra_request_tv_name"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/ite_fra_request_ll_friend_margin_vertical"
+                android:gravity="center_vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/ite_fra_request_rv_friend_margin_end"
+                    android:contentDescription="@string/des_ite_fra_request_rv_friend"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_fra_request_avatar" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="20 bạn chung"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="@dimen/ite_fra_request_tv_number" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="16 tháng trước"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/ite_fra_request_tv_date" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_accept"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/ite_fra_request_btn_width"
+            android:layout_height="@dimen/ite_fra_request_btn_height"
+            android:layout_marginEnd="@dimen/ite_fra_request_btn_accept_margin_end"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/des_ite_fra_request_btn_accept"
+            android:insetLeft="@dimen/ite_fra_request_btn_inset_left"
+            android:insetTop="@dimen/ite_fra_request_btn_inset_top"
+            android:insetRight="@dimen/ite_fra_request_btn_inset_right"
+            android:insetBottom="@dimen/ite_fra_request_btn_inset_bottom"
+            app:icon="@drawable/ico_circle_check_solid"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/ite_fra_request_btn_icon_size"
+            app:iconTint="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/button_denied"
+            app:layout_constraintStart_toEndOf="@id/linear_layout_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_denied"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/ite_fra_request_btn_width"
+            android:layout_height="@dimen/ite_fra_request_btn_height"
+            android:layout_marginStart="@dimen/ite_fra_request_btn_denied_margin_start"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/des_ite_fra_request_btn_denied"
+            android:insetLeft="@dimen/ite_fra_request_btn_inset_left"
+            android:insetTop="@dimen/ite_fra_request_btn_inset_top"
+            android:insetRight="@dimen/ite_fra_request_btn_inset_right"
+            android:insetBottom="@dimen/ite_fra_request_btn_inset_bottom"
+            app:icon="@drawable/ico_circle_xmark_solid"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/ite_fra_request_btn_icon_size"
+            app:iconTint="?attr/colorError"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button_accept"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

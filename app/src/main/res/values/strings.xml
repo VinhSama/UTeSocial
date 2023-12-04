@@ -3,14 +3,22 @@
     <string name="app_name">UTeSocial</string>
 
     <!-- Content Description -->
-    <string name="des_btn_create">Tạo bài viết mới</string>
-    <string name="des_btn_menu_notify">Mở menu tùy chọn thông báo</string>
-    <string name="des_sb_avatar">Mở giao diện tài khoản</string>
-    <string name="des_tl_notification">Hiển thị thông báo và yêu cầu bạn bè</string>
+    <string name="des_act_main_fab_create">Tạo bài viết mới</string>
+    <string name="des_act_main_top_sb_avatar">Mở giao diện tài khoản</string>
+    <string name="des_fra_notification_tl">Hiển thị thông báo và yêu cầu bạn bè</string>
+    <string name="des_ite_fra_notify_btn_menu">Mở menu tùy chọn thông báo</string>
+    <string name="des_ite_fra_request_btn_accept">Chấp nhận yêu cầu kết bạn</string>
+    <string name="des_ite_fra_request_btn_denied">Từ chối yêu cầu kết bạn</string>
+    <string name="des_ite_fra_request_rv_friend">Danh sách bạn bè chung</string>
+    <string name="des_placeholder">Chế độ xem thông báo đang tải dữ liệu</string>
 
     <!-- Text -->
-    <string name="str_hint_search">Tìm kiếm</string>
-    <string name="str_title_item_bnv">•</string>
+    <string name="str_act_main_bottom_bnv_item">•</string>
+    <string name="str_act_main_top_tv_hint">Tìm kiếm</string>
+    <string name="str_bs_notify_btn_delete">Gỡ bỏ thông báo này</string>
+    <string name="str_bs_notify_btn_mark">Đánh dấu là đã đọc</string>
+    <string name="str_fra_notify_tv_empty">Không có thông báo</string>
+    <string name="str_fra_request_tv_empty">Không có yêu cầu kết bạn</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

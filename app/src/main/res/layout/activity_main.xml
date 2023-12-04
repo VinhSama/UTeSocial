@@ -8,33 +8,33 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator_layout_main"
+        android:id="@+id/coordinator_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".core.presentation.main.element.MainActivity">
 
         <include
             android:id="@+id/top_bar"
-            layout="@layout/partial_main_top" />
+            layout="@layout/activity_main_top" />
 
         <include
             android:id="@+id/search"
-            layout="@layout/partial_main_search" />
+            layout="@layout/activity_main_search" />
 
         <include
             android:id="@+id/screen"
-            layout="@layout/partial_main_screen" />
+            layout="@layout/activity_main_screen" />
 
         <include
             android:id="@+id/bottom_bar"
-            layout="@layout/partial_main_bottom" />
+            layout="@layout/activity_main_bottom" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button_create"
-            style="@style/Widget.UTeSocial.FloatingActionButton.Home"
+            style="@style/Widget.UTeSocial.FloatingActionButton.Main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/des_btn_create"
+            android:contentDescription="@string/des_act_main_fab_create"
             app:elevation="@dimen/ele_level_1"
             app:layout_anchor="@id/bottom_bar" />
 

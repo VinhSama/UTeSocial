@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- * Density-independent Pixels * -->
-    <!-- Avatar -->
-    <dimen name="ava_size_menu">30dp</dimen>
     <!-- Elevation -->
     <dimen name="ele_level_0">0dp</dimen>
     <dimen name="ele_level_1">1dp</dimen>
@@ -11,49 +9,92 @@
     <dimen name="bab_custom_corner_default">0dp</dimen>
     <dimen name="bab_custom_corner_max">40dp</dimen>
     <!-- Transition -->
-    <dimen name="transition_x_tab_home">20dp</dimen>
-    <dimen name="transition_y_bnv_height">80dp</dimen>
-    <dimen name="transition_y_fab_home_margin">-12dp</dimen>
+    <dimen name="tra_act_main_tab_x">20dp</dimen>
+    <dimen name="tra_act_main_bnv_height">80dp</dimen>
+    <dimen name="tra_act_main_fab_margin_bottom">-12dp</dimen>
     <!-- Activity Main -->
-    <dimen name="main_bab_corner_top_left">24dp</dimen>
-    <dimen name="main_bab_corner_top_right">24dp</dimen>
-    <dimen name="main_bab_cradle_margin">12dp</dimen>
-    <dimen name="main_bab_cradle_rounded_corner_radius">12dp</dimen>
-    <dimen name="main_bnv_margin_end">8dp</dimen>
-    <dimen name="main_bnv_item_padding_bottom">16dp</dimen>
-    <dimen name="main_bnv_item_padding_top">16dp</dimen>
-    <dimen name="main_iv_name_height">22dp</dimen>
-    <dimen name="main_iv_name_width">120dp</dimen>
-    <dimen name="main_rl_action_height">88dp</dimen>
-    <dimen name="main_sb_padding_horizontal">4dp</dimen>
-    <dimen name="main_tv_hint_margin_horizontal">76dp</dimen>
+    <dimen name="act_main_bottom_bab_corner_top_left">24dp</dimen>
+    <dimen name="act_main_bottom_bab_corner_top_right">24dp</dimen>
+    <dimen name="act_main_bottom_bab_cradle_margin">12dp</dimen>
+    <dimen name="act_main_bottom_bab_cradle_rounded_corner_radius">12dp</dimen>
+    <dimen name="act_main_bottom_bnv_item_padding_bottom">16dp</dimen>
+    <dimen name="act_main_bottom_bnv_item_padding_top">16dp</dimen>
+    <dimen name="act_main_bottom_bnv_margin_end">8dp</dimen>
+    <dimen name="act_main_top_iv_brand_height">22dp</dimen>
+    <dimen name="act_main_top_iv_brand_width">120dp</dimen>
+    <dimen name="act_main_top_rl_action_height">88dp</dimen>
+    <dimen name="act_main_top_sb_padding_horizontal">4dp</dimen>
+    <dimen name="act_main_top_tv_hint_margin_horizontal">76dp</dimen>
     <!-- Fragment Notification -->
-    <dimen name="notification_ti_badge_margin_start">4dp</dimen>
-    <dimen name="notification_ti_badge_padding_horizontal">7dp</dimen>
-    <dimen name="notification_ti_badge_padding_vertical">2dp</dimen>
-    <dimen name="notification_ti_height">48dp</dimen>
-    <dimen name="notification_ti_title_size">0dp</dimen>
-    <dimen name="notification_tl_tab_indicator_height">2dp</dimen>
-    <dimen name="notification_vp_height">0dp</dimen>
+    <dimen name="fra_notification_tl_tab_indicator_height">2dp</dimen>
+    <dimen name="fra_notification_vp_height">0dp</dimen>
+    <dimen name="tab_notification_cl_height">48dp</dimen>
+    <dimen name="tab_notification_tv_badge_margin_start">4dp</dimen>
+    <dimen name="tab_notification_tv_badge_padding_horizontal">6dp</dimen>
+    <dimen name="tab_notification_tv_badge_padding_vertical">2dp</dimen>
+    <dimen name="tab_notification_tv_title_size">0dp</dimen>
     <!-- Fragment Notify -->
-    <dimen name="notify_btn_menu_height">20dp</dimen>
-    <dimen name="notify_btn_menu_width">0dp</dimen>
-    <dimen name="notify_cl_item_height">80dp</dimen>
-    <dimen name="notify_cl_item_padding_horizontal">16dp</dimen>
-    <dimen name="notify_cl_item_padding_vertical">8dp</dimen>
-    <dimen name="notify_iv_avatar_height">56dp</dimen>
-    <dimen name="notify_iv_avatar_width">0dp</dimen>
-    <dimen name="notify_ll_content_margin_horizontal">16dp</dimen>
-    <dimen name="notify_ll_content_size">0dp</dimen>
-    <dimen name="notify_tv_content_margin_bottom">4dp</dimen>
+    <dimen name="bs_notify_btn_delete_margin_bottom">12dp</dimen>
+    <dimen name="bs_notify_btn_icon_padding">16dp</dimen>
+    <dimen name="bs_notify_btn_icon_size">40dp</dimen>
+    <dimen name="bs_notify_btn_line_spacing_extra">4dp</dimen>
+    <dimen name="bs_notify_btn_padding_horizontal">16dp</dimen>
+    <dimen name="bs_notify_cl_margin_top">72dp</dimen>
+    <dimen name="bs_notify_iv_avatar_size">55dp</dimen>
+    <dimen name="bs_notify_ll_content_margin_bottom">12dp</dimen>
+    <dimen name="bs_notify_ll_content_padding_horizontal">16dp</dimen>
+    <dimen name="bs_notify_tv_content_line_spacing_extra">6dp</dimen>
+    <dimen name="bs_notify_tv_content_margin_start">16dp</dimen>
+    <dimen name="ite_fra_notify_btn_menu_height">48dp</dimen>
+    <dimen name="ite_fra_notify_btn_menu_width">0dp</dimen>
+    <dimen name="ite_fra_notify_cl_height">88dp</dimen>
+    <dimen name="ite_fra_notify_cl_padding_end">0dp</dimen>
+    <dimen name="ite_fra_notify_cl_padding_start">16dp</dimen>
+    <dimen name="ite_fra_notify_cl_padding_vertical">8dp</dimen>
+    <dimen name="ite_fra_notify_iv_avatar_height">56dp</dimen>
+    <dimen name="ite_fra_notify_iv_avatar_width">0dp</dimen>
+    <dimen name="ite_fra_notify_ll_content_margin_start">16dp</dimen>
+    <dimen name="ite_fra_notify_ll_content_width">0dp</dimen>
+    <dimen name="ite_fra_notify_tv_content_line_spacing_extra">3dp</dimen>
+    <dimen name="ite_fra_notify_tv_content_margin_bottom">6dp</dimen>
+    <!-- Fragment Request -->
+    <dimen name="ite_fra_request_avatar_iv_margin">2dp</dimen>
+    <dimen name="ite_fra_request_avatar_iv_size">18dp</dimen>
+    <dimen name="ite_fra_request_btn_accept_margin_end">4dp</dimen>
+    <dimen name="ite_fra_request_btn_denied_margin_start">4dp</dimen>
+    <dimen name="ite_fra_request_btn_height">48dp</dimen>
+    <dimen name="ite_fra_request_btn_icon_size">35dp</dimen>
+    <dimen name="ite_fra_request_btn_inset_bottom">0dp</dimen>
+    <dimen name="ite_fra_request_btn_inset_left">0dp</dimen>
+    <dimen name="ite_fra_request_btn_inset_right">0dp</dimen>
+    <dimen name="ite_fra_request_btn_inset_top">0dp</dimen>
+    <dimen name="ite_fra_request_btn_width">0dp</dimen>
+    <dimen name="ite_fra_request_cl_padding_end">4dp</dimen>
+    <dimen name="ite_fra_request_cl_padding_start">16dp</dimen>
+    <dimen name="ite_fra_request_cl_padding_vertical">8dp</dimen>
+    <dimen name="ite_fra_request_iv_avatar_height">70dp</dimen>
+    <dimen name="ite_fra_request_iv_avatar_width">0dp</dimen>
+    <dimen name="ite_fra_request_ll_content_margin_end">8dp</dimen>
+    <dimen name="ite_fra_request_ll_content_margin_start">12dp</dimen>
+    <dimen name="ite_fra_request_ll_content_width">0dp</dimen>
+    <dimen name="ite_fra_request_ll_friend_margin_vertical">4dp</dimen>
+    <dimen name="ite_fra_request_rv_friend_margin_end">4dp</dimen>
 
     <!-- * Scale-independent Pixels * -->
     <!-- Activity Main -->
-    <dimen name="main_it_title">20sp</dimen>
-    <dimen name="main_tv_hint">16sp</dimen>
+    <dimen name="act_main_bottom_bnv_item_text">20sp</dimen>
+    <dimen name="act_main_top_tv_hint">16sp</dimen>
     <!-- Fragment Notification -->
-    <dimen name="notification_ti_badge">11sp</dimen>
+    <dimen name="tab_notification_tv_badge">11sp</dimen>
     <!-- Fragment Notify -->
-    <dimen name="notify_tv_content">15sp</dimen>
-    <dimen name="notify_tv_date">13sp</dimen>
+    <dimen name="bs_notify_btn">15sp</dimen>
+    <dimen name="bs_notify_tv_content">16sp</dimen>
+    <dimen name="fra_notify_tv_empty">20sp</dimen>
+    <dimen name="ite_fra_notify_tv_date">13sp</dimen>
+    <dimen name="ite_fra_notify_tv_content">15sp</dimen>
+    <!-- Fragment Request -->
+    <dimen name="fra_request_tv_empty">20sp</dimen>
+    <dimen name="ite_fra_request_tv_date">13sp</dimen>
+    <dimen name="ite_fra_request_tv_name">18sp</dimen>
+    <dimen name="ite_fra_request_tv_number">14sp</dimen>
 </resources>
