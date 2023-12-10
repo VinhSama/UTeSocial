@@ -4,20 +4,31 @@
 
     <data>
 
+        <variable
+            name="notify"
+            type="com.utesocial.android.feature_notification.domain.model.Notify" />
+
+        <variable
+            name="listener"
+            type="com.utesocial.android.feature_notification.presentation.notify.listener.NotifyItemListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ite_fra_notify_cl_height"
+        android:onLongClick="@{() -> listener.showBottomSheet(notify)}"
         android:paddingVertical="@dimen/ite_fra_notify_cl_padding_vertical"
         android:paddingStart="@dimen/ite_fra_notify_cl_padding_start"
-        android:paddingEnd="@dimen/ite_fra_notify_cl_padding_end">
+        android:paddingEnd="@dimen/ite_fra_notify_cl_padding_end"
+        app:unread="@{notify.unread}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_view_avatar"
             android:layout_width="@dimen/ite_fra_notify_iv_avatar_width"
             android:layout_height="@dimen/ite_fra_notify_iv_avatar_height"
+            app:avatar="@{notify.avatar}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toStartOf="@id/linear_layout_content"
@@ -44,6 +55,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/ite_fra_notify_tv_content_line_spacing_extra"
                 android:maxLines="2"
+                android:text="@{notify.content}"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="@dimen/ite_fra_notify_tv_content" />
 
@@ -53,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@{notify.date}"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/ite_fra_notify_tv_date" />
 
@@ -65,6 +78,7 @@
             android:layout_height="@dimen/ite_fra_notify_btn_menu_height"
             android:background="@android:color/transparent"
             android:contentDescription="@string/des_ite_fra_notify_btn_menu"
+            android:onClick="@{() -> listener.showBottomSheet(notify)}"
             app:icon="@drawable/ico_ellipsis_regular"
             app:iconGravity="textStart"
             app:iconTint="?attr/colorOnSurface"

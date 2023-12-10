@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="notify"
+            type="com.utesocial.android.feature_notification.domain.model.Notify" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +42,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_view_avatar"
                 android:layout_width="@dimen/bs_notify_iv_avatar_size"
-                android:layout_height="@dimen/bs_notify_iv_avatar_size" />
+                android:layout_height="@dimen/bs_notify_iv_avatar_size"
+                app:avatar="@{notify.avatar}" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_view_content"
@@ -46,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/bs_notify_tv_content_margin_start"
                 android:lineSpacingExtra="@dimen/bs_notify_tv_content_line_spacing_extra"
+                android:text="@{notify.content}"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/bs_notify_tv_content" />
 
@@ -57,17 +63,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:enabled="@{notify.unread}"
             android:lineSpacingExtra="@dimen/bs_notify_btn_line_spacing_extra"
             android:maxLines="2"
             android:paddingHorizontal="@dimen/bs_notify_btn_padding_horizontal"
             android:text="@string/str_bs_notify_btn_mark"
             android:textAlignment="textStart"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/color_bs_notify_btn_text_enabled"
             android:textSize="@dimen/bs_notify_btn"
             app:icon="@drawable/ico_circle_envelope_duotone"
             app:iconPadding="@dimen/bs_notify_btn_icon_padding"
             app:iconSize="@dimen/bs_notify_btn_icon_size"
-            app:iconTint="?attr/colorPrimary"
+            app:iconTint="@color/color_bs_notify_btn_icon_enabled"
             app:layout_constraintBottom_toTopOf="@id/button_delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,12 +92,12 @@
             android:paddingHorizontal="@dimen/bs_notify_btn_padding_horizontal"
             android:text="@string/str_bs_notify_btn_delete"
             android:textAlignment="textStart"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/color_bs_notify_btn_text_enabled"
             android:textSize="@dimen/bs_notify_btn"
             app:icon="@drawable/ico_circle_minus_duotone"
             app:iconPadding="@dimen/bs_notify_btn_icon_padding"
             app:iconSize="@dimen/bs_notify_btn_icon_size"
-            app:iconTint="?attr/colorPrimary"
+            app:iconTint="@color/color_bs_notify_btn_icon_enabled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

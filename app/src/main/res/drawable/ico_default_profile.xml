@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="?android:attr/colorBackground" />
+            <size
+                android:width="30dp"
+                android:height="30dp" />
+        </shape>
+    </item>
+    <item
+        android:width="30dp"
+        android:height="30dp"
+        android:gravity="center">
+        <vector
+            android:width="512dp"
+            android:height="512dp"
+            android:viewportWidth="512"
+            android:viewportHeight="512"
+            tools:ignore="VectorRaster">
+            <path android:pathData="M256,0C114.6,0 0,114.6 0,256s114.6,256 256,256s256,-114.6 256,-256S397.4,0 256,0zM256,128c39.77,0 72,32.24 72,72S295.8,272 256,272c-39.76,0 -72,-32.24 -72,-72S216.2,128 256,128zM256,448c-52.93,0 -100.9,-21.53 -135.7,-56.29C136.5,349.9 176.5,320 224,320h64c47.54,0 87.54,29.88 103.7,71.71C356.9,426.5 308.9,448 256,448z">
+                <aapt:attr name="android:fillColor">
+                    <gradient
+                        android:endX="512"
+                        android:endY="512"
+                        android:startX="0"
+                        android:startY="0"
+                        android:type="linear">
+                        <item
+                            android:color="?attr/colorSecondaryContainer"
+                            android:offset="0.0" />
+                        <item
+                            android:color="?attr/colorPrimary"
+                            android:offset="0.5" />
+                        <item
+                            android:color="?attr/colorPrimaryContainer"
+                            android:offset="1.0" />
+                    </gradient>
+                </aapt:attr>
+            </path>
+        </vector>
+    </item>
+</layer-list>

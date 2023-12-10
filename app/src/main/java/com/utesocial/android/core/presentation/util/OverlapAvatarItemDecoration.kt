@@ -4,11 +4,9 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.utesocial.android.R
 
-class OverlapAvatarItemDecoration(
-    private val numberLimit: Int,
-    private val overlapWidth: Int
-) : ItemDecoration() {
+class OverlapAvatarItemDecoration(private val numberLimit: Int) : ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -17,10 +15,10 @@ class OverlapAvatarItemDecoration(
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-
+        val overlapLeft = view.resources.getDimension(R.dimen.overlap_avatar_left).toInt()
         when (parent.getChildAdapterPosition(view)) {
             0 -> return
-            in 1 .. numberLimit -> outRect.set(overlapWidth, 0, 0, 0)
+            in 1 until numberLimit -> outRect.set(overlapLeft, 0, 0, 0)
             else -> outRect.set(0, 0, 0, 0)
         }
     }

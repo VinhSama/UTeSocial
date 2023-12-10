@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="group"
+            type="com.utesocial.android.core.domain.model.Post" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/linear_layout_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view_group"
+                android:layout_width="@dimen/ite_group_info_iv_group_size"
+                android:layout_height="@dimen/ite_group_info_iv_group_size"
+                app:avatar="@{group.groupImage}" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_view_group"
+                android:layout_alignStart="@id/image_view_group"
+                android:layout_marginStart="@dimen/ite_group_info_ll_avatar_margin_start"
+                android:layout_marginTop="@dimen/ite_group_info_ll_avatar_margin_top"
+                android:background="@drawable/bac_ll_avatar_owner"
+                android:padding="@dimen/ite_group_info_ll_avatar_padding">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view_avatar"
+                    android:layout_width="@dimen/ite_group_info_iv_avatar_size"
+                    android:layout_height="@dimen/ite_group_info_iv_avatar_size"
+                    app:avatar="@{group.ownerAvatar}" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_info"
+            android:layout_width="@dimen/ite_group_info_ll_info_width"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/ite_group_info_ll_info_margin_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_menu"
+            app:layout_constraintStart_toEndOf="@id/relative_layout_image"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{group.groupName}"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/ite_group_info_tv_group"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ite_group_info_tv_name_margin_top"
+                android:layout_marginBottom="@dimen/ite_group_info_tv_name_margin_bottom"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{group.ownerName}"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/ite_group_info_tv_name"
+                android:textStyle="bold|italic" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{group.date}"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/ite_group_info_tv_date" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_menu"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/ite_group_info_btn_menu_width"
+            android:layout_height="@dimen/ite_group_info_btn_menu_height"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/des_ite_post_info_btn_menu"
+            android:padding="@dimen/ite_group_info_btn_menu_padding"
+            app:icon="@drawable/ico_ellipsis_regular"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/colorOnSurface"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linear_layout_info"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

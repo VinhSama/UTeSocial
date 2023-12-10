@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="post"
+            type="com.utesocial.android.core.domain.model.Post" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_interact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ite_post_interact_cl_margin_top">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_like"
+            android:layout_width="@dimen/ite_post_interact_rl_width"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/relative_layout_comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radio_button_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:contentDescription="@string/des_ite_post_interact_btn_like"
+                android:drawableStart="@drawable/ico_heart_checked"
+                android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
+                android:drawableTint="@color/color_ite_post_interact_checked"
+                android:gravity="center"
+                android:text="@{post.numberLike + @string/str_ite_post_interact_btn_like}"
+                android:textColor="@color/color_ite_post_interact_checked"
+                android:textSize="@dimen/ite_post_interact_tv" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_comment"
+            android:layout_width="@dimen/ite_post_interact_rl_width"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/relative_layout_like"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radio_button_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:contentDescription="@string/des_ite_post_interact_btn_comment"
+                android:drawableStart="@drawable/ico_comment_checked"
+                android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
+                android:drawableTint="@color/color_ite_post_interact_checked"
+                android:gravity="center"
+                android:text="@{post.numberComment + @string/str_ite_post_interact_btn_comment}"
+                android:textColor="@color/color_ite_post_interact_checked"
+                android:textSize="@dimen/ite_post_interact_tv" />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

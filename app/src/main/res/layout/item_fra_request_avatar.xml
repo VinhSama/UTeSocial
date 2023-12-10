@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="avatar"
+            type="String" />
+
     </data>
 
     <RelativeLayout
@@ -18,7 +22,7 @@
             android:layout_height="@dimen/ite_fra_request_avatar_iv_size"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/ite_fra_request_avatar_iv_margin"
-            app:srcCompat="@drawable/ico_circle_user_duotone" />
+            app:avatar="@{avatar}" />
 
     </RelativeLayout>
 

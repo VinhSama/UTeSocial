@@ -33,18 +33,18 @@ class BottomAppBarCustom : BottomAppBar {
     private var oaScrollDown: ObjectAnimator?
     private val onScrollBehavior: OnScrollStateChangedListener
 
-    constructor(context: Context) : this(context, null)
+    constructor(context: Context): this(context, null)
 
     constructor(
         context: Context,
         attrs: AttributeSet?
-    ) : this(context, attrs, com.google.android.material.R.attr.bottomAppBarStyle)
+    ): this(context, attrs, com.google.android.material.R.attr.bottomAppBarStyle)
 
     constructor(
         context: Context,
         attrs: AttributeSet?,
         @AttrRes defStyleAttr: Int
-    ) : super(context, attrs, defStyleAttr) {
+    ): super(context, attrs, defStyleAttr) {
         val attrsCustom: IntArray = intArrayOf(
             R.attr.fab,
             R.attr.sizeCornerAll,

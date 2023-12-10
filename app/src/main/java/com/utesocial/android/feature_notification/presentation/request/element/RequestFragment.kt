@@ -6,19 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.databinding.FragmentRequestBinding
+import com.utesocial.android.feature_notification.domain.model.Request
+import com.utesocial.android.feature_notification.presentation.notification.state_holder.NotificationViewModel
 import com.utesocial.android.feature_notification.presentation.request.adapter.RequestAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class RequestFragment : BaseFragment() {
 
     private lateinit var binding: FragmentRequestBinding
+    private val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment() })
+
+    private val data: ArrayList<Request> by lazy { ArrayList() }
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -29,32 +35,46 @@ class RequestFragment : BaseFragment() {
         return binding
     }
 
+    override fun initViewModel(): ViewModel = viewModel
+
     override fun assignLifecycleOwner() { binding.lifecycleOwner = this@RequestFragment }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
+        setupBinding()
+        setupRecyclerView()
+        setupListener()
+        observer()
+    }
 
-        binding.shimmerFrameLayout.startShimmer()
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(2000)
-            withContext(Dispatchers.Main) {
-                binding.shimmerFrameLayout.stopShimmer()
-                binding.shimmerFrameLayout.visibility = View.GONE
-                binding.swipeRefreshLayout.visibility = View.VISIBLE
-            }
-        }
+    private fun setupBinding() {
+        binding.viewModel = viewModel
+    }
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            lifecycleScope.launch {
-                val aaa = arrayOf("true", "true", "false", "true", "false", "false", "false", "true", "false", "true")
-                val adapter = RequestAdapter(aaa)
-                withContext(Dispatchers.Main) { binding.recyclerViewRequest.adapter = adapter }
+    private fun setupRecyclerView() {
+        val requestAdapter = RequestAdapter(this@RequestFragment, data)
+        binding.recyclerViewRequest.adapter = requestAdapter
+    }
 
-                delay(2000)
-                withContext(Dispatchers.Main) {
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    binding.textViewEmpty.visibility = View.GONE
-                    binding.recyclerViewRequest.visibility = View.VISIBLE
+    private fun setupListener() = binding.swipeRefreshLayout.setOnRefreshListener {
+        binding.swipeRefreshLayout.isRefreshing = false
+        viewModel.getRequests()
+    }
+
+    private fun observer() = lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.requestState.collect {
+                if (!it.isLoading) {
+                    data.clear()
+
+                    if (it.requests.isNotEmpty()) {
+                        data.addAll(it.requests)
+                    } else {
+                        getBaseActivity().showSnackbar(message = it.error)
+                    }
                 }
             }
         }

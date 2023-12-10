@@ -5,7 +5,7 @@
     <item
         android:id="@+id/item_avatar"
         android:contentDescription="@string/des_act_main_top_sb_avatar"
-        android:icon="@drawable/ico_circle_user_duotone"
+        android:icon="@drawable/ico_default_profile"
         android:title=""
         app:showAsAction="always" />
 

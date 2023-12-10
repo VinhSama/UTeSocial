@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.utesocial.android.feature_notification.presentation.notification.state_holder.NotificationViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -16,7 +20,8 @@
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:loading="@{viewModel.requestState.loading}">
 
             <include layout="@layout/fragment_request_placeholder" />
 
@@ -26,7 +31,7 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            app:notLoading="@{!viewModel.requestState.loading}">
 
             <RelativeLayout
                 android:id="@+id/relative_layout_content"
@@ -39,7 +44,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    app:empty="@{viewModel.requestState.requests.empty}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_fra_request" />
 
@@ -53,7 +58,8 @@
                     android:text="@string/str_fra_request_tv_empty"
                     android:textColor="?attr/colorOnBackground"
                     android:textSize="@dimen/fra_request_tv_empty"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    app:empty="@{!viewModel.requestState.requests.empty}" />
 
             </RelativeLayout>
 

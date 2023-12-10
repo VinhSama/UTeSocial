@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout_item_shimmer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:background="@drawable/bac_cl_post"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <include layout="@layout/item_post_placeholder_info" />
+
+    <include layout="@layout/item_post_placeholder_body" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerColor="?attr/colorOutlineVariant" />
+
+    <include layout="@layout/item_post_placeholder_interact" />
+
+</LinearLayout>

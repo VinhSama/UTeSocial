@@ -1,150 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel" />
+
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFC6C3"
         tools:context=".feature_home.presentation.element.HomeFragment">
 
-        <LinearLayout
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_frame_layout"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:loading="@{viewModel.homeState.loading}">
 
-            <Button
+            <include layout="@layout/fragment_home_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:notLoading="@{!viewModel.homeState.loading}">
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:gravity="center"
-                android:textStyle="bold" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    app:empty="@{viewModel.homeState.posts.empty}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_post" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:text="@string/str_fra_home_tv_empty"
+                    android:textColor="?attr/colorOnBackground"
+                    android:paddingBottom="@dimen/fra_home_tv_empty_padding_bottom"
+                    android:textSize="@dimen/fra_home_tv_empty"
+                    android:textStyle="italic"
+                    app:empty="@{!viewModel.homeState.posts.empty}" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
+            </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:textSize="45sp"
-                android:padding="100dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

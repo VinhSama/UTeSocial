@@ -5,25 +5,25 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
-import android.widget.ScrollView
+import androidx.core.widget.NestedScrollView
 
-class PlaceholderLayout : ScrollView {
+class PlaceholderLayout : NestedScrollView {
 
-    constructor(context: Context) : super(context)
+    constructor(context: Context): super(context)
 
     constructor(
         context: Context,
         attrs: AttributeSet
-    ) : super(context, attrs)
+    ): super(context, attrs)
 
     constructor(
         context: Context,
         attrs: AttributeSet,
         defStyleAttr: Int
-    ) : super(context, attrs, defStyleAttr)
+    ): super(context, attrs, defStyleAttr)
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(motionEvent: MotionEvent?): Boolean = if (motionEvent?.action != ACTION_DOWN) {
+    override fun onTouchEvent(motionEvent: MotionEvent): Boolean = if (motionEvent.action != ACTION_DOWN) {
         super.onTouchEvent(motionEvent)
     } else {
         false

@@ -5,12 +5,16 @@
     <data>
 
         <variable
-            name="title"
-            type="String" />
+            name="lifecycle"
+            type="androidx.lifecycle.LifecycleOwner" />
 
         <variable
             name="numberBadge"
             type="Integer" />
+
+        <variable
+            name="title"
+            type="String" />
 
     </data>
 
@@ -39,11 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stateListAnimator="@animator/animator_fra_notification_tab_container_badge_enabled"
-            android:visibility="@{numberBadge != 0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_view_title"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:lifecycle="@{lifecycle}"
+            app:showBadge="@{numberBadge != 0}">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_view_badge"
@@ -55,11 +60,12 @@
                 android:paddingHorizontal="@dimen/tab_notification_tv_badge_padding_horizontal"
                 android:paddingVertical="@dimen/tab_notification_tv_badge_padding_vertical"
                 android:stateListAnimator="@animator/animator_fra_notification_tab_text_badge_enabled"
-                android:text="@{numberBadge}"
                 android:textColor="?attr/colorOnError"
                 android:textSize="@dimen/tab_notification_tv_badge"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:lifecycle="@{lifecycle}"
+                app:numberBadge="@{numberBadge}" />
 
         </FrameLayout>
 

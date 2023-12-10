@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="post"
+            type="com.utesocial.android.core.domain.model.Post" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ite_post_body_cl_margin_top"
+        android:layout_marginBottom="@dimen/ite_post_body_cl_margin_bottom">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_content"
+            android:layout_width="@dimen/ite_post_body_tv_content_width"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lineSpacingExtra="@dimen/ite_post_body_tv_content_line_spacing_extra"
+            android:maxLines="3"
+            android:text="@{post.content}"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/ite_post_body_tv_content"
+            app:layout_constraintBottom_toTopOf="@id/view_pager_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ite_post_body_vp_image_height"
+            android:layout_marginTop="@dimen/ite_post_body_vp_image_margin_top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_content" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ite_post_body_ll_quantity_margin_bottom"
+            android:alpha="0.75"
+            android:background="@drawable/bac_ll_quantity"
+            android:paddingHorizontal="@dimen/ite_post_body_ll_quantity_padding_horizontal"
+            android:paddingVertical="@dimen/ite_post_body_ll_quantity_padding_vertical"
+            app:layout_constraintBottom_toBottomOf="@id/view_pager_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/view_pager_image"
+            app:layout_constraintVertical_bias="1.0">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/51"
+                android:textColor="?attr/colorOnSurfaceInverse"
+                android:textSize="@dimen/ite_post_body_tv_quantity" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

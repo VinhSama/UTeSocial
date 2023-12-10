@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.databinding.FragmentCommunityBinding
@@ -22,6 +23,8 @@ class CommunityFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_community, container, false)
         return binding
     }
+
+    override fun initViewModel(): ViewModel? = null
 
     override fun assignLifecycleOwner() { binding.lifecycleOwner = this@CommunityFragment }
 

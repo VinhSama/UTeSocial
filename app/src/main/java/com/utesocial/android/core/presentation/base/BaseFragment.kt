@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 
 abstract class BaseFragment : Fragment() {
 
     private var binding: ViewDataBinding? = null
+
     private lateinit var activity: BaseActivity
 
     abstract fun initDataBinding(
@@ -18,6 +20,8 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): ViewDataBinding
+
+    abstract fun initViewModel(): ViewModel?
 
     abstract fun assignLifecycleOwner()
 
@@ -32,6 +36,7 @@ abstract class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = initDataBinding(inflater, container, savedInstanceState)
+        initViewModel()
         return binding?.root
     }
 

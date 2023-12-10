@@ -58,6 +58,7 @@ class MainActivity : BaseActivity() {
         disableDragActionBar(topBinding.appBarLayout())
         setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
         setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
+        setupSnackbar(binding.floatingActionButtonCreate)
 
         NavigationUICustom.setupWithNavController(
             this@MainActivity,

@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="request"
+            type="com.utesocial.android.feature_notification.domain.model.Request" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,18 +19,19 @@
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/ite_fra_request_cl_padding_vertical"
         android:paddingStart="@dimen/ite_fra_request_cl_padding_start"
-        android:paddingEnd="@dimen/ite_fra_request_cl_padding_end">
+        android:paddingEnd="@dimen/ite_fra_request_cl_padding_end"
+        app:unread="@{request.unread}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_view_avatar"
             android:layout_width="@dimen/ite_fra_request_iv_avatar_width"
             android:layout_height="@dimen/ite_fra_request_iv_avatar_height"
+            app:avatar="@{request.avatar}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toStartOf="@id/linear_layout_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ico_circle_user_duotone" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linear_layout_content"
@@ -45,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Nguyễn Quang Vinh"
+                android:text="@{request.name}"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="@dimen/ite_fra_request_tv_name"
                 android:textStyle="bold" />
@@ -64,6 +71,7 @@
                     android:layout_marginEnd="@dimen/ite_fra_request_rv_friend_margin_end"
                     android:contentDescription="@string/des_ite_fra_request_rv_friend"
                     android:orientation="horizontal"
+                    android:visibility="@{request.mutualFriends.empty ? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_fra_request_avatar" />
@@ -74,9 +82,9 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="20 bạn chung"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="@dimen/ite_fra_request_tv_number" />
+                    android:textSize="@dimen/ite_fra_request_tv_number"
+                    app:textMutualFriends="@{request.mutualFriends.size()}" />
 
             </LinearLayout>
 
@@ -86,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="16 tháng trước"
+                android:text="@{request.date}"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/ite_fra_request_tv_date" />
 
@@ -100,10 +108,10 @@
             android:layout_marginEnd="@dimen/ite_fra_request_btn_accept_margin_end"
             android:background="@android:color/transparent"
             android:contentDescription="@string/des_ite_fra_request_btn_accept"
-            android:insetLeft="@dimen/ite_fra_request_btn_inset_left"
-            android:insetTop="@dimen/ite_fra_request_btn_inset_top"
-            android:insetRight="@dimen/ite_fra_request_btn_inset_right"
-            android:insetBottom="@dimen/ite_fra_request_btn_inset_bottom"
+            android:insetLeft="@dimen/ite_fra_request_btn_inset"
+            android:insetTop="@dimen/ite_fra_request_btn_inset"
+            android:insetRight="@dimen/ite_fra_request_btn_inset"
+            android:insetBottom="@dimen/ite_fra_request_btn_inset"
             app:icon="@drawable/ico_circle_check_solid"
             app:iconGravity="textStart"
             app:iconSize="@dimen/ite_fra_request_btn_icon_size"
@@ -122,10 +130,10 @@
             android:layout_marginStart="@dimen/ite_fra_request_btn_denied_margin_start"
             android:background="@android:color/transparent"
             android:contentDescription="@string/des_ite_fra_request_btn_denied"
-            android:insetLeft="@dimen/ite_fra_request_btn_inset_left"
-            android:insetTop="@dimen/ite_fra_request_btn_inset_top"
-            android:insetRight="@dimen/ite_fra_request_btn_inset_right"
-            android:insetBottom="@dimen/ite_fra_request_btn_inset_bottom"
+            android:insetLeft="@dimen/ite_fra_request_btn_inset"
+            android:insetTop="@dimen/ite_fra_request_btn_inset"
+            android:insetRight="@dimen/ite_fra_request_btn_inset"
+            android:insetBottom="@dimen/ite_fra_request_btn_inset"
             app:icon="@drawable/ico_circle_xmark_solid"
             app:iconGravity="textStart"
             app:iconSize="@dimen/ite_fra_request_btn_icon_size"
