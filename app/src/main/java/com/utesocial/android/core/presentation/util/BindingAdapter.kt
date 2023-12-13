@@ -154,6 +154,18 @@ fun setImage(
     Glide.with(shapeableImageView.context).load(image).apply(requestOptions).into(shapeableImageView)
 }
 
+@BindingAdapter("wallpapers")
+fun setWallpapers(
+    shapeableImageView: ShapeableImageView,
+    wallpapers: String?
+) {
+    val requestOptions = RequestOptions()
+        .placeholder(R.drawable.bac_image_placeholder)
+        .error(R.drawable.ima_default_group)
+
+    Glide.with(shapeableImageView.context).load(wallpapers).apply(requestOptions).into(shapeableImageView)
+}
+
 @BindingAdapter("textMutualFriends")
 fun setNumberMutualFriend(
     materialTextView: MaterialTextView,

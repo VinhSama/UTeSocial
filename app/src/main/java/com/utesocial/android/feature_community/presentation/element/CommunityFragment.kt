@@ -7,23 +7,28 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.google.android.material.carousel.CarouselLayoutManager
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.databinding.FragmentCommunityBinding
 import com.utesocial.android.feature_community.presentation.adapter.CommunityAdapter
 import com.utesocial.android.feature_community.presentation.state_holder.CommunityViewModel
+import com.utesocial.android.feature_group.domain.model.Group
 import com.utesocial.android.feature_post.domain.model.Post
-import com.utesocial.android.feature_post.presentation.adapter.PostAdapter
 import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
+import kotlinx.coroutines.launch
 
 class CommunityFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCommunityBinding
     private val viewModel: CommunityViewModel by viewModels { CommunityViewModel.Factory }
+
+    private lateinit var communityAdapter: CommunityAdapter
+    private val groups: ArrayList<Group> by lazy { ArrayList() }
+    private val posts: ArrayList<Post> by lazy { ArrayList() }
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -38,18 +43,60 @@ class CommunityFragment : BaseFragment() {
 
     override fun assignLifecycleOwner() { binding.lifecycleOwner = this@CommunityFragment }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
+        setupBinding()
+        setupRecyclerView()
+        setupListener()
+        observer()
+    }
 
-        val communityAdapter = CommunityAdapter(this@CommunityFragment, viewModel.communityState.value.joinGroups)
-        binding.recyclerViewCommunity.adapter = communityAdapter
+    private fun setupBinding() {
+        binding.viewModel = viewModel
+    }
 
-        val postAdapter = PostAdapter(this@CommunityFragment, viewModel.communityState.value.postsGroup, object : PostBodyImageListener {
+    private fun setupRecyclerView() {
+        communityAdapter = CommunityAdapter(this@CommunityFragment, groups, posts, object : PostBodyImageListener {
 
             override fun onClick(post: Post) {
-
+                val action = CommunityFragmentDirections.actionCommunityPost(post)
+                getBaseActivity().navController()?.navigate(action)
+                getBaseActivity().handleBar(false)
             }
         })
-        binding.recyclerViewPost.adapter = postAdapter
+        binding.recyclerViewCommunity.adapter = communityAdapter
+    }
+
+    private fun setupListener() = binding.swipeRefreshLayout.setOnRefreshListener {
+        binding.swipeRefreshLayout.isRefreshing = false
+        viewModel.getCommunityInfo()
+    }
+
+    private fun observer() = lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.communityState.collect {
+                if (!it.isLoading) {
+                    groups.clear()
+                    posts.clear()
+
+                    if (it.error.isNotEmpty()) {
+                        getBaseActivity().showSnackbar(message = it.error)
+                    } else {
+                        if (it.groups.isNotEmpty()) {
+                            groups.addAll(it.groups)
+                        }
+
+                        if (it.posts.isNotEmpty()) {
+                            posts.addAll(it.posts)
+                        }
+
+                        communityAdapter.notifyItemRangeChanged(0, posts.size + 1)
+                    }
+                }
+            }
+        }
     }
 }

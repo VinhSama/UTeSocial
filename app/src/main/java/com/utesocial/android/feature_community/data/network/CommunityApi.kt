@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface CommunityApi {
 
     @GET("/")
-    suspend fun getJoinGroups(): List<CommunityDto>
+    suspend fun getCommunityInfo(): List<CommunityDto>
 }

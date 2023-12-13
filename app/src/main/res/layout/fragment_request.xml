@@ -58,7 +58,6 @@
                     android:text="@string/str_fra_request_tv_empty"
                     android:textColor="?attr/colorOnBackground"
                     android:textSize="@dimen/fra_request_tv_empty"
-                    android:textStyle="italic"
                     app:empty="@{!viewModel.requestState.requests.empty}" />
 
             </RelativeLayout>

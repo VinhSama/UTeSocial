@@ -72,7 +72,7 @@ class RequestFragment : BaseFragment() {
 
                     if (it.requests.isNotEmpty()) {
                         data.addAll(it.requests)
-                    } else {
+                    } else if (it.error.isNotEmpty()){
                         getBaseActivity().showSnackbar(message = it.error)
                     }
                 }

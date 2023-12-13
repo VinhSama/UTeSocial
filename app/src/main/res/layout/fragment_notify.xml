@@ -58,7 +58,6 @@
                     android:text="@string/str_fra_notify_tv_empty"
                     android:textColor="?attr/colorOnBackground"
                     android:textSize="@dimen/fra_notify_tv_empty"
-                    android:textStyle="italic"
                     app:empty="@{!viewModel.notifyState.notifies.empty}" />
 
             </RelativeLayout>

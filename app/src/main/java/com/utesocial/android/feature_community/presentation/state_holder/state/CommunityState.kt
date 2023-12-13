@@ -1,11 +1,11 @@
 package com.utesocial.android.feature_community.presentation.state_holder.state
 
-import com.utesocial.android.feature_community.domain.model.Community
+import com.utesocial.android.feature_group.domain.model.Group
 import com.utesocial.android.feature_post.domain.model.Post
 
 data class CommunityState(
-    var isLoading: Boolean = false,
-    var error: String = "",
-    var joinGroups: List<Community> = emptyList(),
-    var postsGroup: List<Post> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String = "",
+    val groups: List<Group> = emptyList(),
+    val posts: List<Post> = emptyList()
 )

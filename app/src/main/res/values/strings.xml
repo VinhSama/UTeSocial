@@ -21,6 +21,7 @@
     <string name="str_act_main_top_tv_hint">Tìm kiếm</string>
     <string name="str_bs_notify_btn_delete">Gỡ bỏ thông báo này</string>
     <string name="str_bs_notify_btn_mark">Đánh dấu là đã đọc</string>
+    <string name="str_fra_community_tv_empty">Không có bài viết đề xuất</string>
     <string name="str_fra_home_tv_empty">Không có bài viết đề xuất</string>
     <string name="str_fra_notification_tab_title_notify">Thông báo</string>
     <string name="str_fra_notification_tab_title_request">Yêu cầu</string>
@@ -28,6 +29,7 @@
     <string name="str_fra_post_btn_menu_remove">Gỡ bài viết</string>
     <string name="str_fra_post_btn_menu_report">Báo cáo vi phạm</string>
     <string name="str_fra_request_tv_empty">Không có yêu cầu kết bạn</string>
+    <string name="str_ite_fra_community_tv_empty">Bạn chưa tham gia nhóm nào</string>
     <string name="str_ite_fra_request_tv_number">%d bạn chung</string>
     <string name="str_ite_fra_request_tv_number_empty">Không có bạn chung</string>
     <string name="str_ite_post_body_tv_quantity">%1$d/%2$d</string>

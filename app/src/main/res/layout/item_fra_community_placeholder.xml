@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout_item_shimmer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="16dp"
+    android:orientation="horizontal"
+    android:weightSum="10">
+
+    <View
+        android:id="@+id/view_group_start"
+        android:layout_width="0dp"
+        android:layout_height="196dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="6"
+        android:background="@drawable/pla_rectangle_30" />
+
+    <View
+        android:id="@+id/view_group_center"
+        android:layout_width="0dp"
+        android:layout_height="196dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="3"
+        android:background="@drawable/pla_rectangle_30" />
+
+    <View
+        android:id="@+id/view_group_end"
+        android:layout_width="0dp"
+        android:layout_height="196dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1"
+        android:background="@drawable/pla_rectangle_30" />
+
+</LinearLayout>

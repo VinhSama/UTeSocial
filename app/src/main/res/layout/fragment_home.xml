@@ -59,7 +59,6 @@
                     android:textColor="?attr/colorOnBackground"
                     android:paddingBottom="@dimen/fra_home_tv_empty_padding_bottom"
                     android:textSize="@dimen/fra_home_tv_empty"
-                    android:textStyle="italic"
                     app:empty="@{!viewModel.homeState.posts.empty}" />
 
             </RelativeLayout>

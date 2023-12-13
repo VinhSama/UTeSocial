@@ -6,5 +6,5 @@ import com.utesocial.android.feature_community.domain.repository.CommunityReposi
 
 class CommunityRepositoryImpl(private val communityApi: CommunityApi) : CommunityRepository {
 
-    override suspend fun getJoinGroups(): List<CommunityDto> = communityApi.getJoinGroups()
+    override suspend fun getCommunityInfo(): List<CommunityDto> = communityApi.getCommunityInfo()
 }

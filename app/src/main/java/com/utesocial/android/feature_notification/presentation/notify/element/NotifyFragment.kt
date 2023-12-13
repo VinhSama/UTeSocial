@@ -81,7 +81,7 @@ class NotifyFragment : BaseFragment() {
 
                     if (it.notifies.isNotEmpty()) {
                         data.addAll(it.notifies)
-                    } else {
+                    } else if (it.error.isNotEmpty()) {
                         getBaseActivity().showSnackbar(message = it.error)
                     }
                 }

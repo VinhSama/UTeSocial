@@ -5,27 +5,66 @@
     <data>
 
         <variable
-            name="image"
-            type="String" />
+            name="isEmpty"
+            type="Boolean" />
 
     </data>
 
-    <com.google.android.material.carousel.MaskableFrameLayout
-        android:id="@+id/maskable_frame_layout"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:foreground="?attr/selectableItemBackground"
-        app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/ite_fra_community_cl_margin_horizontal"
+        android:layout_marginBottom="@dimen/ite_fra_community_cl_margin_bottom">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_view_group"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:image="@{image}" />
+            android:layout_height="@dimen/ite_fra_community_rv_group_height"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            app:empty="@{isEmpty}"
+            app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </com.google.android.material.carousel.MaskableFrameLayout>
+        <LinearLayout
+            android:id="@+id/linear_layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:empty="@{!isEmpty}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="24dp"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:text="@string/str_ite_fra_community_tv_empty"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="18sp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

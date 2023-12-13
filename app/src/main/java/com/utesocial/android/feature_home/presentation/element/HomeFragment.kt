@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment() {
 
                     if (it.posts.isNotEmpty()) {
                         data.addAll(it.posts)
-                    } else {
+                    } else if (it.error.isNotEmpty()) {
                         getBaseActivity().showSnackbar(message = it.error)
                     }
                 }

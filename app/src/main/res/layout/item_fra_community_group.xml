@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="group"
+            type="com.utesocial.android.feature_group.domain.model.Group" />
+
+    </data>
+
+    <com.google.android.material.carousel.MaskableFrameLayout
+        android:id="@+id/maskable_frame_layout"
+        android:layout_width="@dimen/ite_fra_community_group_mfl_width"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/ite_fra_community_group_mfl_margin_horizontal"
+        android:foreground="?attr/selectableItemBackground"
+        app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:wallpapers="@{group.image}" />
+
+            <FrameLayout
+                android:id="@+id/frame_layout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true">
+
+                <FrameLayout
+                    android:id="@+id/frame_layout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.7"
+                    android:background="@drawable/bac_fl_container_name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="@dimen/ite_fra_community_group_tv_name_line_spacing_extra"
+                    android:maxLines="2"
+                    android:padding="@dimen/ite_fra_community_group_tv_name_padding"
+                    android:text="@{group.name}"
+                    android:textColor="@color/md_theme_light_onSurfaceInverse"
+                    android:textSize="@dimen/ite_fra_community_group_tv_name"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.carousel.MaskableFrameLayout>
+
+</layout>

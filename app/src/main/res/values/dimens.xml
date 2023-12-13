@@ -27,6 +27,14 @@
     <dimen name="act_main_top_rl_action_height">88dp</dimen>
     <dimen name="act_main_top_sb_padding_horizontal">4dp</dimen>
     <dimen name="act_main_top_tv_hint_margin_horizontal">76dp</dimen>
+    <!-- Fragment Community -->
+    <dimen name="ite_fra_community_cl_margin_bottom">16dp</dimen>
+    <dimen name="ite_fra_community_cl_margin_horizontal">8dp</dimen>
+    <dimen name="ite_fra_community_group_mfl_margin_horizontal">4dp</dimen>
+    <dimen name="ite_fra_community_group_mfl_width">250dp</dimen>
+    <dimen name="ite_fra_community_group_tv_name_line_spacing_extra">8dp</dimen>
+    <dimen name="ite_fra_community_group_tv_name_padding">18dp</dimen>
+    <dimen name="ite_fra_community_rv_group_height">196dp</dimen>
     <!-- Fragment Home -->
     <dimen name="fra_home_tv_empty_padding_bottom">120dp</dimen>
     <!-- Fragment Notification -->
@@ -152,14 +160,17 @@
     <!-- Activity Main -->
     <dimen name="act_main_bottom_bnv_item_text">20sp</dimen>
     <dimen name="act_main_top_tv_hint">16sp</dimen>
+    <!-- Fragment Community -->
+    <dimen name="fra_community_tv_empty">18sp</dimen>
+    <dimen name="ite_fra_community_group_tv_name">16sp</dimen>
     <!-- Fragment Home -->
-    <dimen name="fra_home_tv_empty">20sp</dimen>
+    <dimen name="fra_home_tv_empty">18sp</dimen>
     <!-- Fragment Notification -->
     <dimen name="tab_notification_tv_badge">11sp</dimen>
     <!-- Fragment Notify -->
     <dimen name="bs_notify_btn">15sp</dimen>
     <dimen name="bs_notify_tv_content">16sp</dimen>
-    <dimen name="fra_notify_tv_empty">20sp</dimen>
+    <dimen name="fra_notify_tv_empty">18sp</dimen>
     <dimen name="ite_fra_notify_tv_date">13sp</dimen>
     <dimen name="ite_fra_notify_tv_content">15sp</dimen>
     <!-- Fragment Post -->
@@ -168,7 +179,7 @@
     <dimen name="fra_post_interact_rb">13sp</dimen>
     <dimen name="fra_post_tv_content">14sp</dimen>
     <!-- Fragment Request -->
-    <dimen name="fra_request_tv_empty">20sp</dimen>
+    <dimen name="fra_request_tv_empty">18sp</dimen>
     <dimen name="ite_fra_request_tv_date">13sp</dimen>
     <dimen name="ite_fra_request_tv_name">18sp</dimen>
     <dimen name="ite_fra_request_tv_number">14sp</dimen>
