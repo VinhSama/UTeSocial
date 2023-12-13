@@ -4,9 +4,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="post"
-            type="com.utesocial.android.core.domain.model.Post" />
+            type="com.utesocial.android.feature_post.domain.model.Post" />
 
     </data>
 
@@ -37,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/ite_post_body_vp_image_height"
             android:layout_marginTop="@dimen/ite_post_body_vp_image_margin_top"
+            android:visibility="@{post.images.empty ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +55,7 @@
             android:background="@drawable/bac_ll_quantity"
             android:paddingHorizontal="@dimen/ite_post_body_ll_quantity_padding_horizontal"
             android:paddingVertical="@dimen/ite_post_body_ll_quantity_padding_vertical"
+            android:visibility="@{post.images.empty ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/view_pager_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +66,6 @@
                 android:id="@+id/text_view_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1/51"
                 android:textColor="?attr/colorOnSurfaceInverse"
                 android:textSize="@dimen/ite_post_body_tv_quantity" />
 

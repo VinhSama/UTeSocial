@@ -6,7 +6,7 @@
 
         <variable
             name="post"
-            type="com.utesocial.android.core.domain.model.Post" />
+            type="com.utesocial.android.feature_post.domain.model.Post" />
 
     </data>
 
@@ -37,9 +37,9 @@
                 android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
                 android:drawableTint="@color/color_ite_post_interact_checked"
                 android:gravity="center"
-                android:text="@{post.numberLike + @string/str_ite_post_interact_btn_like}"
+                android:text="@{@string/str_ite_post_interact_btn_like(post.numberLike)}"
                 android:textColor="@color/color_ite_post_interact_checked"
-                android:textSize="@dimen/ite_post_interact_tv" />
+                android:textSize="@dimen/ite_post_interact_rb" />
 
         </RelativeLayout>
 
@@ -64,9 +64,9 @@
                 android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
                 android:drawableTint="@color/color_ite_post_interact_checked"
                 android:gravity="center"
-                android:text="@{post.numberComment + @string/str_ite_post_interact_btn_comment}"
+                android:text="@{@string/str_ite_post_interact_btn_comment(post.numberComment)}"
                 android:textColor="@color/color_ite_post_interact_checked"
-                android:textSize="@dimen/ite_post_interact_tv" />
+                android:textSize="@dimen/ite_post_interact_rb" />
 
         </RelativeLayout>
 

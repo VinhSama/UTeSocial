@@ -61,6 +61,26 @@
     <dimen name="ite_fra_notify_ll_content_width">0dp</dimen>
     <dimen name="ite_fra_notify_tv_content_line_spacing_extra">3dp</dimen>
     <dimen name="ite_fra_notify_tv_content_margin_bottom">6dp</dimen>
+    <!-- Fragment Post -->
+    <dimen name="fra_post_dv_bottom_margin_top">8dp</dimen>
+    <dimen name="fra_post_info_cl_margin">12dp</dimen>
+    <dimen name="fra_post_info_iv_avatar_height">0dp</dimen>
+    <dimen name="fra_post_info_iv_avatar_width">48dp</dimen>
+    <dimen name="fra_post_info_iv_menu_height">0dp</dimen>
+    <dimen name="fra_post_info_iv_menu_padding">10dp</dimen>
+    <dimen name="fra_post_info_iv_menu_width">35dp</dimen>
+    <dimen name="fra_post_info_ll_info_margin_horizontal">12dp</dimen>
+    <dimen name="fra_post_info_ll_info_width">0dp</dimen>
+    <dimen name="fra_post_info_tv_date_margin_top">4dp</dimen>
+    <dimen name="fra_post_info_tv_name_line_spacing_extra">2dp</dimen>
+    <dimen name="fra_post_interact_cl_margin_top">6dp</dimen>
+    <dimen name="fra_post_interact_rb_drawable_padding">12dp</dimen>
+    <dimen name="fra_post_interact_rl_width">0dp</dimen>
+    <dimen name="fra_post_tv_content_line_spacing_extra">3dp</dimen>
+    <dimen name="fra_post_tv_content_margin_horizontal">16dp</dimen>
+    <dimen name="fra_post_tv_content_margin_vertical">18dp</dimen>
+    <dimen name="ite_fra_post_cl_margin_top">12dp</dimen>
+    <dimen name="ite_fra_post_dv_margin_top">12dp</dimen>
     <!-- Fragment Request -->
     <dimen name="ite_fra_request_avatar_iv_margin">2dp</dimen>
     <dimen name="ite_fra_request_avatar_iv_size">20dp</dimen>
@@ -79,7 +99,7 @@
     <dimen name="ite_fra_request_ll_content_margin_start">12dp</dimen>
     <dimen name="ite_fra_request_ll_content_width">0dp</dimen>
     <dimen name="ite_fra_request_ll_friend_margin_vertical">4dp</dimen>
-    <dimen name="ite_fra_request_rv_friend_margin_end">5dp</dimen>
+    <dimen name="ite_fra_request_rv_friend_margin_end">6dp</dimen>
     <!-- Item Group -->
     <dimen name="ite_group_info_btn_menu_height">0dp</dimen>
     <dimen name="ite_group_info_btn_menu_padding">10dp</dimen>
@@ -94,13 +114,17 @@
     <dimen name="ite_group_info_tv_name_margin_bottom">4dp</dimen>
     <dimen name="ite_group_info_tv_name_margin_top">2dp</dimen>
     <dimen name="ite_group_ll_margin">12dp</dimen>
-    <dimen name="ite_group_ll_padding">16dp</dimen>
+    <dimen name="ite_group_ll_padding_bottom">10dp</dimen>
+    <dimen name="ite_group_ll_padding_horizontal">16dp</dimen>
+    <dimen name="ite_group_ll_padding_top">16dp</dimen>
     <!-- Item Post -->
-    <dimen name="ite_post_body_cl_margin_bottom">16dp</dimen>
+    <dimen name="ite_post_body_cl_margin_bottom">24dp</dimen>
     <dimen name="ite_post_body_cl_margin_top">18dp</dimen>
     <dimen name="ite_post_body_image_cv_corner_radius">30dp</dimen>
+    <dimen name="ite_post_body_image_cv_margin">1dp</dimen>
+    <dimen name="ite_post_body_image_cv_stroke_width">0dp</dimen>
     <dimen name="ite_post_body_image_iv_height">0dp</dimen>
-    <dimen name="ite_post_body_ll_quantity_margin_bottom">12dp</dimen>
+    <dimen name="ite_post_body_ll_quantity_margin_bottom">14dp</dimen>
     <dimen name="ite_post_body_ll_quantity_padding_horizontal">12dp</dimen>
     <dimen name="ite_post_body_ll_quantity_padding_vertical">6dp</dimen>
     <dimen name="ite_post_body_tv_content_line_spacing_extra">3dp</dimen>
@@ -116,11 +140,13 @@
     <dimen name="ite_post_info_ll_info_width">0dp</dimen>
     <dimen name="ite_post_info_tv_date_margin_top">4dp</dimen>
     <dimen name="ite_post_info_tv_name_line_spacing_extra">2dp</dimen>
-    <dimen name="ite_post_interact_cl_margin_top">9dp</dimen>
+    <dimen name="ite_post_interact_cl_margin_top">6dp</dimen>
     <dimen name="ite_post_interact_rb_drawable_padding">12dp</dimen>
     <dimen name="ite_post_interact_rl_width">0dp</dimen>
     <dimen name="ite_post_ll_margin">12dp</dimen>
-    <dimen name="ite_post_ll_padding">16dp</dimen>
+    <dimen name="ite_post_ll_padding_bottom">10dp</dimen>
+    <dimen name="ite_post_ll_padding_horizontal">16dp</dimen>
+    <dimen name="ite_post_ll_padding_top">16dp</dimen>
 
     <!-- * Scale-independent Pixels * -->
     <!-- Activity Main -->
@@ -136,6 +162,11 @@
     <dimen name="fra_notify_tv_empty">20sp</dimen>
     <dimen name="ite_fra_notify_tv_date">13sp</dimen>
     <dimen name="ite_fra_notify_tv_content">15sp</dimen>
+    <!-- Fragment Post -->
+    <dimen name="fra_post_info_tv_date">13sp</dimen>
+    <dimen name="fra_post_info_tv_name">15sp</dimen>
+    <dimen name="fra_post_interact_rb">13sp</dimen>
+    <dimen name="fra_post_tv_content">14sp</dimen>
     <!-- Fragment Request -->
     <dimen name="fra_request_tv_empty">20sp</dimen>
     <dimen name="ite_fra_request_tv_date">13sp</dimen>
@@ -147,8 +178,8 @@
     <dimen name="ite_group_info_tv_name">15sp</dimen>
     <!-- Item Post -->
     <dimen name="ite_post_body_tv_content">14sp</dimen>
-    <dimen name="ite_post_body_tv_quantity">15sp</dimen>
+    <dimen name="ite_post_body_tv_quantity">14sp</dimen>
     <dimen name="ite_post_info_tv_date">13sp</dimen>
     <dimen name="ite_post_info_tv_name">15sp</dimen>
-    <dimen name="ite_post_interact_tv">13sp</dimen>
+    <dimen name="ite_post_interact_rb">13sp</dimen>
 </resources>

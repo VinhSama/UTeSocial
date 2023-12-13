@@ -1,4 +1,4 @@
-package com.utesocial.android.core.presentation.post.adapter
+package com.utesocial.android.feature_post.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,14 +7,18 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.utesocial.android.R
-import com.utesocial.android.core.domain.model.Post
-import com.utesocial.android.core.presentation.post.element.partial.PostBody
+import com.utesocial.android.feature_post.domain.model.Post
+import com.utesocial.android.feature_post.presentation.element.partial.PostBody
+import com.utesocial.android.feature_post.presentation.element.partial.InfoItemPost
+import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
 import com.utesocial.android.databinding.ItemGroupBinding
 import com.utesocial.android.databinding.ItemPostBinding
+import com.utesocial.android.feature_post.presentation.element.partial.InfoItemGroup
 
 class PostAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val data: List<Post>
+    private val data: List<Post>,
+    private val listener: PostBodyImageListener
 ) : Adapter<ViewHolder>() {
 
     companion object {
@@ -31,7 +35,9 @@ class PostAdapter(
 
         fun bind(post: Post) {
             binding.post = post
-            bodyBinding.setupImages(lifecycleOwner, post.images)
+            bodyBinding.setupImages(lifecycleOwner, post, listener)
+
+            InfoItemPost(binding.info)
         }
     }
 
@@ -43,7 +49,9 @@ class PostAdapter(
 
         fun bind(post: Post) {
             binding.group = post
-            bodyBinding.setupImages(lifecycleOwner, post.images)
+            bodyBinding.setupImages(lifecycleOwner, post, listener)
+
+            InfoItemGroup(binding.info)
         }
     }
 

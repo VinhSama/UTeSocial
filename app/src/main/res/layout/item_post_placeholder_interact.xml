@@ -4,7 +4,7 @@
     android:id="@+id/constraint_layout_placeholder_interact"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:layout_marginTop="9dp"
+    android:layout_marginTop="6dp"
     android:orientation="horizontal"
     android:weightSum="2">
 
@@ -21,7 +21,7 @@
         <View
             android:id="@+id/view_like"
             android:layout_width="100dp"
-            android:layout_height="14dp"
+            android:layout_height="16dp"
             android:layout_centerInParent="true"
             android:background="@drawable/pla_rectangle_5" />
 
@@ -40,7 +40,7 @@
         <View
             android:id="@+id/view_comment"
             android:layout_width="100dp"
-            android:layout_height="14dp"
+            android:layout_height="16dp"
             android:layout_centerInParent="true"
             android:background="@drawable/pla_rectangle_5" />
 

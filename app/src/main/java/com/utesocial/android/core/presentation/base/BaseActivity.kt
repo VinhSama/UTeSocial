@@ -14,6 +14,7 @@ import androidx.core.animation.doOnStart
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.Behavior.DragCallback
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior.OnScrollStateChangedListener
@@ -41,8 +42,10 @@ abstract class BaseActivity : AppCompatActivity() {
     private lateinit var vaShowBottomBar: ValueAnimator
     private lateinit var vaHideBottomBar: ValueAnimator
 
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
+    private lateinit var obpTopBar: OnBackPressedCallback
+    private lateinit var obpBottomBar: OnBackPressedCallback
 
+    private var navController: NavController? = null
     private var snackbar: Snackbar? = null
 
     abstract fun initDataBinding(): ViewDataBinding
@@ -79,7 +82,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun setActionBarOnBackPressed() {
         val enabled = (topBar.visibility == GONE)
-        onBackPressedCallback = object : OnBackPressedCallback(enabled) {
+        obpTopBar = object : OnBackPressedCallback(enabled) {
 
             override fun handleOnBackPressed() {
                 handleActionBar(true)
@@ -88,7 +91,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
 
-        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        onBackPressedDispatcher.addCallback(this, obpTopBar)
     }
 
     private fun setAnimatorActionBar(screen: View) {
@@ -134,7 +137,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun finishAnimatorHideTopBar(screen: View) {
         screen.y = 0F
         topBar.visibility = GONE
-        onBackPressedCallback.isEnabled = true
+        obpTopBar.isEnabled = true
     }
 
     fun handleActionBar(isShow: Boolean) {
@@ -165,7 +168,22 @@ abstract class BaseActivity : AppCompatActivity() {
         bottomViewOnScrollBehavior: OnScrollStateChangedListener
     ) {
         bottomBar = bottomAppBarCustom
+        setBottomBarOnBackPressed()
         setAnimatorBottomBar(bottomViewOnScrollBehavior)
+    }
+
+    private fun setBottomBarOnBackPressed() {
+        val enabled = (bottomBar.visibility == GONE)
+        obpBottomBar = object : OnBackPressedCallback(enabled) {
+
+            override fun handleOnBackPressed() {
+                handleBottomBar(true)
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, obpBottomBar)
     }
 
     private fun setAnimatorBottomBar(bottomViewOnScrollBehavior: OnScrollStateChangedListener) {
@@ -194,9 +212,14 @@ abstract class BaseActivity : AppCompatActivity() {
                     }
                 }
             }
-            doOnEnd { bottomBar.visibility = GONE }
-            doOnCancel { bottomBar.visibility = GONE }
+            doOnEnd { finishAnimatorHideBottomBar() }
+            doOnCancel { finishAnimatorHideBottomBar() }
         }
+    }
+
+    private fun finishAnimatorHideBottomBar() {
+        bottomBar.visibility = GONE
+        obpBottomBar.isEnabled = true
     }
 
     fun handleBottomBar(isShow: Boolean) {
@@ -226,6 +249,12 @@ abstract class BaseActivity : AppCompatActivity() {
         handleActionBar(isShow)
         handleBottomBar(isShow)
     }
+
+    fun setupNavController(navController: NavController) {
+        this.navController = navController
+    }
+
+    fun navController(): NavController? = navController
 
     fun setupSnackbar(view: View) { snackbar = Snackbar.make(view, "", LENGTH_LONG).setAnchorView(view) }
 

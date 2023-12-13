@@ -1,13 +1,7 @@
 package com.utesocial.android.core.presentation.util
 
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.PointF
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.util.Log
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -15,22 +9,11 @@ import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.transition.Transition
-import com.davemorrissey.labs.subscaleview.ImageSource
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.SCALE_TYPE_START
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.utesocial.android.R
@@ -38,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 @BindingAdapter(value = ["lifecycle", "numberBadge"], requireAll = true)
 fun changeNumberBadge(
@@ -146,31 +128,30 @@ fun setAvatar(
 
 @BindingAdapter("image")
 fun setImage(
-    subsamplingScaleImageView: SubsamplingScaleImageView,
+    shapeableImageView: ShapeableImageView,
     image: String?
 ) {
-    if (image != null) {
+    /*if (image != null) {
         Glide.with(subsamplingScaleImageView.context).download(GlideUrl(image))
-            .error(R.drawable.ico_default_profile)
             .into(object : CustomViewTarget<SubsamplingScaleImageView, File>(subsamplingScaleImageView) {
 
-                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
-                    subsamplingScaleImageView.setImage(ImageSource.uri(Uri.fromFile(resource)))
-                }
+                override fun onResourceReady(resource: File, transition: Transition<in File>?) = subsamplingScaleImageView.setImage(ImageSource.uri(Uri.fromFile(resource)))
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
-                    subsamplingScaleImageView.setImage(ImageSource.resource(R.drawable.bac_tv_badge))
 
-                    Log.d("VVVVV", "Placeholder: $errorDrawable")
                 }
 
                 override fun onResourceCleared(placeholder: Drawable?) {
-                    Log.d("VVVVV", "Placeholder: $placeholder")
+                    Log.d("VVVVV", "onResourceCleared: $placeholder")
                 }
             })
+    }*/
 
-        subsamplingScaleImageView.setMinimumScaleType(SCALE_TYPE_CENTER_CROP)
-    }
+    val requestOptions = RequestOptions()
+        .placeholder(R.drawable.bac_image_placeholder)
+        .error(R.drawable.bac_image_error)
+
+    Glide.with(shapeableImageView.context).load(image).apply(requestOptions).into(shapeableImageView)
 }
 
 @BindingAdapter("textMutualFriends")
@@ -182,7 +163,7 @@ fun setNumberMutualFriend(
     val text = if (number == 0) {
         resources.getString(R.string.str_ite_fra_request_tv_number_empty)
     } else {
-        number.toString() + resources.getString(R.string.str_ite_fra_request_tv_number)
+        resources.getString(R.string.str_ite_fra_request_tv_number, number)
     }
 
     materialTextView.text = text

@@ -6,6 +6,7 @@
     <string name="des_act_main_fab_create">Tạo bài viết mới</string>
     <string name="des_act_main_top_sb_avatar">Mở giao diện tài khoản</string>
     <string name="des_fra_notification_tl">Hiển thị thông báo và yêu cầu bạn bè</string>
+    <string name="des_fra_post_info_btn_menu">Mở menu thao tác với bài viết</string>
     <string name="des_ite_fra_notify_btn_menu">Mở menu tùy chọn thông báo</string>
     <string name="des_ite_fra_request_btn_accept">Chấp nhận yêu cầu kết bạn</string>
     <string name="des_ite_fra_request_btn_denied">Từ chối yêu cầu kết bạn</string>
@@ -24,11 +25,14 @@
     <string name="str_fra_notification_tab_title_notify">Thông báo</string>
     <string name="str_fra_notification_tab_title_request">Yêu cầu</string>
     <string name="str_fra_notify_tv_empty">Không có thông báo</string>
+    <string name="str_fra_post_btn_menu_remove">Gỡ bài viết</string>
+    <string name="str_fra_post_btn_menu_report">Báo cáo vi phạm</string>
     <string name="str_fra_request_tv_empty">Không có yêu cầu kết bạn</string>
-    <string name="str_ite_fra_request_tv_number">&#160;bạn chung</string>
+    <string name="str_ite_fra_request_tv_number">%d bạn chung</string>
     <string name="str_ite_fra_request_tv_number_empty">Không có bạn chung</string>
-    <string name="str_ite_post_interact_btn_comment">&#160;bình luận</string>
-    <string name="str_ite_post_interact_btn_like">&#160;lượt thích</string>
+    <string name="str_ite_post_body_tv_quantity">%1$d/%2$d</string>
+    <string name="str_ite_post_interact_btn_comment">%d bình luận</string>
+    <string name="str_ite_post_interact_btn_like">%d lượt thích</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

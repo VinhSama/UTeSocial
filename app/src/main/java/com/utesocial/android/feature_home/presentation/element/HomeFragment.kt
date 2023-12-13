@@ -12,9 +12,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.utesocial.android.R
-import com.utesocial.android.core.domain.model.Post
+import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.core.presentation.base.BaseFragment
-import com.utesocial.android.core.presentation.post.adapter.PostAdapter
+import com.utesocial.android.feature_post.presentation.adapter.PostAdapter
+import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
 import com.utesocial.android.databinding.FragmentHomeBinding
 import com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel
 import kotlinx.coroutines.launch
@@ -55,7 +56,14 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        val postAdapter = PostAdapter(this@HomeFragment, data)
+        val postAdapter = PostAdapter(this@HomeFragment, data, object : PostBodyImageListener {
+
+            override fun onClick(post: Post) {
+                val action = HomeFragmentDirections.actionHomePost(post)
+                getBaseActivity().navController()?.navigate(action)
+                getBaseActivity().handleBar(false)
+            }
+        })
         binding.recyclerViewPost.adapter = postAdapter
     }
 

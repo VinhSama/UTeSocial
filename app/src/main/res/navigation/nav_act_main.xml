@@ -9,7 +9,17 @@
         android:id="@+id/item_fra_home"
         android:name="com.utesocial.android.feature_home.presentation.element.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_post"
+            app:destination="@id/item_fra_post"
+            app:enterAnim="@anim/anim_slide_up"
+            app:exitAnim="@anim/anim_slide_down"
+            app:popEnterAnim="@anim/anim_slide_up"
+            app:popExitAnim="@anim/anim_slide_down" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/item_fra_community"
@@ -28,5 +38,17 @@
         android:name="com.utesocial.android.feature_settings.presentation.element.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/item_fra_post"
+        android:name="com.utesocial.android.feature_post.presentation.element.PostFragment"
+        android:label="PostFragment"
+        tools:layout="@layout/fragment_post">
+
+        <argument
+            android:name="post"
+            app:argType="com.utesocial.android.feature_post.domain.model.Post" />
+
+    </fragment>
 
 </navigation>

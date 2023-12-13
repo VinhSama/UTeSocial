@@ -6,7 +6,7 @@
 
         <variable
             name="group"
-            type="com.utesocial.android.core.domain.model.Post" />
+            type="com.utesocial.android.feature_post.domain.model.Post" />
 
     </data>
 

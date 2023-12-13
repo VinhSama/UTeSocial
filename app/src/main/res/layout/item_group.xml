@@ -6,7 +6,7 @@
 
         <variable
             name="group"
-            type="com.utesocial.android.core.domain.model.Post" />
+            type="com.utesocial.android.feature_post.domain.model.Post" />
 
     </data>
 
@@ -17,7 +17,9 @@
         android:layout_margin="@dimen/ite_group_ll_margin"
         android:background="@drawable/bac_cl_post"
         android:orientation="vertical"
-        android:padding="@dimen/ite_group_ll_padding">
+        android:paddingHorizontal="@dimen/ite_group_ll_padding_horizontal"
+        android:paddingTop="@dimen/ite_group_ll_padding_top"
+        android:paddingBottom="@dimen/ite_group_ll_padding_bottom">
 
         <include
             android:id="@+id/info"

@@ -58,12 +58,15 @@ class MainActivity : BaseActivity() {
         disableDragActionBar(topBinding.appBarLayout())
         setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
         setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
+
+        val navController = screenBinding.navController()
+        setupNavController(navController)
         setupSnackbar(binding.floatingActionButtonCreate)
 
         NavigationUICustom.setupWithNavController(
             this@MainActivity,
             bottomBinding.bottomNavigationView(),
-            screenBinding.navController(),
+            navController,
             animEnter = R.anim.anim_act_main_bnv_enter,
             animExit = R.anim.anim_act_main_bnv_exit,
             animPopEnter = R.anim.anim_act_main_bnv_enter,

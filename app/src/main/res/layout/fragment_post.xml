@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="post"
+            type="com.utesocial.android.feature_post.domain.model.Post" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature_post.presentation.element.PostFragment">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_post"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/info"
+                layout="@layout/fragment_post_info"
+                app:post="@{post}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/fra_post_tv_content_margin_horizontal"
+                android:layout_marginVertical="@dimen/fra_post_tv_content_margin_vertical"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/fra_post_tv_content_line_spacing_extra"
+                android:maxLines="3"
+                android:text="@{post.content}"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="@dimen/fra_post_tv_content" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerColor="?attr/colorOutlineVariant" />
+
+            <include
+                android:id="@+id/interact"
+                layout="@layout/fragment_post_interact"
+                app:post="@{post}" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fra_post_dv_bottom_margin_top"
+                app:dividerColor="?attr/colorOutlineVariant" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_image"
+                android:layout_width="match_parent"
+                android:nestedScrollingEnabled="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{post.images.empty ? View.GONE : View.VISIBLE}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

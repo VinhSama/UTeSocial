@@ -14,19 +14,20 @@
         android:id="@+id/card_view_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="?attr/colorSurfaceContainer"
+        android:layout_margin="@dimen/ite_post_body_image_cv_margin"
         app:cardCornerRadius="@dimen/ite_post_body_image_cv_corner_radius"
-        app:strokeWidth="0dp">
+        app:strokeWidth="@dimen/ite_post_body_image_cv_stroke_width">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_view_content"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/ite_post_body_image_iv_height"
+                android:scaleType="centerCrop"
                 app:image="@{image}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"

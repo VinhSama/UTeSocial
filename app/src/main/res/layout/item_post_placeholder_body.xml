@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="18dp"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="24dp">
 
     <View
         android:id="@+id/view_content_1"
@@ -44,7 +44,9 @@
         android:id="@+id/view_content_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="1dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="1dp"
         android:background="@drawable/pla_rectangle_30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"

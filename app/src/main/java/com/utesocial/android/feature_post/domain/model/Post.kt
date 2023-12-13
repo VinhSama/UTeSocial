@@ -1,6 +1,10 @@
-package com.utesocial.android.core.domain.model
+package com.utesocial.android.feature_post.domain.model
 
-data class Post(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+class Post(
     val content: String,
     val date: String,
     val groupImage: String,
@@ -11,4 +15,4 @@ data class Post(
     val numberLike: Int,
     val ownerAvatar: String,
     val ownerName: String
-)
+) : Parcelable

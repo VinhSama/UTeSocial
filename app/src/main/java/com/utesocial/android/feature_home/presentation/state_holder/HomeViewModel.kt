@@ -2,6 +2,7 @@ package com.utesocial.android.feature_home.presentation.state_holder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -20,7 +21,7 @@ class HomeViewModel(private val homeUseCase: HomeUseCase) : ViewModel() {
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val appModule = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as UteSocial).appModule
+                val appModule = (this[APPLICATION_KEY] as UteSocial).appModule
                 HomeViewModel(appModule.homeUseCase)
             }
         }

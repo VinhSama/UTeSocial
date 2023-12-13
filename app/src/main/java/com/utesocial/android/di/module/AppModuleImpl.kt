@@ -1,6 +1,8 @@
 package com.utesocial.android.di.module
 
 import com.utesocial.android.di.repository.AppRepository
+import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
+import com.utesocial.android.feature_community.domain.use_case.GetJoinGroupsUseCase
 import com.utesocial.android.feature_home.domain.use_case.GetSuggestPostsUseCase
 import com.utesocial.android.feature_home.domain.use_case.HomeUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetNotifiesUseCase
@@ -8,6 +10,10 @@ import com.utesocial.android.feature_notification.domain.use_case.GetRequestsUse
 import com.utesocial.android.feature_notification.domain.use_case.NotificationUseCase
 
 class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
+
+    override val communityUseCase: CommunityUseCase by lazy { CommunityUseCase(
+        getJoinGroupsUseCase = GetJoinGroupsUseCase(appRepository.communityRepository)
+    ) }
 
     override val homeUseCase: HomeUseCase by lazy { HomeUseCase(
         getSuggestPostsUseCase = GetSuggestPostsUseCase(appRepository.homeRepository)

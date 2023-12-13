@@ -1,6 +1,6 @@
-package com.utesocial.android.core.data.network.dto
+package com.utesocial.android.feature_post.data.network.dto
 
-import com.utesocial.android.core.domain.model.Post
+import com.utesocial.android.feature_post.domain.model.Post
 
 data class PostDto(
     val content: String,

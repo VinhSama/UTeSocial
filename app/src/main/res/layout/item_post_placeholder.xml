@@ -7,7 +7,9 @@
     android:layout_margin="12dp"
     android:background="@drawable/bac_cl_post"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="8dp">
 
     <include layout="@layout/item_post_placeholder_info" />
 
