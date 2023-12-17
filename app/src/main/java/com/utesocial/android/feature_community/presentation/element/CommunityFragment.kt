@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.utesocial.android.R
@@ -21,10 +19,10 @@ import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
 import kotlinx.coroutines.launch
 
-class CommunityFragment : BaseFragment() {
+class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
 
-    private lateinit var binding: FragmentCommunityBinding
-    private val viewModel: CommunityViewModel by viewModels { CommunityViewModel.Factory }
+    override lateinit var binding: FragmentCommunityBinding
+    override val viewModel: CommunityViewModel by viewModels { CommunityViewModel.Factory }
 
     private lateinit var communityAdapter: CommunityAdapter
     private val groups: ArrayList<Group> by lazy { ArrayList() }
@@ -34,14 +32,10 @@ class CommunityFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewDataBinding {
+    ): FragmentCommunityBinding {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_community, container, false)
         return binding
     }
-
-    override fun initViewModel(): ViewModel = viewModel
-
-    override fun assignLifecycleOwner() { binding.lifecycleOwner = this@CommunityFragment }
 
     override fun onViewCreated(
         view: View,

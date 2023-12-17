@@ -1,33 +1,32 @@
 package com.utesocial.android.core.presentation.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
 
-    private var binding: ViewDataBinding? = null
+    protected abstract var binding: DB
+    protected abstract val viewModel: ViewModel?
 
-    private lateinit var activity: BaseActivity
+    private lateinit var activity: BaseActivity<*>
 
-    abstract fun initDataBinding(
+    protected abstract fun initDataBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewDataBinding
-
-    abstract fun initViewModel(): ViewModel?
-
-    abstract fun assignLifecycleOwner()
+    ): DB
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity = context as BaseActivity
+        activity = context as BaseActivity<*>
     }
 
     override fun onCreateView(
@@ -36,8 +35,7 @@ abstract class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = initDataBinding(inflater, container, savedInstanceState)
-        initViewModel()
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(
@@ -45,26 +43,29 @@ abstract class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        assignLifecycleOwner()
+        viewModel
+
+        binding.lifecycleOwner = this@BaseFragment
+        hideKeyboard()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        binding.unbind()
     }
 
-    fun getBaseActivity(): BaseActivity = activity
-
-
-
-    /**
-    protected fun requestShowKeyboard(view: View) = activity.showKeyboard(view)
-
-    protected fun requestHideKeyboard() = activity.hideKeyboard()
-
-    initDataBinding(inflater, container, savedInstanceState).setOnTouchListener { view, motionEvent ->
-        activity.hideKeyboard()
-        false
+    @SuppressLint("ClickableViewAccessibility")
+    fun hideKeyboard() {
+        binding.root.setOnTouchListener { _, motionEvent ->
+            if (motionEvent.action == ACTION_UP) {
+                val viewFocus = view?.findFocus()
+                if (viewFocus != null) {
+                    activity.handleHideKeyboard(viewFocus)
+                }
+            }
+            false
+        }
     }
-    */
+
+    fun getBaseActivity(): BaseActivity<*> = activity
 }

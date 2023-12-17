@@ -14,7 +14,7 @@ class NotificationAdapter(
 
     override fun getItemCount(): Int = 2
 
-    override fun createFragment(position: Int): BaseFragment = if (position == 0) {
+    override fun createFragment(position: Int): BaseFragment<*> = if (position == 0) {
         NotifyFragment()
     } else {
         RequestFragment()

@@ -1,15 +1,15 @@
 package com.utesocial.android.core.presentation.main.element
 
 import android.animation.AnimatorInflater
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import com.utesocial.android.R
+import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseActivity
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityBottom
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityScreen
@@ -19,21 +19,15 @@ import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.NavigationUICustom
 import com.utesocial.android.databinding.ActivityMainBinding
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private val binding: ActivityMainBinding by lazy { DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main) }
-    private val viewModel: MainViewModel by viewModels { MainViewModel.Factory }
+    override val binding: ActivityMainBinding by lazy { DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main) }
+    override val viewModel: MainViewModel by viewModels { MainViewModel.Factory }
 
     private val bottomBinding by lazy { MainActivityBottom(this@MainActivity, binding.bottomBar) }
     private val screenBinding by lazy { MainActivityScreen(this@MainActivity, binding.screen) }
     private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
     private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
-
-    override fun initDataBinding(): ViewDataBinding = binding
-
-    override fun initViewModel(): ViewModel = viewModel
-
-    override fun assignLifecycleOwner() { binding.lifecycleOwner = this@MainActivity }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -54,6 +48,14 @@ class MainActivity : BaseActivity() {
 
     private fun setup(splashScreen: SplashScreen) {
         splashScreen.setKeepOnScreenCondition { true }
+
+        val isLogin = intent.getBooleanExtra("login", false)
+        if (!isLogin) {
+            Intent(this@MainActivity, AuthActivity::class.java).apply {
+                startActivity(this)
+                finish()
+            }
+        }
 
         disableDragActionBar(topBinding.appBarLayout())
         setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())

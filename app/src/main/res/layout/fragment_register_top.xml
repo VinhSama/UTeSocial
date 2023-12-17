@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.utesocial.android.feature_register.presentation.state_holder.RegisterViewModel" />
+
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:paddingStart="0dp"
+            android:paddingEnd="8dp"
+            app:menu="@menu/menu_fra_register_tb"
+            app:navigationIcon="@drawable/ico_xmark_regular"
+            app:navigationIconTint="?attr/colorOnSurface"
+            app:title="@string/str_fra_register_top_tb_title"
+            app:titleCentered="true" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/linear_progress_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.registerState.loading ? View.VISIBLE : View.GONE}" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</layout>

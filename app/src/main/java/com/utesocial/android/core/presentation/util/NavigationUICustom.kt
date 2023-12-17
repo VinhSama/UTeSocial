@@ -22,7 +22,7 @@ import java.lang.ref.WeakReference
 object NavigationUICustom {
 
     fun setupWithNavController(
-        activity: BaseActivity,
+        activity: BaseActivity<*>,
         navigationBarView: NavigationBarView,
         navController: NavController,
         @AnimRes animEnter: Int = androidx.navigation.ui.R.anim.nav_default_enter_anim,
@@ -86,7 +86,7 @@ object NavigationUICustom {
     }
 
     private fun onNavDestinationSelected(
-        activity: BaseActivity,
+        activity: BaseActivity<*>,
         item: MenuItem,
         navController: NavController,
         @AnimRes animEnter: Int,

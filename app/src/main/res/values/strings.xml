@@ -17,10 +17,53 @@
     <string name="des_placeholder">Chế độ xem mô tả dữ liệu đang được tải</string>
 
     <!-- Text -->
+    <string name="str_act_login_btn_forgot">Quên mật khẩu?</string>
+    <string name="str_act_login_btn_login">Đăng nhập</string>
+    <string name="str_act_login_btn_register">Tạo tài khoản</string>
+    <string name="str_act_login_til_email_hint">Email</string>
+    <string name="str_act_login_til_password_hint">Mật khẩu</string>
     <string name="str_act_main_bottom_bnv_item">•</string>
     <string name="str_act_main_top_tv_hint">Tìm kiếm</string>
     <string name="str_bs_notify_btn_delete">Gỡ bỏ thông báo này</string>
     <string name="str_bs_notify_btn_mark">Đánh dấu là đã đọc</string>
+
+    <string name="str_fra_register_content_info_til_birth_helper">Định dạng: dd/MM/yyyy</string>
+    <string name="str_fra_register_content_info_til_birth_hint">Ngày sinh</string>
+    <string name="str_fra_register_content_info_til_birth_text">Chọn ngày sinh</string>
+    <string name="str_fra_register_content_info_til_email_hint">Email</string>
+    <string name="str_fra_register_content_info_til_first_hint">Họ</string>
+    <string name="str_fra_register_content_info_til_last_hint">Tên</string>
+    <string name="str_fra_register_content_info_til_town_hint">Quê quán</string>
+    <string name="str_fra_register_content_info_tv_title">Thông tin của bạn</string>
+
+    <string name="str_bs_register_password_til_password">Mật khẩu</string>
+    <string name="str_bs_register_password_til_repass">Nhập lại mật khẩu</string>
+    <string name="str_bs_register_password_tv_title">Đặt mật khẩu</string>
+
+    <string name="str_fra_register_content_role_btn_candidate">Thí sinh</string>
+    <string name="str_fra_register_content_role_btn_lecturer">Giảng viên</string>
+    <string name="str_fra_register_content_role_btn_student">Sinh viên</string>
+
+    <string name="str_bs_register_role_candidate_til_identity_hint">Mã thí sinh</string>
+    <string name="str_bs_register_role_candidate_til_major_hint">Ngành đăng ký</string>
+    <string name="str_bs_register_role_candidate_til_school_hint">Trường cấp ba</string>
+    <string name="str_bs_register_role_candidate_tv_title">Thí sinh</string>
+    <string name="str_bs_register_role_lecturer_til_faculty_hint">Khoa</string>
+    <string name="str_bs_register_role_lecturer_til_identity_hint">Mã giảng viên</string>
+    <string name="str_bs_register_role_lecturer_tv_title">Giảng viên</string>
+    <string name="str_bs_register_role_student_rb_graduated">Đã tốt nghiệp</string>
+    <string name="str_bs_register_role_student_rb_not_graduated">Đang học</string>
+    <string name="str_bs_register_role_student_til_class_hint">Mã lớp</string>
+    <string name="str_bs_register_role_student_til_enrollment_hint">Khóa</string>
+    <string name="str_bs_register_role_student_til_faculty_hint">Khoa</string>
+    <string name="str_bs_register_role_student_til_identity_hint">Mã số sinh viên</string>
+    <string name="str_bs_register_role_student_til_major_hint">Ngành</string>
+    <string name="str_bs_register_role_student_tv_graduated">Trạng thái học tập:</string>
+    <string name="str_bs_register_role_student_tv_title">Sinh viên</string>
+
+    <string name="str_fra_register_content_role_tv_title">Bạn là ai?</string>
+    <string name="str_fra_register_top_tb_item">Bước tiếp theo</string>
+    <string name="str_fra_register_top_tb_title">Tạo tài khoản</string>
     <string name="str_fra_community_tv_empty">Không có bài viết đề xuất</string>
     <string name="str_fra_home_tv_empty">Không có bài viết đề xuất</string>
     <string name="str_fra_notification_tab_title_notify">Thông báo</string>
@@ -35,6 +78,12 @@
     <string name="str_ite_post_body_tv_quantity">%1$d/%2$d</string>
     <string name="str_ite_post_interact_btn_comment">%d bình luận</string>
     <string name="str_ite_post_interact_btn_like">%d lượt thích</string>
+
+
+    <string name="str_fra_register_error_email">Email không hợp lệ</string>
+    <string name="str_fra_register_error_empty">Thông tin bắt buộc</string>
+
+    <!-- Transition -->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

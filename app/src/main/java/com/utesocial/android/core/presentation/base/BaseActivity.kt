@@ -1,10 +1,13 @@
 package com.utesocial.android.core.presentation.base
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewGroup.GONE
 import android.view.ViewGroup.VISIBLE
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
@@ -29,7 +32,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
+
+    protected abstract val binding: DB
+    protected abstract val viewModel: ViewModel?
 
     private val animatorDuration by lazy { resources.getInteger(R.integer.duration_200).toLong() }
 
@@ -48,17 +54,29 @@ abstract class BaseActivity : AppCompatActivity() {
     private var navController: NavController? = null
     private var snackbar: Snackbar? = null
 
-    abstract fun initDataBinding(): ViewDataBinding
-
-    abstract fun initViewModel(): ViewModel
-
-    abstract fun assignLifecycleOwner()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initDataBinding()
-        initViewModel()
-        assignLifecycleOwner()
+        binding.lifecycleOwner = this@BaseActivity
+        hideKeyboard()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun hideKeyboard() {
+        binding.root.setOnTouchListener { _, motionEvent ->
+            if (motionEvent.action == ACTION_UP) {
+                val viewFocus = currentFocus
+                if (viewFocus != null) {
+                    handleHideKeyboard(viewFocus)
+                }
+            }
+            false
+        }
+    }
+
+    fun handleHideKeyboard(view: View) {
+        view.clearFocus()
+        val inputMethodManager = getSystemService(InputMethodManager::class.java)
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     protected fun disableDragActionBar(appBarLayout: AppBarLayout) {
@@ -140,19 +158,6 @@ abstract class BaseActivity : AppCompatActivity() {
         obpTopBar.isEnabled = true
     }
 
-    fun handleActionBar(isShow: Boolean) {
-        cancelAnimatorActionBar()
-        if (isShow) {
-            if (topBar.visibility == GONE) {
-                vaShowTopBar.start()
-            }
-        } else {
-            if (topBar.visibility == VISIBLE) {
-                vaHideTopBar.start()
-            }
-        }
-    }
-
     private fun cancelAnimatorActionBar() {
         if (vaShowTopBar.isRunning) {
             vaShowTopBar.cancel()
@@ -222,6 +227,29 @@ abstract class BaseActivity : AppCompatActivity() {
         obpBottomBar.isEnabled = true
     }
 
+    private fun cancelAnimatorBottomBar() {
+        if (vaShowBottomBar.isRunning) {
+            vaShowBottomBar.cancel()
+        }
+
+        if (vaHideBottomBar.isRunning) {
+            vaHideBottomBar.cancel()
+        }
+    }
+
+    fun handleActionBar(isShow: Boolean) {
+        cancelAnimatorActionBar()
+        if (isShow) {
+            if (topBar.visibility == GONE) {
+                vaShowTopBar.start()
+            }
+        } else {
+            if (topBar.visibility == VISIBLE) {
+                vaHideTopBar.start()
+            }
+        }
+    }
+
     fun handleBottomBar(isShow: Boolean) {
         cancelAnimatorBottomBar()
         if (isShow) {
@@ -235,59 +263,24 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun cancelAnimatorBottomBar() {
-        if (vaShowBottomBar.isRunning) {
-            vaShowBottomBar.cancel()
-        }
-
-        if (vaHideBottomBar.isRunning) {
-            vaHideBottomBar.cancel()
-        }
-    }
-
     fun handleBar(isShow: Boolean) {
         handleActionBar(isShow)
         handleBottomBar(isShow)
     }
 
-    fun setupNavController(navController: NavController) {
+    protected fun setupNavController(navController: NavController) {
         this.navController = navController
     }
 
     fun navController(): NavController? = navController
 
-    fun setupSnackbar(view: View) { snackbar = Snackbar.make(view, "", LENGTH_LONG).setAnchorView(view) }
+    protected fun setupSnackbar(view: View) { snackbar = Snackbar.make(view, "", LENGTH_LONG).setAnchorView(view) }
 
     fun showSnackbar(message: String) = snackbar?.apply {
         setText(message)
         show()
     }
 
-
-
-    /** Keyboard */
-    /**
-    window.setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE)
-    initDataBinding().root.setOnTouchListener { view, motionEvent
-        hideKeyboard()
-        false
-    }
-
-    fun showKeyboard(view: View) {
-        view.requestFocus()
-        val inputMethodManager = getSystemService(InputMethodManager::class.java)
-        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    fun hideKeyboard() {
-        val view = currentFocus
-        if (view != null) {
-            view.clearFocus()
-            val inputMethodManager = getSystemService(InputMethodManager::class.java)
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-    */
 
 
     /** Permission Request */

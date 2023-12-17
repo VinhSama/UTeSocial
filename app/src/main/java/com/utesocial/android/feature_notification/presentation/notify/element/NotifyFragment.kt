@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.utesocial.android.R
@@ -21,10 +19,10 @@ import com.utesocial.android.feature_notification.presentation.notify.element.pa
 import com.utesocial.android.feature_notification.presentation.notify.listener.NotifyItemListener
 import kotlinx.coroutines.launch
 
-class NotifyFragment : BaseFragment() {
+class NotifyFragment : BaseFragment<FragmentNotifyBinding>() {
 
-    private lateinit var binding: FragmentNotifyBinding
-    private val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    override lateinit var binding: FragmentNotifyBinding
+    override val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment().requireParentFragment() })
 
     private val notifyBottomSheet by lazy { NotifyBottomSheet() }
 
@@ -34,14 +32,10 @@ class NotifyFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewDataBinding {
+    ): FragmentNotifyBinding {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notify, container, false)
         return binding
     }
-
-    override fun initViewModel(): ViewModel = viewModel
-
-    override fun assignLifecycleOwner() { binding.lifecycleOwner = this@NotifyFragment }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
