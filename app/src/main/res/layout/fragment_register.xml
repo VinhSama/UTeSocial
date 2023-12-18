@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.utesocial.android.feature_register.presentation.state_holder.RegisterViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature_register.presentation.element.RegisterFragment">
+
+        <include
+            android:id="@+id/top_bar"
+            layout="@layout/fragment_register_top"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/screen"
+            layout="@layout/fragment_register_screen" />
+
+        <View
+            android:id="@+id/view_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:background="?attr/colorOutline"
+            android:visibility="@{viewModel.registerState.loading ? View.VISIBLE : View.GONE}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

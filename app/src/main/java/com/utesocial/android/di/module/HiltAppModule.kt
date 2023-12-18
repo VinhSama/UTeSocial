@@ -10,6 +10,7 @@ import com.utesocial.android.di.network.AppApiImpl
 import com.utesocial.android.di.repository.AppRepository
 import com.utesocial.android.di.repository.AppRepositoryImpl
 import com.utesocial.android.feature_login.data.network.LoginApi
+import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,8 +57,13 @@ class HiltAppModule {
 
     @Singleton
     @Provides
-    fun provideAppModule(appModule: AppModule, appApi: AppApi) : AppModule {
+    fun provideAppModule(appApi: AppApi) : AppModule {
         val appRepository : AppRepository = AppRepositoryImpl(appApi)
         return AppModuleImpl(appRepository)
+    }
+    @Singleton
+    @Provides
+    fun provideLoginUseCase(appModule: AppModule) : LoginUseCase{
+        return appModule.loginUseCase
     }
 }

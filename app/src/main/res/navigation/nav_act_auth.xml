@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_act_auth"
+    app:startDestination="@id/item_fra_login">
+
+    <fragment
+        android:id="@+id/item_fra_login"
+        android:name="com.utesocial.android.feature_login.presentation.element.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_login_register"
+            app:destination="@id/item_fra_register"
+            app:enterAnim="@anim/anim_scale_in"
+            app:exitAnim="@anim/anim_scale_out"
+            app:popEnterAnim="@anim/anim_scale_in"
+            app:popExitAnim="@anim/anim_scale_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_fra_register"
+        android:name="com.utesocial.android.feature_register.presentation.element.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/action_register_login"
+            app:destination="@id/item_fra_login" />
+
+    </fragment>
+
+</navigation>

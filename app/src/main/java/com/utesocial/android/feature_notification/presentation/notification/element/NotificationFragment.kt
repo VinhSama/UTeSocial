@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,10 +18,10 @@ import com.utesocial.android.feature_notification.presentation.notification.elem
 import com.utesocial.android.feature_notification.presentation.notification.state_holder.NotificationViewModel
 import kotlinx.coroutines.launch
 
-class NotificationFragment : BaseFragment() {
+class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
 
-    private lateinit var binding: FragmentNotificationBinding
-    private val viewModel: NotificationViewModel by viewModels { NotificationViewModel.Factory }
+    override lateinit var binding: FragmentNotificationBinding
+    override val viewModel: NotificationViewModel by viewModels { NotificationViewModel.Factory }
 
     private lateinit var tabNotify: NotificationTabItem
     private lateinit var tabRequest: NotificationTabItem
@@ -32,14 +30,10 @@ class NotificationFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewDataBinding {
+    ): FragmentNotificationBinding {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         return binding
     }
-
-    override fun initViewModel(): ViewModel = viewModel
-
-    override fun assignLifecycleOwner() { binding.lifecycleOwner = this@NotificationFragment }
 
     override fun onViewCreated(
         view: View,

@@ -68,6 +68,11 @@ class NetworkModule {
     ): UnauthorizedInterceptor {
         return UnauthorizedInterceptor(preferenceManager, loginApiProvider)
     }
+    @Singleton
+    @Provides
+    fun provideMainNetworkInterceptor(preferenceManager: PreferenceManager) : MainNetworkInterceptor{
+        return MainNetworkInterceptor(preferenceManager)
+    }
 
     @Singleton
     @Provides

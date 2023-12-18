@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraint_layout_brand"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="44dp">
+
+    <View
+        android:id="@+id/view_container_icon"
+        android:layout_width="0dp"
+        android:layout_height="95dp"
+        android:background="@drawable/bac_container_app_icon"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_icon"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_view_icon" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_view_icon"
+        android:layout_width="0dp"
+        android:layout_height="115dp"
+        app:layout_constraintBottom_toTopOf="@id/image_view_name"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ss_animated_icon" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_view_icon"
+        app:srcCompat="@drawable/ima_app_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

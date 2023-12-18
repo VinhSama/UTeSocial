@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_bs_register"
+    app:startDestination="@id/item_fra_register_content_info">
+
+    <fragment
+        android:id="@+id/item_fra_register_content_info"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterFragmentContentInfo"
+        android:label="RegisterFragmentContentInfo"
+        tools:layout="@layout/fragment_register_content_info">
+
+        <action
+            android:id="@+id/action_info_role"
+            app:destination="@id/item_fra_register_content_role"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_fra_register_content_role"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterFragmentContentRole"
+        android:label="RegisterFragmentContentRole"
+        tools:layout="@layout/fragment_register_content_role">
+
+    </fragment>
+
+    <!--<fragment
+        android:id="@+id/item_bs_register_info"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterBottomSheetInfo"
+        android:label="RegisterBottomSheetInfo"
+        tools:layout="@layout/view_bottom_sheet_register_info" >
+
+        <action
+            android:id="@+id/action_info_role"
+            app:destination="@id/item_bs_register_role"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_bs_register_role"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterBottomSheetRole"
+        android:label="RegisterBottomSheetRole"
+        tools:layout="@layout/view_bottom_sheet_register_role" >
+
+        <action
+            android:id="@+id/action_role_student"
+            app:destination="@id/item_bs_register_role_student"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+        <action
+            android:id="@+id/action_role_lecturer"
+            app:destination="@id/item_bs_register_role_lecturer"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+        <action
+            android:id="@+id/action_role_candidate"
+            app:destination="@id/item_bs_register_role_candidate"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_bs_register_role_student"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterBottomSheetRoleStudent"
+        android:label="RegisterBottomSheetRoleStudent"
+        tools:layout="@layout/view_bottom_sheet_register_role_student" >
+
+        <action
+            android:id="@+id/action_student_password"
+            app:destination="@id/item_bs_register_password"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_bs_register_role_lecturer"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterBottomSheetRoleLecturer"
+        android:label="RegisterBottomSheetRoleLecturer"
+        tools:layout="@layout/view_bottom_sheet_register_role_lecturer">
+
+        <action
+            android:id="@+id/action_lecturer_password"
+            app:destination="@id/item_bs_register_password"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_bs_register_role_candidate"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterBottomSheetRoleCandidate"
+        android:label="RegisterBottomSheetRoleCandidate"
+        tools:layout="@layout/view_bottom_sheet_register_role_candidate">
+
+        <action
+            android:id="@+id/action_candidate_password"
+            app:destination="@id/item_bs_register_password"
+            app:enterAnim="@anim/anim_slide_right_in"
+            app:exitAnim="@anim/anim_slide_left_out"
+            app:popEnterAnim="@anim/anim_slide_left_in"
+            app:popExitAnim="@anim/anim_slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_bs_register_password"
+        android:name="com.utesocial.android.feature_register.presentation.element.partial.RegisterBottomSheetPassword"
+        android:label="RegisterBottomSheetPassword"
+        tools:layout="@layout/view_bottom_sheet_register_password" />-->
+
+</navigation>

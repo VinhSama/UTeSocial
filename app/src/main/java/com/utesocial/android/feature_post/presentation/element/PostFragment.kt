@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.navArgs
 import com.utesocial.android.R
 import com.utesocial.android.feature_post.domain.model.Post
@@ -16,9 +14,10 @@ import com.utesocial.android.feature_post.presentation.adapter.PostImageAdapter
 import com.utesocial.android.databinding.FragmentPostBinding
 import com.utesocial.android.feature_post.presentation.element.partial.InfoPost
 
-class PostFragment : BaseFragment() {
+class PostFragment : BaseFragment<FragmentPostBinding>() {
 
-    private lateinit var binding: FragmentPostBinding
+    override lateinit var binding: FragmentPostBinding
+    override val viewModel = null
     private val args: PostFragmentArgs by navArgs()
 
     private val post: Post by lazy { args.post }
@@ -27,14 +26,10 @@ class PostFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewDataBinding {
+    ): FragmentPostBinding {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post, container, false)
         return binding
     }
-
-    override fun initViewModel(): ViewModel? = null
-
-    override fun assignLifecycleOwner() { binding.lifecycleOwner = this@PostFragment }
 
     override fun onViewCreated(
         view: View,

@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.utesocial.android.R
@@ -20,10 +18,10 @@ import com.utesocial.android.databinding.FragmentHomeBinding
 import com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel
 import kotlinx.coroutines.launch
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels { HomeViewModel.Factory }
+    override lateinit var binding: FragmentHomeBinding
+    override val viewModel: HomeViewModel by viewModels { HomeViewModel.Factory }
 
     private val data: ArrayList<Post> by lazy { ArrayList() }
 
@@ -31,14 +29,10 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewDataBinding {
+    ): FragmentHomeBinding {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return binding
     }
-
-    override fun initViewModel(): ViewModel = viewModel
-
-    override fun assignLifecycleOwner() { binding.lifecycleOwner = this@HomeFragment }
 
     override fun onViewCreated(
         view: View,

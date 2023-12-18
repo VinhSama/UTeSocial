@@ -16,9 +16,8 @@ import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
-class SimpleCall<R> @Inject constructor(
+class SimpleCall<R> constructor(
     private val call : Call<R>,
-    private val compositeDisposable: CompositeDisposable
     ) {
 
     fun execute() : SimpleResponse<R?> {
@@ -35,9 +34,6 @@ class SimpleCall<R> @Inject constructor(
                 null
             }
         }
-    }
-    fun process(onStateChanged: OnStateChanged<R?>) {
-        process(this.compositeDisposable, onStateChanged)
     }
     fun process(disposable: CompositeDisposable, onStateChanged: OnStateChanged<R?>) {
         responseSingle(call)
@@ -70,8 +66,8 @@ class SimpleCall<R> @Inject constructor(
 
             })
     }
-    interface OnStateChanged<R> {
-        fun onChanged(response: SimpleResponse<R>)
+    public interface OnStateChanged<R> {
+        public fun onChanged(response: SimpleResponse<R>)
     }
     private fun responseSingle(call : Call<R>): Single<SimpleResponse<R?>> {
         return Single.create {

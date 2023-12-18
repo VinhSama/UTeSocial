@@ -16,16 +16,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UTeSocial"
         tools:targetApi="34">
+
+        <activity
+            android:name=".core.presentation.auth.element.AuthActivity"
+            android:exported="false" />
+
         <activity
             android:name=".core.presentation.main.element.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.UTeSocial.Start">
+
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

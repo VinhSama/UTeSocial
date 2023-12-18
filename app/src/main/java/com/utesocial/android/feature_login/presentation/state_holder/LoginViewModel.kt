@@ -1,13 +1,19 @@
 package com.utesocial.android.feature_login.presentation.state_holder
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.util.ValidationResult
+import com.utesocial.android.feature_login.data.network.dto.AppResponse
+import com.utesocial.android.feature_login.data.network.dto.LoginBody
+import com.utesocial.android.feature_login.data.network.request.LoginRequest
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_login.domain.use_case.ValidateEmail
 import com.utesocial.android.feature_login.domain.use_case.ValidatePassword
 import com.utesocial.android.feature_login.presentation.state_holder.state.LoginFormEvent
+import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
+import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -22,8 +28,8 @@ class LoginViewModel @Inject constructor (
     ) : ViewModel() {
 
     val disposable : CompositeDisposable = CompositeDisposable()
-    val emailInputSubject : BehaviorSubject<String> = BehaviorSubject.create()
-    val passwordInputSubject : BehaviorSubject<String> = BehaviorSubject.create()
+    val emailInputSubject : BehaviorSubject<String> = BehaviorSubject.createDefault("")
+    val passwordInputSubject : BehaviorSubject<String> = BehaviorSubject.createDefault("")
     val validationDeliver : BehaviorSubject<ValidationResult> = BehaviorSubject.create()
     val submitUIState = MutableLiveData(false)
 
@@ -50,10 +56,22 @@ class LoginViewModel @Inject constructor (
         }
     }
 
+    fun login() : LiveData<SimpleResponse<AppResponse<LoginBody>>> {
+        val mutableLiveData : MutableLiveData<SimpleResponse<AppResponse<LoginBody>>> = MutableLiveData<SimpleResponse<AppResponse<LoginBody>>>()
+        loginUseCase.getLoginUseCase
+            .invoke(LoginRequest(emailInputSubject.value.toString(), passwordInputSubject.value.toString()))
+            .process(disposable, onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<LoginBody>?> {
+                override fun onChanged(response: SimpleResponse<AppResponse<LoginBody>?>) {
+
+                    TODO("Not yet implemented")
+                }
+
+            })
+        return mutableLiveData
+    }
+
     override fun onCleared() {
         disposable.dispose()
         super.onCleared()
     }
-
-
 }
