@@ -11,6 +11,8 @@ import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetNotifiesUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetRequestsUseCase
 import com.utesocial.android.feature_notification.domain.use_case.NotificationUseCase
+import com.utesocial.android.feature_post.domain.use_case.GetFeedPostsUseCase
+import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 
 class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
 
@@ -30,4 +32,8 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
         getLoginUseCase = GetLoginUseCase(appRepository.loginRepository),
         getRefreshTokenUseCase = GetRefreshTokenUseCase(appRepository.loginRepository)
     ) }
+
+    override val postUseCase : PostUseCase by lazy { PostUseCase(
+        getFeedPostsUseCase = GetFeedPostsUseCase(appRepository.postRepository)
+    )}
 }

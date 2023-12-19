@@ -85,6 +85,9 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation("com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0")
 
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
+    implementation("com.intuit.ssp:ssp-android:1.1.0")
+
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
 

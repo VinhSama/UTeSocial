@@ -8,5 +8,5 @@ enum class ErrorType(val stringResId: Int) {
     NETWORK_PROBLEM(R.string.response_network_problem),
     REQUEST_CANCELED(R.string.response_request_canceled),
     UNKNOWN(R.string.has_error),
-    UNDEFINED(0)
+    UNDEFINED(R.string.has_error)
 }

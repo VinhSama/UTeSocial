@@ -55,9 +55,9 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="serif"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/fra_home_tv_empty_padding_bottom"
                     android:text="@string/str_fra_home_tv_empty"
                     android:textColor="?attr/colorOnBackground"
-                    android:paddingBottom="@dimen/fra_home_tv_empty_padding_bottom"
                     android:textSize="@dimen/fra_home_tv_empty"
                     app:empty="@{!viewModel.homeState.posts.empty}" />
 

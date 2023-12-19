@@ -1,5 +1,6 @@
 package com.utesocial.android.feature_login.presentation.element
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,14 +16,20 @@ import com.jakewharton.rxbinding4.widget.afterTextChangeEvents
 import com.jakewharton.rxbinding4.widget.textChangeEvents
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Common
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.domain.util.ValidationResult
 import com.utesocial.android.core.presentation.base.BaseFragment
+import com.utesocial.android.core.presentation.main.element.MainActivity
+import com.utesocial.android.core.presentation.util.dismissLoadingDialog
+import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentLoginBinding
 import com.utesocial.android.feature_login.domain.use_case.ValidateEmail
 import com.utesocial.android.feature_login.domain.use_case.ValidatePassword
 import com.utesocial.android.feature_login.presentation.state_holder.LoginViewModel
 import com.utesocial.android.feature_login.presentation.state_holder.state.LoginFormEvent
+import com.utesocial.android.remote.networkState.ErrorType
+import com.utesocial.android.remote.networkState.Status
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -130,8 +137,43 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
 
                 buttonLogin.setOnClickListener {
-                    Snackbar.make(root, "Login handler", Snackbar.LENGTH_SHORT).show()
+                    login().observe(viewLifecycleOwner) {
+                        when(it.getNetworkState().getStatus()) {
+                            Status.RUNNING -> showLoadingDialog()
+                            Status.SUCCESS -> {
+                                dismissLoadingDialog()
+                                val intent = Intent(requireActivity(), MainActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
 
+                            }
+                            Status.FAILED -> {
+                                dismissLoadingDialog()
+                                it.getError()?.let {error ->
+                                    if(error.undefinedMessage.isNullOrEmpty()) {
+                                        Snackbar.make(
+                                            root,
+                                            error.errorType.stringResId,
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Snackbar.make(
+                                            root,
+                                            error.undefinedMessage.toString(),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            }
+                            else -> return@observe
+                        }
+                    }
+//                    showLoadingDialog()
+//                    login().observe(viewLifecycleOwner) {
+//                        when (it.getNetworkState().getStatus()) {
+//                            Status.RUNNING ->
+//                        }
+//                    }
                 }
 
             }
@@ -139,6 +181,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         }
     }
+
 
     private fun setupListener() {
         binding.buttonRegister.setOnClickListener {

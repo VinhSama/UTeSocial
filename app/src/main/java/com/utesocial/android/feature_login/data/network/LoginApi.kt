@@ -9,8 +9,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LoginApi {
-    @POST("/refresh-token")
+    @POST("refresh-token")
     fun refreshToken(@Body bodyRequest: HashMap<String, String>) : SimpleCall<AppResponse<TokensBody>>
-    @POST("/login")
+    @POST("login")
     fun login(@Body loginRequest: LoginRequest) : SimpleCall<AppResponse<LoginBody>>
 }

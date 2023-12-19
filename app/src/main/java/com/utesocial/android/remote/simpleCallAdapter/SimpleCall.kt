@@ -79,6 +79,7 @@ class SimpleCall<R> constructor(
                     if(!response.isSuccessful) {
                         val errorMessage = Common.getDetailMessageBody<String>(responseBody = response.errorBody(), "error") ?: response.message()
                         val error = Error.CustomError(errorMessage)
+                        Debug.log("responseSingle", "error:$error")
                         simpleResponse.setNetworkState(networkState = NetworkState(Status.FAILED, error))
                     }
                     it.onSuccess(simpleResponse)

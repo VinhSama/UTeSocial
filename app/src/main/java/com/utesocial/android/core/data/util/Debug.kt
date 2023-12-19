@@ -5,7 +5,7 @@ import android.util.Log
 object Debug {
     fun log(tag: String?, message: String) {
         val formattedTag = tag ?: ""
-        Log.d("UTeSocial:$tag", message)
+        Log.d("UTeSocial", "$tag:$message")
     }
 
     fun log(message: String) {
@@ -14,7 +14,7 @@ object Debug {
 
     fun info(tag: String?, message: String) {
         val formattedTag = tag ?: ""
-        Log.i("UTeSocial:$tag", message)
+        Log.i("UTeSocial", "$tag:$message")
     }
 
     fun info(message: String) {

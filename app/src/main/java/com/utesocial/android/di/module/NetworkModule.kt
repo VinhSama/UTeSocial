@@ -1,5 +1,6 @@
 package com.utesocial.android.di.module
 
+import android.annotation.SuppressLint
 import com.google.gson.Gson
 import com.utesocial.android.BuildConfig
 import com.utesocial.android.core.data.util.Constants
@@ -36,7 +37,7 @@ import javax.net.ssl.X509TrustManager
 class NetworkModule {
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson, client: OkHttpClient) : Retrofit {
+    fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(client)
@@ -47,19 +48,18 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHttpLoggingInterceptor() : HttpLoggingInterceptor {
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
-            run {
-                Debug.log("OkHttp", message)
-            }
+            Debug.log("OkHttp", message)
         }
-        loggingInterceptor.level = if(BuildConfig.DEBUG) {
+        loggingInterceptor.level = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
         return loggingInterceptor
     }
+
     @Singleton
     @Provides
     fun provideUnauthorizedInterceptor(
@@ -68,31 +68,39 @@ class NetworkModule {
     ): UnauthorizedInterceptor {
         return UnauthorizedInterceptor(preferenceManager, loginApiProvider)
     }
+
     @Singleton
     @Provides
-    fun provideMainNetworkInterceptor(preferenceManager: PreferenceManager) : MainNetworkInterceptor{
+    fun provideMainNetworkInterceptor(preferenceManager: PreferenceManager): MainNetworkInterceptor {
         return MainNetworkInterceptor(preferenceManager)
     }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(unauthorizedInterceptor: UnauthorizedInterceptor, mainNetworkInterceptor: MainNetworkInterceptor) : OkHttpClient {
+    fun provideOkHttpClient(
+        unauthorizedInterceptor: UnauthorizedInterceptor,
+        mainNetworkInterceptor: MainNetworkInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
         val builder = OkHttpClient.Builder()
         try {
             val trustAllCerts = arrayOf<TrustManager>(
+                @SuppressLint("CustomX509TrustManager")
                 object : X509TrustManager {
+                    @SuppressLint("TrustAllX509TrustManager")
                     override fun checkClientTrusted(
                         chain: Array<out X509Certificate>?,
                         authType: String?
                     ) {
-                        TODO("Not yet implemented")
+                        //TODO: implement later
                     }
 
+                    @SuppressLint("TrustAllX509TrustManager")
                     override fun checkServerTrusted(
                         chain: Array<out X509Certificate>?,
                         authType: String?
                     ) {
-                        TODO("Not yet implemented")
+                        //TODO: implement later
                     }
 
                     override fun getAcceptedIssuers(): Array<X509Certificate> {
@@ -116,6 +124,7 @@ class NetworkModule {
             .connectTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .addNetworkInterceptor(mainNetworkInterceptor)
+            .addNetworkInterceptor(loggingInterceptor)
             .addInterceptor(unauthorizedInterceptor)
             .build()
     }

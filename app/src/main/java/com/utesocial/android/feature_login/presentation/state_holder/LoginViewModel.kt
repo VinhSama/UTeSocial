@@ -3,7 +3,9 @@ package com.utesocial.android.feature_login.presentation.state_holder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.utesocial.android.core.data.util.Constants
 import com.utesocial.android.core.data.util.PreferenceManager
+import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.domain.util.ValidationResult
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_login.data.network.dto.LoginBody
@@ -24,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor (
     private val loginUseCase: LoginUseCase,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PreferenceManager,
+    private val authorizedUserObservable: BehaviorSubject<User>
     ) : ViewModel() {
 
     val disposable : CompositeDisposable = CompositeDisposable()
@@ -55,15 +58,24 @@ class LoginViewModel @Inject constructor (
             }
         }
     }
-
-    fun login() : LiveData<SimpleResponse<AppResponse<LoginBody>>> {
-        val mutableLiveData : MutableLiveData<SimpleResponse<AppResponse<LoginBody>>> = MutableLiveData<SimpleResponse<AppResponse<LoginBody>>>()
+    fun storeAndSetupUIState(loginBody: LoginBody) {
+        preferenceManager.putString(Constants.ACCESS_TOKEN, loginBody.tokens.accessToken)
+        preferenceManager.putString(Constants.REFRESH_TOKEN, loginBody.tokens.refreshToken)
+        preferenceManager.putObject(Constants.CURRENT_USER, loginBody.user)
+        authorizedUserObservable.onNext(loginBody.user)
+    }
+    fun login() : LiveData<SimpleResponse<AppResponse<LoginBody>?>> {
+        val mutableLiveData : MutableLiveData<SimpleResponse<AppResponse<LoginBody>?>> = MutableLiveData<SimpleResponse<AppResponse<LoginBody>?>>()
         loginUseCase.getLoginUseCase
             .invoke(LoginRequest(emailInputSubject.value.toString(), passwordInputSubject.value.toString()))
             .process(disposable, onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<LoginBody>?> {
                 override fun onChanged(response: SimpleResponse<AppResponse<LoginBody>?>) {
-
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful()) {
+                        response.getResponseBody()?.data?.let { storeAndSetupUIState(it) }
+                        mutableLiveData.postValue(response)
+                    } else {
+                        mutableLiveData.postValue(response)
+                    }
                 }
 
             })

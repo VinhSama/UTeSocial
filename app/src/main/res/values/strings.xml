@@ -103,4 +103,5 @@
     <string name="response_connection_timeout">Kết nối hết hạn, vui lòng thử lại!</string>
     <string name="response_network_problem">Kết nối mạng có vấn đề, vui lòng thử lại!</string>
     <string name="response_request_canceled">Yêu cầu bị hủy, vui lòng thử lại!</string>
+    <string name="loading">Đang tải</string>
 </resources>

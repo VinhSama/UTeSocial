@@ -1,6 +1,7 @@
-package com.utesocial.android.feature_login.data.network
+package com.utesocial.android.feature_login.data.repository
 
 import com.utesocial.android.core.data.network.dto.TokensBody
+import com.utesocial.android.feature_login.data.network.LoginApi
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_login.data.network.dto.LoginBody
 import com.utesocial.android.feature_login.data.network.request.LoginRequest

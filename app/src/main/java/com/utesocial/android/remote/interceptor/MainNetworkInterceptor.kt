@@ -2,6 +2,7 @@ package com.utesocial.android.remote.interceptor
 
 import com.utesocial.android.core.data.util.Common
 import com.utesocial.android.core.data.util.Constants
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.data.util.PreferenceManager
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -11,9 +12,12 @@ class MainNetworkInterceptor(private val preferenceManager: PreferenceManager) :
 
     private val ignoreInUnauthorizedInterceptor = listOf("/login", "/refresh-token")
     override fun intercept(chain: Interceptor.Chain): Response {
+        Debug.log("MainNetworkInterceptor:origin", chain.request().url.toString())
         val requestBuilder : Request.Builder = chain.request().newBuilder()
         for(ignore in ignoreInUnauthorizedInterceptor) {
             if(chain.request().url.toUrl().toString().endsWith(ignore)) {
+                Debug.log("MainNetworkInterceptor", requestBuilder
+                    .build().url.toString())
                 return chain.proceed(requestBuilder.build())
             }
         }
