@@ -10,6 +10,9 @@ import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.feature_post.presentation.adapter.PostBodyImageAdapter
 import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
 import com.utesocial.android.databinding.ItemPostBodyBinding
+import com.utesocial.android.feature_post.domain.model.PostModel
+import com.utesocial.android.feature_post.domain.model.PostResource
+import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
 
 class PostBody(val binding: ItemPostBodyBinding) {
 
@@ -64,6 +67,17 @@ class PostBody(val binding: ItemPostBodyBinding) {
         binding.textViewQuantity.text = "0/0"
 
         val postBodyImageAdapter = PostBodyImageAdapter(lifecycleOwner, post, listener)
+        binding.viewPagerImage.adapter = postBodyImageAdapter
+    }
+
+    fun setupImages(
+        lifecycleOwner: LifecycleOwner,
+        postResources: List<PostResource>,
+        listener: PostModelBodyImageAdapter.PostBodyImageListener
+    ) {
+        binding.textViewQuantity.text = "0/0"
+
+        val postBodyImageAdapter = PostModelBodyImageAdapter(lifecycleOwner, postResources, listener)
         binding.viewPagerImage.adapter = postBodyImageAdapter
     }
 }
