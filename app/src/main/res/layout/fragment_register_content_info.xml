@@ -73,7 +73,9 @@
                             android:id="@+id/text_input_edit_text_first"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutFirst, text.toString())}" />
+                            android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutFirst, text.toString())}"
+                            android:imeOptions="actionNext"
+                            android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +91,9 @@
                             android:id="@+id/text_input_edit_text_last"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutLast, text.toString())}" />
+                            android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutLast, text.toString())}"
+                            android:imeOptions="actionNext"
+                            android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,8 +153,7 @@
                         android:layout_marginBottom="14dp"
                         android:hint="@string/str_fra_register_content_info_til_birth_hint"
                         app:endIconDrawable="@drawable/ico_calendar_days_solid"
-                        app:endIconMode="custom"
-                        app:helperText="@string/str_fra_register_content_info_til_birth_helper">
+                        app:endIconMode="custom">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/text_input_edit_text_birth"
@@ -159,6 +162,7 @@
                             android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutBirth, text.toString())}"
                             android:focusable="false"
                             android:inputType="none"
+                            android:text="@string/str_fra_register_content_info_til_birth_default"
                             android:onClick="@{() -> fragment.showDatePicker()}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -174,7 +178,9 @@
                             android:id="@+id/text_input_edit_text_town"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutTown, text.toString())}" />
+                            android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutTown, text.toString())}"
+                            android:imeOptions="actionDone"
+                            android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 

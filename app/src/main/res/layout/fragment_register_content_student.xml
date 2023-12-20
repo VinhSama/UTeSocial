@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.utesocial.android.feature_register.presentation.element.partial.RegisterFragmentContentStudent" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".feature_register.presentation.element.partial.RegisterFragmentContentStudent">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="30dp"
+                android:text="@string/str_fra_register_content_student_tv_title"
+                android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                android:transitionName="@string/tra_register_content_role_student" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_identity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:hint="@string/str_fra_register_content_student_til_identity_hint"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_edit_text_identity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutIdentity, text.toString())}"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="14dp"
+                android:backgroundTint="@android:color/transparent"
+                app:cardCornerRadius="5dp"
+                app:strokeColor="?attr/colorOutline">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_graduated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="6dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_view_graduated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/str_fra_register_content_student_tv_graduated"
+                        android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_graduated"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_button_not_graduated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{(_, isChecked) -> fragment.updateContinueButton()}"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="0dp"
+                            android:text="@string/str_fra_register_content_student_rb_not_graduated" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_button_graduated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{(_, isChecked) -> fragment.updateContinueButton()}"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="0dp"
+                            android:text="@string/str_fra_register_content_student_rb_graduated" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_faculty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:hint="@string/str_fra_register_content_student_til_faculty_hint"
+                app:endIconDrawable="@drawable/ico_caret_down_solid"
+                app:endIconMode="custom">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_edit_text_faculty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{text -> fragment.checkEmptyFaculty()}"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:onClick="@{() -> fragment.showDialogFaculty()}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_major"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:hint="@string/str_fra_register_content_student_til_major_hint"
+                app:endIconDrawable="@drawable/ico_caret_down_solid"
+                app:endIconMode="custom">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_edit_text_major"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{text -> fragment.checkEmptyMajor()}"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:onClick="@{() -> fragment.showDialogMajor()}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_enrollment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:hint="@string/str_fra_register_content_student_til_enrollment_hint"
+                app:endIconDrawable="@drawable/ico_caret_down_solid"
+                app:endIconMode="custom">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_edit_text_enrollment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutEnrollment, text.toString())}"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:onClick="@{() -> fragment.showDialogEnrollmentYear()}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/str_fra_register_content_student_til_class_hint"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_edit_text_class"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{text -> fragment.checkEmpty(textInputLayoutClass, text.toString())}"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

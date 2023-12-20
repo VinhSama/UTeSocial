@@ -1,5 +1,6 @@
 package com.utesocial.android.feature_register.presentation.element.partial
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Patterns
@@ -76,13 +77,20 @@ class RegisterFragmentContentInfo : BaseFragment<FragmentRegisterContentInfoBind
 
     private fun setupBinding() { binding.fragment = this@RegisterFragmentContentInfo }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupListener() {
+        parentFragment?.view?.setOnTouchListener { _, _ ->
+            val viewFocus = binding.root.findFocus()
+            if (viewFocus != null) {
+                getBaseActivity().handleHideKeyboard(viewFocus)
+            }
+            false
+        }
+
         datePicker.addOnPositiveButtonClickListener {
             val birthDay = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(it))
             binding.textInputEditTextBirth.setText(birthDay)
         }
-
-        binding.textInputLayoutBirth.setEndIconOnClickListener { showDatePicker() }
     }
 
     private fun updateContinueButton() {
@@ -90,13 +98,17 @@ class RegisterFragmentContentInfo : BaseFragment<FragmentRegisterContentInfoBind
         val isLastValid = checkValid(binding.textInputLayoutLast, binding.textInputEditTextLast)
         val isEmailValid = checkValid(binding.textInputLayoutEmail, binding.textInputEditTextEmail)
         val isBirthValid = checkValid(binding.textInputLayoutBirth, binding.textInputEditTextBirth)
+                && (binding.textInputEditTextBirth.text.toString() != getString(R.string.str_fra_register_content_info_til_birth_default))
         val isTownValid = checkValid(binding.textInputLayoutTown, binding.textInputEditTextTown)
 
         val isContinue = isFirstValid && isLastValid && isEmailValid && isBirthValid && isTownValid
-        viewModel.canContinueNextStep(isContinue)
+        viewModel.continueNextStep(isContinue)
     }
 
-    private fun checkValid(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText): Boolean = textInputLayout.error.isNullOrEmpty() && !textInputEditText.text.isNullOrEmpty()
+    private fun checkValid(
+        textInputLayout: TextInputLayout,
+        textInputEditText: TextInputEditText
+    ): Boolean = textInputLayout.error.isNullOrEmpty() && !textInputEditText.text.isNullOrEmpty()
 
     private fun setError(
         textInputLayout: TextInputLayout,
@@ -104,7 +116,8 @@ class RegisterFragmentContentInfo : BaseFragment<FragmentRegisterContentInfoBind
     ) {
         textInputLayout.isErrorEnabled = true
         textInputLayout.error = error
-        viewModel.canContinueNextStep(false)
+
+        viewModel.continueNextStep(false)
     }
 
     fun checkEmpty(
@@ -114,8 +127,11 @@ class RegisterFragmentContentInfo : BaseFragment<FragmentRegisterContentInfoBind
         textInputLayout.error = null
         textInputLayout.isErrorEnabled = false
 
-        if (text.isEmpty()) {
+        if (text.trim().isEmpty()) {
             val error = resources.getString(R.string.str_fra_register_error_empty)
+            setError(textInputLayout, error)
+        } else if (text.trim().length < 3) {
+            val error = resources.getString(R.string.str_fra_register_error_min)
             setError(textInputLayout, error)
         } else {
             updateContinueButton()
@@ -129,8 +145,11 @@ class RegisterFragmentContentInfo : BaseFragment<FragmentRegisterContentInfoBind
         textInputLayout.error = null
         textInputLayout.isErrorEnabled = false
 
-        if (text.isEmpty()) {
+        if (text.trim().isEmpty()) {
             val error = resources.getString(R.string.str_fra_register_error_empty)
+            setError(textInputLayout, error)
+        } else if (text.trim().length < 3) {
+            val error = resources.getString(R.string.str_fra_register_error_min)
             setError(textInputLayout, error)
         } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
             val error = resources.getString(R.string.str_fra_register_error_email)
@@ -141,17 +160,19 @@ class RegisterFragmentContentInfo : BaseFragment<FragmentRegisterContentInfoBind
     }
 
     fun showDatePicker() {
-        hideKeyboard()
-        datePicker.show(parentFragmentManager, MaterialDatePicker::class.toString())
+        if (datePicker.tag == null) {
+            hideKeyboard()
+            datePicker.showNow(childFragmentManager, MaterialDatePicker::class.toString())
+        }
     }
 
     fun setInfo() {
         val firstName = binding.textInputEditTextFirst.text.toString()
         val lastName = binding.textInputEditTextLast.text.toString()
         val email = binding.textInputEditTextEmail.text.toString()
-        val birthDate = binding.textInputEditTextBirth.text.toString()
+        val birthdate = binding.textInputEditTextBirth.text.toString()
         val homeTown = binding.textInputEditTextTown.text.toString()
 
-        viewModel.setGeneralInfo(firstName, lastName, email, birthDate, homeTown)
+        viewModel.setGeneralInfo(firstName, lastName, email, birthdate, homeTown)
     }
 }

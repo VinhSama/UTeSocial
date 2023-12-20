@@ -274,7 +274,13 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
     fun navController(): NavController? = navController
 
-    protected fun setupSnackbar(view: View) { snackbar = Snackbar.make(view, "", LENGTH_LONG).setAnchorView(view) }
+    protected fun setupSnackbar(view: View?) {
+        snackbar = if (view != null) {
+            Snackbar.make(view, "", LENGTH_LONG).setAnchorView(view)
+        } else {
+            Snackbar.make(binding.root, "", LENGTH_LONG)
+        }
+    }
 
     fun showSnackbar(message: String) = snackbar?.apply {
         setText(message)

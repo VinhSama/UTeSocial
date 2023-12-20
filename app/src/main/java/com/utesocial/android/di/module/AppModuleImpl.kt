@@ -8,8 +8,22 @@ import com.utesocial.android.feature_home.domain.use_case.HomeUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetNotifiesUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetRequestsUseCase
 import com.utesocial.android.feature_notification.domain.use_case.NotificationUseCase
+import com.utesocial.android.feature_register.domain.use_case.GetEnrollmentYearsUseCase
+import com.utesocial.android.feature_register.domain.use_case.GetFacultiesUseCase
+import com.utesocial.android.feature_register.domain.use_case.GetMajorsByFacultyUseCase
+import com.utesocial.android.feature_register.domain.use_case.GetMajorsByNumberItemUseCase
+import com.utesocial.android.feature_register.domain.use_case.RegisterUseCase
+import com.utesocial.android.feature_register.domain.use_case.RegisterUserUseCase
 
 class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
+
+    override val registerUseCase: RegisterUseCase by lazy { RegisterUseCase(
+        getFacultiesUseCase = GetFacultiesUseCase(appRepository.registerRepository),
+        getMajorsByFacultyUseCase = GetMajorsByFacultyUseCase(appRepository.registerRepository),
+        getMajorsByNumberItemUseCase = GetMajorsByNumberItemUseCase(appRepository.registerRepository),
+        getEnrollmentYearsUseCase = GetEnrollmentYearsUseCase(appRepository.registerRepository),
+        registerUserUseCase = RegisterUserUseCase(appRepository.registerRepository)
+    ) }
 
     override val communityUseCase: CommunityUseCase by lazy { CommunityUseCase(
         getCommunityInfoUseCase = GetCommunityInfoUseCase(appRepository.communityRepository)

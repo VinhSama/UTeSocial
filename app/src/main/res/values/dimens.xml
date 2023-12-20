@@ -5,6 +5,7 @@
     <dimen name="ele_level_0">0dp</dimen>
     <dimen name="ele_level_1">1dp</dimen>
     <dimen name="ele_level_2">3dp</dimen>
+    <dimen name="ele_level_3">6dp</dimen>
     <!-- BottomAppBarCustom -->
     <dimen name="bab_custom_corner_default">0dp</dimen>
     <dimen name="bab_custom_corner_max">40dp</dimen>

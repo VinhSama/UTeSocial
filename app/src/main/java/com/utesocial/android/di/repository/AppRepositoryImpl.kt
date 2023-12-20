@@ -7,8 +7,12 @@ import com.utesocial.android.feature_home.data.repository.HomeRepositoryImpl
 import com.utesocial.android.feature_home.domain.repository.HomeRepository
 import com.utesocial.android.feature_notification.data.repository.NotificationRepositoryImpl
 import com.utesocial.android.feature_notification.domain.repository.NotificationRepository
+import com.utesocial.android.feature_register.data.repository.RegisterRepositoryImpl
+import com.utesocial.android.feature_register.domain.repository.RegisterRepository
 
 class AppRepositoryImpl(private val appApi: AppApi) : AppRepository {
+
+    override val registerRepository: RegisterRepository by lazy { RegisterRepositoryImpl(appApi.registerApi) }
 
     override val communityRepository: CommunityRepository by lazy { CommunityRepositoryImpl(appApi.communityApi) }
 

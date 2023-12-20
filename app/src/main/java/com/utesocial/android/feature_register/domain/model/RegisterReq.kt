@@ -7,7 +7,7 @@ data class RegisterReq(
     var email: String = "",
     var password: String = "",
     var homeTown: String = "",
-    var birthDate: String = "",
+    var birthdate: String = "",
     var type: Int = 1,
     var details: DetailsReq = DetailsReq.StudentReq()
 )

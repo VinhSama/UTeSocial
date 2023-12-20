@@ -20,5 +20,6 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
     private fun setup() {
         val navController = binding.fragmentContainerView.getFragment<NavHostFragment>().navController
         setupNavController(navController)
+        setupSnackbar(null)
     }
 }

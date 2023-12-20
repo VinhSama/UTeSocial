@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="fragment"
+            type="com.utesocial.android.feature_register.presentation.element.partial.RegisterFragmentContentRole" />
 
     </data>
 
@@ -34,9 +39,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="66dp"
                 android:layout_marginBottom="24dp"
+                android:onClick="@{() -> fragment.chooseRole(1)}"
                 android:text="@string/str_fra_register_content_role_btn_student"
                 android:textAllCaps="false"
-                android:textSize="16sp" />
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:transitionName="@string/tra_register_content_role_student"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_lecturer"
@@ -44,18 +54,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="66dp"
                 android:layout_marginBottom="24dp"
+                android:onClick="@{() -> fragment.chooseRole(2)}"
                 android:text="@string/str_fra_register_content_role_btn_lecturer"
                 android:textAllCaps="false"
-                android:textSize="16sp" />
+                android:textColor="?attr/colorSecondary"
+                android:textSize="16sp"
+                android:transitionName="@string/tra_register_content_role_lecturer"
+                app:strokeColor="?attr/colorSecondary"
+                app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_candidate"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="66dp"
+                android:onClick="@{() -> fragment.chooseRole(3)}"
                 android:text="@string/str_fra_register_content_role_btn_candidate"
                 android:textAllCaps="false"
-                android:textSize="16sp" />
+                android:textColor="?attr/colorTertiary"
+                android:textSize="16sp"
+                android:transitionName="@string/tra_register_content_role_candidate"
+                app:strokeColor="?attr/colorTertiary"
+                app:strokeWidth="2dp" />
 
         </LinearLayout>
 

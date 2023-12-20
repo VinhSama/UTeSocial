@@ -10,7 +10,7 @@ class RegisterFragmentScreen(
     private val binding: FragmentRegisterScreenBinding
 ) : RegisterPartial(fragment, binding) {
 
-    fun navHostFragment(): NavHostFragment = binding.fragmentContainerView.getFragment<NavHostFragment>()
+    fun navHostFragment(): NavHostFragment = binding.fragmentContainerView.getFragment()
 
     fun navController(): NavController = navHostFragment().navController
 }

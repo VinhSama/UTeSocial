@@ -7,10 +7,11 @@ import com.utesocial.android.feature_register.presentation.element.RegisterFragm
 import com.utesocial.android.feature_register.presentation.util.RegisterStep
 
 class RegisterFragmentTop(
-    private val fragment: RegisterFragment,
+    fragment: RegisterFragment,
     private val binding: FragmentRegisterTopBinding
 ) : RegisterPartial(fragment, binding) {
 
+    private val context = binding.root.context
     private val itemContinue = binding.toolbar.menu.findItem(R.id.item_continue)
 
     init {
@@ -19,33 +20,40 @@ class RegisterFragmentTop(
                 fragment.nextStep()
                 return@setOnMenuItemClickListener true
             }
+
             return@setOnMenuItemClickListener false
         }
+
+        binding.toolbar.setNavigationOnClickListener { fragment.getBaseActivity().onBackPressedDispatcher.onBackPressed() }
     }
 
     fun behaviorNavigationButton(isBack: Boolean) {
         binding.toolbar.navigationIcon = if (isBack) {
-            ContextCompat.getDrawable(binding.root.context, R.drawable.ico_arrow_left_regular)
+            ContextCompat.getDrawable(context, R.drawable.ico_arrow_left_regular)
         } else {
-            ContextCompat.getDrawable(binding.root.context, R.drawable.ico_xmark_regular)
+            ContextCompat.getDrawable(context, R.drawable.ico_xmark_regular)
         }
+    }
 
-        binding.toolbar.setNavigationOnClickListener {
-            if (isBack) {
-                fragment.previousStep()
-            } else {
-                fragment.exitRegister()
+    fun behaviorIconItemContinue(registerStep: RegisterStep) {
+        when (registerStep) {
+            RegisterStep.CHOOSE_ROLE -> itemContinue.isVisible = false
+
+            RegisterStep.SET_PASSWORD -> {
+                itemContinue.isVisible = true
+                itemContinue.icon = ContextCompat.getDrawable(context, R.drawable.ico_check_regular)
+            }
+
+            else -> {
+                itemContinue.isVisible = true
+                itemContinue.icon = ContextCompat.getDrawable(context, R.drawable.ico_arrow_right_regular)
             }
         }
     }
 
-    fun behaviorItemContinueButton(registerStep: RegisterStep) {
-        when (registerStep) {
-            RegisterStep.CHOOSE_ROLE -> enableItemContinue(false)
-            RegisterStep.SET_PASSWORD -> enableItemContinue(false)
-            else -> {}
-        }
-    }
-
     fun enableItemContinue(isEnable: Boolean) { itemContinue.isEnabled = isEnable }
+
+    fun disableNavigationIcon() { binding.toolbar.navigationIcon = null }
+
+    fun enableNavigationIcon() { binding.toolbar.navigationIcon = ContextCompat.getDrawable(context, R.drawable.ico_arrow_left_regular) }
 }
