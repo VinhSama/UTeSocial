@@ -15,6 +15,7 @@ import com.utesocial.android.di.repository.AppRepositoryImpl
 import com.utesocial.android.feature_login.data.network.LoginApi
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_post.data.network.PostApi
+import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -77,6 +78,14 @@ class HiltAppModule {
     fun provideLoginUseCase(appModule: AppModule) : LoginUseCase{
         return appModule.loginUseCase
     }
+
+    @Singleton
+    @Provides
+    fun providePostUseCase(appModule: AppModule) : PostUseCase{
+        return appModule.postUseCase
+    }
+
+
 
     @Singleton
     @Provides

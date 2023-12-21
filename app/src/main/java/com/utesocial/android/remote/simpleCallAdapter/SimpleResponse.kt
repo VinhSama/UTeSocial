@@ -32,4 +32,10 @@ class SimpleResponse<T>(private var networkState: NetworkState, private val hand
     fun getError(): Error? {
         return networkState.getError()
     }
+
+    override fun toString(): String {
+        return "SimpleResponse(networkState=$networkState, handler=$handler)"
+    }
+
+
 }

@@ -14,6 +14,7 @@ class MainNetworkInterceptor(private val preferenceManager: PreferenceManager) :
     override fun intercept(chain: Interceptor.Chain): Response {
         Debug.log("MainNetworkInterceptor:origin", chain.request().url.toString())
         val requestBuilder : Request.Builder = chain.request().newBuilder()
+            .addHeader("Content-Type", "application/json")
         for(ignore in ignoreInUnauthorizedInterceptor) {
             if(chain.request().url.toUrl().toString().endsWith(ignore)) {
                 Debug.log("MainNetworkInterceptor", requestBuilder

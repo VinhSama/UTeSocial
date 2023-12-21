@@ -27,12 +27,12 @@
         <include
             android:id="@+id/info"
             layout="@layout/item_post_info"
-            app:post="@{postModel}" />
+            app:postModel="@{postModel}" />
 
         <include
             android:id="@+id/body"
             layout="@layout/item_post_body"
-            app:post="@{postModel}" />
+            app:postModel="@{postModel}" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
@@ -43,7 +43,7 @@
         <include
             android:id="@+id/interact"
             layout="@layout/item_post_interact"
-            app:post="@{postModel}" />
+            app:postModel="@{postModel}" />
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.utesocial.android.feature_post.data.datasource.paging
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_post.data.network.dto.PostBody
@@ -40,11 +41,13 @@ class PostPageKeyedDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PostModel> {
         val position = params.key ?: STARTING_PAGE_INDEX
         return suspendCoroutine { continuation ->
+            Debug.log("PostPageKeyed", "load")
             postUseCase.getFeedPostsUseCase.invoke(position, params.loadSize, userType)
                 .process(
                     disposable,
                     onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<PostBody>?> {
                         override fun onChanged(response: SimpleResponse<AppResponse<PostBody>?>) {
+                            Debug.log("PostPageKeyed", "load:onChanged:$response")
                             responseState.postValue(response.getNetworkState())
                             when (response.isSuccessful()) {
                                 true -> response.getResponseBody()?.data?.let {
@@ -57,7 +60,10 @@ class PostPageKeyedDataSource(
                                     )
                                 }
 
-                                false -> continuation.resume(LoadResult.Error(Exception(response.getError()?.undefinedMessage)))
+                                false -> {}
+                            }
+                            if(response.isFailure()) {
+                                continuation.resume(LoadResult.Error(Exception(response.getError()?.undefinedMessage)))
                             }
                         }
 

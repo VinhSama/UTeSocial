@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -22,9 +23,10 @@ import com.utesocial.android.feature_post.domain.model.PostResource
 import com.utesocial.android.feature_post.presentation.adapter.PostLoadStateAdapter
 import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
 import com.utesocial.android.feature_post.presentation.adapter.PostPagedAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override lateinit var binding: FragmentHomeBinding
@@ -81,38 +83,54 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         binding.recyclerViewPost.adapter = pagedAdapter.withLoadStateFooter(postLoadStateAdapter)
         pagedAdapter.addLoadStateListener { loadState ->
-            when(loadState.refresh) {
-                is LoadState.Loading -> {
-                    binding.recyclerViewPost.visibility = View.GONE
-                    binding.shimmerFrameLayout.startShimmer()
-                    binding.shimmerFrameLayout.visibility = View.VISIBLE
-                    binding.textViewEmpty.visibility = View.GONE
-                }
-                is LoadState.Error -> {
-                    val errorState = loadState.refresh as LoadState.Error
-                    val errorMessage = errorState.error.localizedMessage
-                    if (errorMessage != null) {
-                        getBaseActivity().showSnackbar(message = errorMessage)
-                    }
-                }
-                is LoadState.NotLoading -> {
-
+            val firstInitOrFirstFailed = loadState.source.refresh is LoadState.Loading || loadState.source.refresh is LoadState.Error
+            if(loadState.refresh is LoadState.Error) {
+                val errorState = loadState.refresh as LoadState.Error
+                val errorMessage = errorState.error.localizedMessage
+                if (errorMessage != null) {
+                    getBaseActivity().showSnackbar(message = errorMessage)
                 }
             }
-            val isInitialLoad = loadState.refresh is LoadState.NotLoading && loadState.append is LoadState.NotLoading
-            if(isInitialLoad && pagedAdapter.itemCount == 0) {
-                binding.recyclerViewPost.visibility = View.GONE
-                binding.shimmerFrameLayout.startShimmer()
-                binding.shimmerFrameLayout.visibility = View.VISIBLE
-                binding.textViewEmpty.visibility = View.GONE
-            } else {
-                binding.shimmerFrameLayout.stopShimmer()
-                binding.shimmerFrameLayout.visibility = View.GONE
-                binding.textViewEmpty.visibility = View.GONE
-            }
-            if(loadState.append is LoadState.Loading) {
-
-            }
+            binding.recyclerViewPost.isVisible = !firstInitOrFirstFailed
+            binding.shimmerFrameLayout.isVisible = !firstInitOrFirstFailed
+            binding.textViewEmpty.isVisible = loadState.source.refresh is LoadState.Error || pagedAdapter.itemCount == 0
+//            when(loadState.refresh) {
+//                is LoadState.Loading -> {
+//                    binding.recyclerViewPost.visibility = View.GONE
+//                    binding.shimmerFrameLayout.startShimmer()
+//                    binding.shimmerFrameLayout.visibility = View.VISIBLE
+//                    binding.textViewEmpty.visibility = View.GONE
+//                }
+//                is LoadState.Error -> {
+//                    val errorState = loadState.refresh as LoadState.Error
+//                    val errorMessage = errorState.error.localizedMessage
+//                    if (errorMessage != null) {
+//                        getBaseActivity().showSnackbar(message = errorMessage)
+//                    }
+//                }
+//                is LoadState.NotLoading -> {
+//                    if(pagedAdapter.itemCount == 0) {
+//                        binding.textViewEmpty.visibility = View.VISIBLE
+//                    } else {
+//                        binding.textViewEmpty.visibility = View.GONE
+//
+//                    }
+//                }
+//            }
+//            val isInitialLoad = loadState.refresh is LoadState.NotLoading && loadState.append is LoadState.NotLoading
+//            if(isInitialLoad && pagedAdapter.itemCount == 0) {
+//                binding.recyclerViewPost.visibility = View.GONE
+//                binding.shimmerFrameLayout.startShimmer()
+//                binding.shimmerFrameLayout.visibility = View.VISIBLE
+//                binding.textViewEmpty.visibility = View.GONE
+//            } else {
+//                binding.shimmerFrameLayout.stopShimmer()
+//                binding.shimmerFrameLayout.visibility = View.GONE
+//                binding.textViewEmpty.visibility = View.GONE
+//            }
+//            if(loadState.append is LoadState.Loading) {
+//
+//            }
         }
 
         viewModel.getFeedPosts(10).observe(viewLifecycleOwner) { pagingData ->
