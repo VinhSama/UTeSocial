@@ -109,9 +109,6 @@
 
     <string name="str_fra_create_post_btn_new">Thêm hình ảnh/video mới</string>
 
-    <string name="str_fra_register_error_email">Email không hợp lệ</string>
-    <string name="str_fra_register_error_empty">Thông tin bắt buộc</string>
-
     <!-- Validation Message -->
     <string name="validate_msg_field_not_empty">(*) Giá trị của trường này không được rỗng</string>
     <string name="validate_msg_field_required">(*) Trường này không được để trống</string>

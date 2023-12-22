@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import com.utesocial.android.R
+import com.utesocial.android.core.domain.model.User
+import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseActivity
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityBottom
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityScreen

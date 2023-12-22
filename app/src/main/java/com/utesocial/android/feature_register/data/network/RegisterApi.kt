@@ -14,22 +14,22 @@ import retrofit2.http.Query
 
 interface RegisterApi {
 
-    @GET("/api/v1/faculty")
+    @GET("faculty")
     suspend fun getFaculties(): ResponseDto<FacultyResponseDto>
 
-    @GET("/api/v1/major")
+    @GET("major")
     suspend fun getMajorsByFaculty(@Query("facultyId") facultyId: String): ResponseDto<MajorResponseDto>
 
-    @GET("/api/v1/major")
+    @GET("major")
     suspend fun getMajorByNumberItem(@Query("limit") limit: Int): ResponseDto<MajorResponseDto>
 
-    @GET("/api/v1/enrollment-year")
+    @GET("enrollment-year")
     suspend fun getEnrollmentYears(): ResponseDto<EnrollmentYearResponseDto>
 
     @Headers(
         "accept: application/json",
         "Content-Type: application/json"
     )
-    @POST("/api/v1/register")
+    @POST("register")
     suspend fun registerUser(@Body registerReq: RegisterReq): ResponseDto<RegisterResponseDto>
 }
