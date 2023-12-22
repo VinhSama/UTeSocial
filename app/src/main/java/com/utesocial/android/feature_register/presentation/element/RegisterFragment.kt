@@ -123,13 +123,13 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                         if (it == "Registered successfully") {
                             val action = RegisterFragmentDirections.actionRegisterLogin()
                             getBaseActivity().navController()?.navigate(action)
+                            getBaseActivity().showSnackbar(getString(R.string.str_registered_successfully))
                         } else {
                             onBackPressedCallbackExit.isEnabled = false
                             onBackPressedCallbackStep.isEnabled = true
                             topBinding.enableNavigationIcon()
+                            getBaseActivity().showSnackbar(it)
                         }
-
-                        Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

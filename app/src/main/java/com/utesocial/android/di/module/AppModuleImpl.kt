@@ -5,6 +5,9 @@ import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_community.domain.use_case.GetCommunityInfoUseCase
 import com.utesocial.android.feature_home.domain.use_case.GetSuggestPostsUseCase
 import com.utesocial.android.feature_home.domain.use_case.HomeUseCase
+import com.utesocial.android.feature_login.domain.use_case.GetLoginUseCase
+import com.utesocial.android.feature_login.domain.use_case.GetRefreshTokenUseCase
+import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetNotifiesUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetRequestsUseCase
 import com.utesocial.android.feature_notification.domain.use_case.NotificationUseCase
@@ -14,6 +17,8 @@ import com.utesocial.android.feature_register.domain.use_case.GetMajorsByFaculty
 import com.utesocial.android.feature_register.domain.use_case.GetMajorsByNumberItemUseCase
 import com.utesocial.android.feature_register.domain.use_case.RegisterUseCase
 import com.utesocial.android.feature_register.domain.use_case.RegisterUserUseCase
+import com.utesocial.android.feature_post.domain.use_case.GetFeedPostsUseCase
+import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 
 class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
 
@@ -37,4 +42,12 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
         getNotifies = GetNotifiesUseCase(appRepository.notificationRepository),
         getRequests = GetRequestsUseCase(appRepository.notificationRepository)
     ) }
+    override val loginUseCase: LoginUseCase by lazy { LoginUseCase(
+        getLoginUseCase = GetLoginUseCase(appRepository.loginRepository),
+        getRefreshTokenUseCase = GetRefreshTokenUseCase(appRepository.loginRepository)
+    ) }
+
+    override val postUseCase : PostUseCase by lazy { PostUseCase(
+        getFeedPostsUseCase = GetFeedPostsUseCase(appRepository.postRepository)
+    )}
 }
