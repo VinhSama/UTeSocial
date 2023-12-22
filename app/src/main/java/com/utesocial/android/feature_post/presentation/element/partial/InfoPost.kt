@@ -5,7 +5,7 @@ import com.utesocial.android.databinding.FragmentPostInfoBinding
 
 class InfoPost(private val binding: FragmentPostInfoBinding) : InfoPartial(binding.buttonMenu) {
 
-    /*fun setupListener(activity: BaseActivity<*>) = binding.buttonBack.setOnClickListener {
+    fun setupListener(activity: BaseActivity<*>) = binding.buttonBack.setOnClickListener {
         activity.onBackPressedDispatcher.onBackPressed()
-    }*/
+    }
 }

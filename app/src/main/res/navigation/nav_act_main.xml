@@ -44,10 +44,10 @@
         tools:layout="@layout/fragment_notification" />
 
     <fragment
-        android:id="@+id/item_fra_profile"
-        android:name="com.utesocial.android.feature_profile.presentation.element.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/item_fra_settings"
+        android:name="com.utesocial.android.feature_settings.presentation.element.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/item_fra_post"

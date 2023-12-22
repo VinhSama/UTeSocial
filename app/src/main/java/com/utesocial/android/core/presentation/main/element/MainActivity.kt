@@ -81,7 +81,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             animatorExit = R.animator.animator_act_main_bnv_exit,
             animatorPopEnter = R.animator.animator_act_main_bnv_enter,
             animatorPopExit = R.animator.animator_act_main_bnv_exit,
-            R.id.item_fra_notification, R.id.item_fra_profile
+            R.id.item_fra_notification, R.id.item_fra_settings
         )
 
                     topBinding.setup()

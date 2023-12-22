@@ -7,7 +7,27 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
+        android:id="@+id/linear_layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".feature_profile.presentation.element.ProfileFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--<com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="48dp"
+                android:layout_height="0dp" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <!--<androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/constraint_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +47,7 @@
 
         </LinearLayout>
 
-        <!--<androidx.constraintlayout.widget.ConstraintLayout
+        &lt;!&ndash;<androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp" />
 
@@ -52,8 +72,8 @@
                 android:text="SDDSDSDS"
                 android:textSize="100dp" />
 
-        </LinearLayout>-->
+        </LinearLayout>&ndash;&gt;
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 </layout>
