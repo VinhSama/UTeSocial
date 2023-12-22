@@ -19,6 +19,7 @@ import com.utesocial.android.feature_post.presentation.adapter.PostAdapter
 import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
 import com.utesocial.android.databinding.FragmentHomeBinding
 import com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel
+import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.domain.model.PostResource
 import com.utesocial.android.feature_post.presentation.adapter.PostLoadStateAdapter
 import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
@@ -54,8 +55,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             refreshData()
         }
         refreshData()
-//        setupListener()
-//        observer()
     }
 
     private fun setupBinding() {
@@ -64,8 +63,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val pagedAdapter : PostPagedAdapter by lazy {
         PostPagedAdapter(viewLifecycleOwner, object : PostModelBodyImageAdapter.PostBodyImageListener {
-            override fun onClick(postResource: PostResource) {
-                Toast.makeText(requireActivity(), "OnClick", Toast.LENGTH_SHORT).show()
+            override fun onClick(postModel: PostModel) {
+                val action = HomeFragmentDirections.actionHomePost(postModel)
+                getBaseActivity().navController()?.navigate(action)
+                getBaseActivity().handleBar(false)
             }
         })
     }
@@ -92,67 +93,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
             binding.recyclerViewPost.isVisible = !firstInitOrFirstFailed
-            binding.shimmerFrameLayout.isVisible = !firstInitOrFirstFailed
-            binding.textViewEmpty.isVisible = loadState.source.refresh is LoadState.Error || pagedAdapter.itemCount == 0
-//            when(loadState.refresh) {
-//                is LoadState.Loading -> {
-//                    binding.recyclerViewPost.visibility = View.GONE
-//                    binding.shimmerFrameLayout.startShimmer()
-//                    binding.shimmerFrameLayout.visibility = View.VISIBLE
-//                    binding.textViewEmpty.visibility = View.GONE
-//                }
-//                is LoadState.Error -> {
-//                    val errorState = loadState.refresh as LoadState.Error
-//                    val errorMessage = errorState.error.localizedMessage
-//                    if (errorMessage != null) {
-//                        getBaseActivity().showSnackbar(message = errorMessage)
-//                    }
-//                }
-//                is LoadState.NotLoading -> {
-//                    if(pagedAdapter.itemCount == 0) {
-//                        binding.textViewEmpty.visibility = View.VISIBLE
-//                    } else {
-//                        binding.textViewEmpty.visibility = View.GONE
-//
-//                    }
-//                }
-//            }
-//            val isInitialLoad = loadState.refresh is LoadState.NotLoading && loadState.append is LoadState.NotLoading
-//            if(isInitialLoad && pagedAdapter.itemCount == 0) {
-//                binding.recyclerViewPost.visibility = View.GONE
-//                binding.shimmerFrameLayout.startShimmer()
-//                binding.shimmerFrameLayout.visibility = View.VISIBLE
-//                binding.textViewEmpty.visibility = View.GONE
-//            } else {
-//                binding.shimmerFrameLayout.stopShimmer()
-//                binding.shimmerFrameLayout.visibility = View.GONE
-//                binding.textViewEmpty.visibility = View.GONE
-//            }
-//            if(loadState.append is LoadState.Loading) {
-//
-//            }
+            binding.shimmerFrameLayout.isVisible = firstInitOrFirstFailed
+            binding.textViewEmpty.isVisible = loadState.source.refresh is LoadState.Error || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
         }
-
-        viewModel.getFeedPosts(10).observe(viewLifecycleOwner) { pagingData ->
-            pagedAdapter.submitData(lifecycle, pagingData)
-        }
-
-
-//        val postAdapter = PostAdapter(this@HomeFragment, data, object : PostBodyImageListener {
-//
-//            override fun onClick(post: Post) {
-//                val action = HomeFragmentDirections.actionHomePost(post)
-//                getBaseActivity().navController()?.navigate(action)
-//                getBaseActivity().handleBar(false)
-//            }
-//        })
-//        binding.recyclerViewPost.adapter = postAdapter
     }
 
-//    private fun setupListener() = binding.swipeRefreshLayout.setOnRefreshListener {
-//        binding.swipeRefreshLayout.isRefreshing = false
-//        viewModel.getSuggestPostsUseCase()
-//    }
 
     private fun refreshData() {
         binding.swipeRefreshLayout.isRefreshing = false

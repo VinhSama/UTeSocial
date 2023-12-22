@@ -54,6 +54,7 @@ class UnauthorizedInterceptor @Inject constructor(
         var isTokenChanged = false
         accessTokenReference.set(getAccessToken())
         if(!Objects.equals(Common.getTokenFromHeader(request),getAccessToken())) {
+            Debug.log("UnauthorizedInterceptor", "isTokenChanged")
             isTokenChanged = true
         }
         if(isTokenChanged) {

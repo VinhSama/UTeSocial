@@ -59,7 +59,7 @@
                 android:layout_marginTop="@dimen/ite_post_info_tv_date_margin_top"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{postModel.createdAt.toString()}"
+                app:textTime="@{postModel.createdAt}"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/ite_post_info_tv_date" />
 

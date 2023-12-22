@@ -55,7 +55,7 @@ class PostPageKeyedDataSource(
                                         LoadResult.Page(
                                             data = it.posts,
                                             prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-                                            nextKey = if (it.posts.isEmpty()) null else position + 1
+                                            nextKey = if (it.posts.isEmpty()) null else position + (params.loadSize / 10)
                                         )
                                     )
                                 }

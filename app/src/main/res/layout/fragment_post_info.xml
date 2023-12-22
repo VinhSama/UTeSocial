@@ -8,6 +8,10 @@
             name="post"
             type="com.utesocial.android.feature_post.domain.model.Post" />
 
+        <variable
+            name="postModel"
+            type="com.utesocial.android.feature_post.domain.model.PostModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +24,7 @@
             android:id="@+id/image_view_avatar"
             android:layout_width="@dimen/fra_post_info_iv_avatar_width"
             android:layout_height="@dimen/fra_post_info_iv_avatar_height"
-            app:avatar="@{post.ownerAvatar}"
+            app:avatar="@{postModel.userAuthor.avatar.url}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toStartOf="@id/linear_layout_info"
@@ -46,7 +50,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/fra_post_info_tv_name_line_spacing_extra"
                 android:maxLines="2"
-                android:text="@{post.ownerName}"
+                android:text="@{postModel.userAuthor.username}"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/fra_post_info_tv_name"
                 android:textStyle="bold" />
@@ -58,7 +62,7 @@
                 android:layout_marginTop="@dimen/fra_post_info_tv_date_margin_top"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{post.date}"
+                app:textTime="@{postModel.createdAt}"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/fra_post_info_tv_date" />
 

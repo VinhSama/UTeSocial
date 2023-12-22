@@ -121,8 +121,8 @@ class NetworkModule {
             e.printStackTrace()
         }
         return builder
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
+//            .connectTimeout(15, TimeUnit.SECONDS)
+//            .writeTimeout(15, TimeUnit.SECONDS)
             .addNetworkInterceptor(mainNetworkInterceptor)
             .addNetworkInterceptor(loggingInterceptor)
             .addInterceptor(unauthorizedInterceptor)

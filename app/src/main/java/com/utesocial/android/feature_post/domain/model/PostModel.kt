@@ -1,25 +1,26 @@
 package com.utesocial.android.feature_post.domain.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.util.Date
 
 class PostModel(
     @SerializedName("_id")
     val id : String,
-    val userAuthor: UserAuthor,
-    val userPageAuthor: PageAuthor,
-    val group : String,
-    val content : String,
-    val postResources: List<PostResource>,
+    val userAuthor: UserAuthor?,
+    val userPageAuthor: PageAuthor?,
+    val group : String?,
+    val content : String?,
+    val postResources: List<PostResource> = emptyList(),
     val likeCounts : Int,
     val likes : List<Like>,
-    val sharedPost : String,
+    val sharedPost : String?,
     val privacyMode : Int,
     val tags : List<String>,
     val shares : Int,
     val createdAt: Date,
     val updatedAt: Date
-) {
+) : Serializable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -44,14 +45,14 @@ class PostModel(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + userAuthor.hashCode()
-        result = 31 * result + userPageAuthor.hashCode()
-        result = 31 * result + group.hashCode()
-        result = 31 * result + content.hashCode()
-        result = 31 * result + postResources.hashCode()
+        result = 31 * result + (userAuthor?.hashCode() ?: 0)
+        result = 31 * result + (userPageAuthor?.hashCode() ?: 0)
+        result = 31 * result + (group?.hashCode() ?: 0)
+        result = 31 * result + (content?.hashCode() ?: 0)
+        result = 31 * result + (postResources?.hashCode() ?: 0)
         result = 31 * result + likeCounts
         result = 31 * result + likes.hashCode()
-        result = 31 * result + sharedPost.hashCode()
+        result = 31 * result + (sharedPost?.hashCode() ?: 0)
         result = 31 * result + privacyMode
         result = 31 * result + tags.hashCode()
         result = 31 * result + shares

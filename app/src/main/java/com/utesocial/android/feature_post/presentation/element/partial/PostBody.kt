@@ -72,12 +72,12 @@ class PostBody(val binding: ItemPostBodyBinding) {
 
     fun setupImages(
         lifecycleOwner: LifecycleOwner,
-        postResources: List<PostResource>,
+        postModel: PostModel,
         listener: PostModelBodyImageAdapter.PostBodyImageListener
     ) {
         binding.textViewQuantity.text = "0/0"
 
-        val postBodyImageAdapter = PostModelBodyImageAdapter(lifecycleOwner, postResources, listener)
+        val postBodyImageAdapter = PostModelBodyImageAdapter(lifecycleOwner, postModel, listener)
         binding.viewPagerImage.adapter = postBodyImageAdapter
     }
 }

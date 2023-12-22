@@ -41,7 +41,7 @@ class PostPagedAdapter(
 
         fun bind(post: PostModel) {
             binding.postModel = post
-            bodyBinding.setupImages(lifecycleOwner, post.postResources, listener = listener)
+            bodyBinding.setupImages(lifecycleOwner, post, listener = listener)
         }
     }
 

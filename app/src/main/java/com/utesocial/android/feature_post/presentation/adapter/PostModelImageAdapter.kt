@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -16,28 +17,26 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.utesocial.android.R
-import com.utesocial.android.databinding.ItemPostBodyImageBinding
-import com.utesocial.android.feature_post.domain.model.PostModel
+import com.utesocial.android.databinding.ItemFraPostBinding
 import com.utesocial.android.feature_post.domain.model.PostResource
 
-class PostModelBodyImageAdapter(
+class PostModelImageAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val postModel: PostModel,
-    private val listener: PostBodyImageListener
-) : RecyclerView.Adapter<PostModelBodyImageAdapter.PostBodyImageViewHolder>() {
+    private val postResources: List<PostResource>
+) : Adapter<PostModelImageAdapter.PostImageViewHolder>() {
 
-    inner class PostBodyImageViewHolder(private val binding: ItemPostBodyImageBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PostImageViewHolder(private val binding: ItemFraPostBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init { binding.lifecycleOwner = lifecycleOwner }
 
-        fun bind(postResources: List<PostResource>, position: Int) {
+        fun bind(postResource: PostResource) {
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.bac_image_placeholder)
                 .error(R.drawable.bac_image_error)
             binding.apply {
                 Glide
-                    .with(imageViewContent.context)
-                    .load(postResources[position].url)
+                    .with(imageViewPost.context)
+                    .load(postResource.url)
                     .apply(requestOptions)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .listener(object : RequestListener<Drawable> {
@@ -49,7 +48,7 @@ class PostModelBodyImageAdapter(
                         ): Boolean {
                             shimmerImageView.stopShimmer()
                             shimmerImageView.visibility = View.GONE
-                            imageViewContent.visibility = View.VISIBLE
+                            imageViewPost.visibility = View.VISIBLE
                             return false
                         }
 
@@ -63,31 +62,26 @@ class PostModelBodyImageAdapter(
                             Handler().postDelayed(Runnable {
                                 shimmerImageView.stopShimmer()
                                 shimmerImageView.visibility = View.GONE
-                                imageViewContent.visibility = View.VISIBLE
+                                imageViewPost.visibility = View.VISIBLE
                             }, 300)
                             return false
                         }
 
                     })
-                    .into(imageViewContent)
-                imageViewContent.setOnClickListener {
-                    listener.onClick(postModel)
-                }
+                    .into(imageViewPost)
             }
         }
+
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostBodyImageViewHolder {
-        return PostBodyImageViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_post_body_image, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostImageViewHolder {
+        val binding = ItemFraPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PostImageViewHolder(
+            binding
+        )
     }
 
-    override fun getItemCount(): Int = postModel.postResources.size
+    override fun getItemCount(): Int = postResources.size
 
-    override fun onBindViewHolder(holder: PostBodyImageViewHolder, position: Int) {
-        holder.bind(postModel.postResources, position)
-    }
-
-    interface PostBodyImageListener {
-        fun onClick(postModel: PostModel)
-    }
+    override fun onBindViewHolder(holder: PostImageViewHolder, position: Int) = holder.bind(postResources[position])
 }

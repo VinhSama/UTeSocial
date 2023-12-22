@@ -104,4 +104,28 @@
     <string name="response_network_problem">Kết nối mạng có vấn đề, vui lòng thử lại!</string>
     <string name="response_request_canceled">Yêu cầu bị hủy, vui lòng thử lại!</string>
     <string name="loading">Đang tải</string>
+
+    <!-- Date Util -->
+    <string name="date_util_term_less">Chưa đầy</string>
+    <string name="date_util_term_a">1</string>
+    <string name="date_util_term_an">1</string>
+
+    <string name="date_util_unit_second">giây</string>
+    <string name="date_util_unit_seconds">giây</string>
+    <string name="date_util_unit_minute">phút</string>
+    <string name="date_util_unit_minutes">phút</string>
+    <string name="date_util_unit_hour">giờ</string>
+    <string name="date_util_unit_hours">giờ</string>
+    <string name="date_util_unit_day">ngày</string>
+    <string name="date_util_unit_days">ngày</string>
+    <string name="date_util_unit_month">tháng</string>
+    <string name="date_util_unit_months">tháng</string>
+    <string name="date_util_unit_year">năm</string>
+    <string name="date_util_unit_years">năm</string>
+
+    <string name="date_util_prefix_lt">chưa đầy 1</string>
+    <string name="date_util_prefix_about">khoảng</string>
+    <string name="date_util_prefix_over">hơn</string>
+    <string name="date_util_prefix_almost">gần</string>
+    <string name="date_util_suffix">trước</string>
 </resources>
