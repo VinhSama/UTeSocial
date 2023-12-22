@@ -26,6 +26,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="800"
+            app:layout_constraintLeft_toLeftOf="@id/image_view_post"
+            app:layout_constraintRight_toRightOf="@id/image_view_post"
+            app:layout_constraintTop_toTopOf="@id/image_view_post"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_post"
+            />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divide"

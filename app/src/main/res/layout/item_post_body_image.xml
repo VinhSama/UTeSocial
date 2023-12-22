@@ -28,12 +28,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/ite_post_body_image_iv_height"
                 android:scaleType="centerCrop"
-                app:image="@{image}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_image_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:shimmer_duration="800"
+                app:shimmer_auto_start="true"
+                app:layout_constraintLeft_toLeftOf="@id/image_view_content"
+                app:layout_constraintRight_toRightOf="@id/image_view_content"
+                app:layout_constraintTop_toTopOf="@id/image_view_content"
+                app:layout_constraintBottom_toBottomOf="@id/image_view_content"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

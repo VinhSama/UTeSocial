@@ -24,7 +24,8 @@
         <activity
             android:name=".core.presentation.main.element.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.UTeSocial.Start">
+            android:theme="@style/Theme.UTeSocial.Start"
+            android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
 

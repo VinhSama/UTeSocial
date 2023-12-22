@@ -1,12 +1,14 @@
 package com.utesocial.android.core.presentation.util
 
 import android.graphics.Color
+import android.net.Uri
 import android.util.TypedValue
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
+import android.widget.VideoView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -17,10 +19,27 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Common
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Date
+
+@BindingAdapter("imageUri")
+fun setImageWithUri(
+    imageView: ShapeableImageView,
+    uri: Uri?
+) = imageView.setImageURI(uri)
+
+@BindingAdapter("videoUri")
+fun setVideoWithUri(
+    videoView: VideoView,
+    uri: Uri?
+) {
+    videoView.setVideoURI(uri)
+    videoView.start()
+}
 
 @BindingAdapter(value = ["lifecycle", "numberBadge"], requireAll = true)
 fun changeNumberBadge(
@@ -124,6 +143,14 @@ fun setAvatar(
         .error(R.drawable.ico_default_profile)
 
     Glide.with(shapeableImageView.context).load(avatar).apply(requestOptions).into(shapeableImageView)
+}
+@BindingAdapter("textTime")
+fun setTextTime(
+    materialTextView: MaterialTextView,
+    date: Date
+) {
+    val textTime = Common.getTimeAgo(date, materialTextView.context)
+    materialTextView.text = textTime
 }
 
 @BindingAdapter("image")

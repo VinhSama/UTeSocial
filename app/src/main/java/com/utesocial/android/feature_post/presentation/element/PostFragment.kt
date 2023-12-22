@@ -12,6 +12,9 @@ import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.feature_post.presentation.adapter.PostImageAdapter
 import com.utesocial.android.databinding.FragmentPostBinding
+import com.utesocial.android.feature_post.presentation.adapter.PostBodyImageAdapter
+import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
+import com.utesocial.android.feature_post.presentation.adapter.PostModelImageAdapter
 import com.utesocial.android.feature_post.presentation.element.partial.InfoPost
 
 class PostFragment : BaseFragment<FragmentPostBinding>() {
@@ -20,7 +23,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     override val viewModel = null
     private val args: PostFragmentArgs by navArgs()
 
-    private val post: Post by lazy { args.post }
+//    private val post: Post? by lazy { args.post }
+    private val postModel by lazy { args.postModel }
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -42,13 +46,15 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     }
 
     private fun setupBinding() {
-        binding.post = post
+        binding.postModel = postModel
+//        binding.post = post
         InfoPost(binding.info)
     }
 
     private fun setupRecyclerView() {
-        val postImageAdapter = PostImageAdapter(this@PostFragment, post.images)
-        binding.recyclerViewImage.adapter = postImageAdapter
+//        val postImageAdapter = PostImageAdapter(this@PostFragment, post.images)
+        val postModelImageAdapter = PostModelImageAdapter(this@PostFragment, postModel.postResources)
+        binding.recyclerViewImage.adapter = postModelImageAdapter
     }
 
     private fun setupListener() {

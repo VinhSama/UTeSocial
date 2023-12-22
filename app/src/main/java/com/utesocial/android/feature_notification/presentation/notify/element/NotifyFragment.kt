@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class NotifyFragment : BaseFragment<FragmentNotifyBinding>() {
 
     override lateinit var binding: FragmentNotifyBinding
-    override val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment().requireParentFragment() })
+    override val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     private val notifyBottomSheet by lazy { NotifyBottomSheet() }
 

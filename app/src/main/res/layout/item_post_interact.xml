@@ -7,7 +7,9 @@
         <variable
             name="post"
             type="com.utesocial.android.feature_post.domain.model.Post" />
-
+        <variable
+            name="postModel"
+            type="com.utesocial.android.feature_post.domain.model.PostModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +39,7 @@
                 android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
                 android:drawableTint="@color/color_ite_post_interact_checked"
                 android:gravity="center"
-                android:text="@{@string/str_ite_post_interact_btn_like(post.numberLike)}"
+                android:text="@{@string/str_ite_post_interact_btn_like(postModel.likeCounts)}"
                 android:textColor="@color/color_ite_post_interact_checked"
                 android:textSize="@dimen/ite_post_interact_rb" />
 
@@ -64,7 +66,7 @@
                 android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
                 android:drawableTint="@color/color_ite_post_interact_checked"
                 android:gravity="center"
-                android:text="@{@string/str_ite_post_interact_btn_comment(post.numberComment)}"
+                android:text="@{@string/str_ite_post_interact_btn_comment(0)}"
                 android:textColor="@color/color_ite_post_interact_checked"
                 android:textSize="@dimen/ite_post_interact_rb" />
 

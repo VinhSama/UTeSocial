@@ -25,8 +25,8 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/item_fra_settings"
-        android:icon="@drawable/ico_gear_selected"
+        android:id="@+id/item_fra_profile"
+        android:icon="@drawable/ico_user_selected"
         android:title="@string/str_act_main_bottom_bnv_item"
         app:showAsAction="ifRoom" />
 

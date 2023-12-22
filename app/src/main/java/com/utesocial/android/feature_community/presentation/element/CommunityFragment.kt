@@ -56,9 +56,9 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
         communityAdapter = CommunityAdapter(this@CommunityFragment, groups, posts, object : PostBodyImageListener {
 
             override fun onClick(post: Post) {
-                val action = CommunityFragmentDirections.actionCommunityPost(post)
-                getBaseActivity().navController()?.navigate(action)
-                getBaseActivity().handleBar(false)
+//                val action = CommunityFragmentDirections.actionCommunityPost(post)
+//                getBaseActivity().navController()?.navigate(action)
+//                getBaseActivity().handleBar(false)
             }
         })
         binding.recyclerViewCommunity.adapter = communityAdapter

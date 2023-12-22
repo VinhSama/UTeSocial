@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature_create_post.presentation.element.CreatePostFragment">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_create"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/info"
+                layout="@layout/fragment_create_post_info" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"
+                android:lineSpacingExtra="4dp"
+                android:textSize="16sp"
+                android:hint="@string/str_fra_create_post_tiet"
+                android:paddingHorizontal="16dp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fra_post_dv_bottom_margin_top"
+                android:layout_marginHorizontal="16dp"
+                app:dividerColor="?attr/colorOutlineVariant" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_add_media"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_width="wrap_content"
+                android:text="@string/str_fra_create_post_btn_new"
+                android:layout_height="match_parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fra_post_dv_bottom_margin_top"
+                android:layout_marginHorizontal="16dp"
+                app:dividerColor="?attr/colorOutlineVariant" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_media"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
