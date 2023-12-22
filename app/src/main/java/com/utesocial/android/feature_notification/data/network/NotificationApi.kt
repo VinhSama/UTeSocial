@@ -6,9 +6,9 @@ import retrofit2.http.GET
 
 interface NotificationApi {
 
-    @GET("")
+    @GET("/")
     suspend fun getNotifies(): List<NotifyDto>
 
-    @GET("")
+    @GET("/")
     suspend fun getRequests(): List<RequestDto>
 }

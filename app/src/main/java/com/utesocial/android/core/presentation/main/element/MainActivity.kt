@@ -69,20 +69,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     setupNavController(navController)
                     setupSnackbar(binding.floatingActionButtonCreate)
 
-        NavigationUICustom.setupWithNavController(
-            this@MainActivity,
-            bottomBinding.bottomNavigationView(),
-            navController,
-            animEnter = R.anim.anim_act_main_bnv_enter,
-            animExit = R.anim.anim_act_main_bnv_exit,
-            animPopEnter = R.anim.anim_act_main_bnv_enter,
-            animPopExit = R.anim.anim_act_main_bnv_exit,
-            animatorEnter = R.animator.animator_act_main_bnv_enter,
-            animatorExit = R.animator.animator_act_main_bnv_exit,
-            animatorPopEnter = R.animator.animator_act_main_bnv_enter,
-            animatorPopExit = R.animator.animator_act_main_bnv_exit,
-            R.id.item_fra_notification, R.id.item_fra_settings
-        )
+                    NavigationUICustom.setupWithNavController(
+                        this@MainActivity,
+                        bottomBinding.bottomNavigationView(),
+                        navController,
+                        animEnter = R.anim.anim_act_main_bnv_enter,
+                        animExit = R.anim.anim_act_main_bnv_exit,
+                        animPopEnter = R.anim.anim_act_main_bnv_enter,
+                        animPopExit = R.anim.anim_act_main_bnv_exit,
+                        animatorEnter = R.animator.animator_act_main_bnv_enter,
+                        animatorExit = R.animator.animator_act_main_bnv_exit,
+                        animatorPopEnter = R.animator.animator_act_main_bnv_enter,
+                        animatorPopExit = R.animator.animator_act_main_bnv_exit,
+                        R.id.item_fra_notification, R.id.item_fra_settings
+                    )
 
                     topBinding.setup()
                     bottomBinding.setup()
