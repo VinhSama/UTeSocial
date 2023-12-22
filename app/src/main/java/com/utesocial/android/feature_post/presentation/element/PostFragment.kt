@@ -20,6 +20,7 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     override val viewModel = null
     private val args: PostFragmentArgs by navArgs()
 
+    private val infoPost by lazy { InfoPost(binding.info) }
     private val post: Post by lazy { args.post }
 
     override fun initDataBinding(
@@ -41,10 +42,7 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
         setupListener()
     }
 
-    private fun setupBinding() {
-        binding.post = post
-        InfoPost(binding.info)
-    }
+    private fun setupBinding() { binding.post = post }
 
     private fun setupRecyclerView() {
         val postImageAdapter = PostImageAdapter(this@PostFragment, post.images)
@@ -52,6 +50,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     }
 
     private fun setupListener() {
+        infoPost.setupListener(getBaseActivity())
+
         binding.textViewContent.setOnClickListener {
             val lines = if (binding.textViewContent.lineCount == 3) 1000 else 3
             ObjectAnimator.ofInt(binding.textViewContent, "maxLines", lines).apply {

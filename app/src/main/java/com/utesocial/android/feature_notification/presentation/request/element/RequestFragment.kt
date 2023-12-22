@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class RequestFragment : BaseFragment<FragmentRequestBinding>() {
 
     override lateinit var binding: FragmentRequestBinding
-    override val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment().requireParentFragment() })
+    override val viewModel: NotificationViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     private val data: ArrayList<Request> by lazy { ArrayList() }
 

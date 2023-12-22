@@ -6,6 +6,7 @@
     <string name="des_act_main_fab_create">Tạo bài viết mới</string>
     <string name="des_act_main_top_sb_avatar">Mở giao diện tài khoản</string>
     <string name="des_fra_notification_tl">Hiển thị thông báo và yêu cầu bạn bè</string>
+    <string name="des_fra_post_info_btn_back">Trở lại giao diện trước</string>
     <string name="des_fra_post_info_btn_menu">Mở menu thao tác với bài viết</string>
     <string name="des_ite_fra_notify_btn_menu">Mở menu tùy chọn thông báo</string>
     <string name="des_ite_fra_request_btn_accept">Chấp nhận yêu cầu kết bạn</string>
@@ -27,12 +28,14 @@
     <string name="str_bs_notify_btn_delete">Gỡ bỏ thông báo này</string>
     <string name="str_bs_notify_btn_mark">Đánh dấu là đã đọc</string>
     <string name="str_fra_community_tv_empty">Không có bài viết đề xuất</string>
+    <string name="str_fra_create_post_info_tv_title">Tạo bài viết</string>
     <string name="str_fra_home_tv_empty">Không có bài viết đề xuất</string>
     <string name="str_fra_notification_tab_title_notify">Thông báo</string>
     <string name="str_fra_notification_tab_title_request">Yêu cầu</string>
     <string name="str_fra_notify_tv_empty">Không có thông báo</string>
     <string name="str_fra_post_btn_menu_remove">Gỡ bài viết</string>
     <string name="str_fra_post_btn_menu_report">Báo cáo vi phạm</string>
+    <string name="str_fra_post_info_tv_title">Chi tiết bài viết</string>
     <string name="str_fra_register_content_candidate_til_identity_hint">Mã thí sinh</string>
     <string name="str_fra_register_content_candidate_til_major_hint">Ngành đăng ký</string>
     <string name="str_fra_register_content_candidate_til_school_hint">Trường cấp ba</string>
@@ -95,9 +98,14 @@
     <string name="str_ite_post_body_tv_quantity">%1$d/%2$d</string>
     <string name="str_ite_post_interact_btn_comment">%d bình luận</string>
     <string name="str_ite_post_interact_btn_like">%d lượt thích</string>
+    <string name="str_fra_create_post_tiet">Nhập nội dung bài viết</string>
+    <string name="str_registered_successfully">Đăng ký tài khoản thành công. Vui lòng đăng nhập lại</string>
+    <string name="str_remove_item_create_post">Đã xóa file phương tiện</string>
 
     <!-- Transition -->
     <string name="tra_register_content_role_candidate">RegisterContentRoleCandidate</string>
     <string name="tra_register_content_role_lecturer">RegisterContentRoleLecturer</string>
     <string name="tra_register_content_role_student">RegisterContentRoleStudent</string>
+
+    <string name="str_fra_create_post_btn_new">Thêm hình ảnh/video mới</string>
 </resources>

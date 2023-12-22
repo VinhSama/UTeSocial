@@ -29,7 +29,6 @@
                 android:outlineSpotShadowColor="@android:color/black"
                 android:paddingHorizontal="@dimen/act_main_top_sb_padding_horizontal"
                 app:elevation="@dimen/ele_level_2"
-                app:menu="@menu/menu_act_main_sb"
                 app:navigationIconTint="?attr/colorOnSurface"
                 tools:targetApi="p" />
 

@@ -49,14 +49,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun setup(splashScreen: SplashScreen) {
         splashScreen.setKeepOnScreenCondition { true }
 
-        val isLogin = intent.getBooleanExtra("login", false)
-        if (!isLogin) {
-            Intent(this@MainActivity, AuthActivity::class.java).apply {
-                startActivity(this)
-                finish()
-            }
-        }
-
         disableDragActionBar(topBinding.appBarLayout())
         setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
         setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
@@ -77,7 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             animatorExit = R.animator.animator_act_main_bnv_exit,
             animatorPopEnter = R.animator.animator_act_main_bnv_enter,
             animatorPopExit = R.animator.animator_act_main_bnv_exit,
-            R.id.item_fra_notification, R.id.item_fra_settings
+            R.id.item_fra_notification, R.id.item_fra_profile
         )
 
         topBinding.setup()
@@ -87,6 +79,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun setupListener() {
+        binding.floatingActionButtonCreate.setOnClickListener {
+            screenBinding.navController().navigate(R.id.item_fra_create_post)
+            handleBar(false)
+        }
         topBinding.setListener(searchBinding.searchView())
     }
 }
