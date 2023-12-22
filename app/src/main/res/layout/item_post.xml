@@ -8,6 +8,9 @@
             name="post"
             type="com.utesocial.android.feature_post.domain.model.Post" />
 
+        <variable
+            name="postModel"
+            type="com.utesocial.android.feature_post.domain.model.PostModel" />
     </data>
 
     <LinearLayout
@@ -24,12 +27,12 @@
         <include
             android:id="@+id/info"
             layout="@layout/item_post_info"
-            app:post="@{post}" />
+            app:postModel="@{postModel}" />
 
         <include
             android:id="@+id/body"
             layout="@layout/item_post_body"
-            app:post="@{post}" />
+            app:postModel="@{postModel}" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
@@ -40,7 +43,7 @@
         <include
             android:id="@+id/interact"
             layout="@layout/item_post_interact"
-            app:post="@{post}" />
+            app:postModel="@{postModel}" />
 
     </LinearLayout>
 

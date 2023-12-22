@@ -10,6 +10,9 @@
         <variable
             name="post"
             type="com.utesocial.android.feature_post.domain.model.Post" />
+        <variable
+            name="postModel"
+            type="com.utesocial.android.feature_post.domain.model.PostModel" />
 
     </data>
 
@@ -28,7 +31,7 @@
             <include
                 android:id="@+id/info"
                 layout="@layout/fragment_post_info"
-                app:post="@{post}" />
+                app:postModel="@{postModel}" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_view_content"
@@ -40,7 +43,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/fra_post_tv_content_line_spacing_extra"
                 android:maxLines="3"
-                android:text="@{post.content}"
+                android:text="@{postModel.content}"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="@dimen/fra_post_tv_content" />
 
@@ -68,7 +71,7 @@
                 android:nestedScrollingEnabled="true"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{post.images.empty ? View.GONE : View.VISIBLE}"
+                android:visibility="@{postModel.postResources.empty ? View.GONE : View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>

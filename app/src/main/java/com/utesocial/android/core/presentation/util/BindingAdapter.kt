@@ -19,10 +19,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Common
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 @BindingAdapter("imageUri")
 fun setImageWithUri(
@@ -141,6 +143,14 @@ fun setAvatar(
         .error(R.drawable.ico_default_profile)
 
     Glide.with(shapeableImageView.context).load(avatar).apply(requestOptions).into(shapeableImageView)
+}
+@BindingAdapter("textTime")
+fun setTextTime(
+    materialTextView: MaterialTextView,
+    date: Date
+) {
+    val textTime = Common.getTimeAgo(date, materialTextView.context)
+    materialTextView.text = textTime
 }
 
 @BindingAdapter("image")

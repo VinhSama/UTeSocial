@@ -55,9 +55,13 @@
         android:label="PostFragment"
         tools:layout="@layout/fragment_post">
 
+<!--        <argument-->
+<!--            android:name="post"-->
+<!--            app:argType="com.utesocial.android.feature_post.domain.model.Post" />-->
         <argument
-            android:name="post"
-            app:argType="com.utesocial.android.feature_post.domain.model.Post" />
+            android:name="postModel"
+            app:argType="com.utesocial.android.feature_post.domain.model.PostModel"
+            />
 
     </fragment>
 

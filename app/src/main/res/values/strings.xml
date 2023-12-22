@@ -108,4 +108,48 @@
     <string name="tra_register_content_role_student">RegisterContentRoleStudent</string>
 
     <string name="str_fra_create_post_btn_new">Thêm hình ảnh/video mới</string>
+
+    <string name="str_fra_register_error_email">Email không hợp lệ</string>
+    <string name="str_fra_register_error_empty">Thông tin bắt buộc</string>
+
+    <!-- Validation Message -->
+    <string name="validate_msg_field_not_empty">(*) Giá trị của trường này không được rỗng</string>
+    <string name="validate_msg_field_required">(*) Trường này không được để trống</string>
+    <string name="validate_msg_pwd_field_min_length">(*) Độ dài chuỗi phải lớn hơn hoặc bằng 8</string>
+    <string name="validate_msg_field_max_length_256">(*) Độ dài tối đa của chuỗi là 256 kí tự</string>
+    <string name="validate_msg_field_email_invalid">(*) Địa chỉ email không khả dụng</string>
+
+    <!-- Unknown Error -->
+    <string name="has_error">Đã xảy ra lỗi. Vui lòng thử lại sau!</string>
+
+    <!-- Connection Error -->
+    <string name="response_request_timeout">Yêu cầu hết hạn, vui lòng thử lại!</string>
+    <string name="response_connection_timeout">Kết nối hết hạn, vui lòng thử lại!</string>
+    <string name="response_network_problem">Kết nối mạng có vấn đề, vui lòng thử lại!</string>
+    <string name="response_request_canceled">Yêu cầu bị hủy, vui lòng thử lại!</string>
+    <string name="loading">Đang tải</string>
+
+    <!-- Date Util -->
+    <string name="date_util_term_less">Chưa đầy</string>
+    <string name="date_util_term_a">1</string>
+    <string name="date_util_term_an">1</string>
+
+    <string name="date_util_unit_second">giây</string>
+    <string name="date_util_unit_seconds">giây</string>
+    <string name="date_util_unit_minute">phút</string>
+    <string name="date_util_unit_minutes">phút</string>
+    <string name="date_util_unit_hour">giờ</string>
+    <string name="date_util_unit_hours">giờ</string>
+    <string name="date_util_unit_day">ngày</string>
+    <string name="date_util_unit_days">ngày</string>
+    <string name="date_util_unit_month">tháng</string>
+    <string name="date_util_unit_months">tháng</string>
+    <string name="date_util_unit_year">năm</string>
+    <string name="date_util_unit_years">năm</string>
+
+    <string name="date_util_prefix_lt">chưa đầy 1</string>
+    <string name="date_util_prefix_about">khoảng</string>
+    <string name="date_util_prefix_over">hơn</string>
+    <string name="date_util_prefix_almost">gần</string>
+    <string name="date_util_suffix">trước</string>
 </resources>
