@@ -17,6 +17,9 @@ import com.utesocial.android.R
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.databinding.FragmentProfileBinding
+import com.utesocial.android.databinding.FragmentProfileCandidateBinding
+import com.utesocial.android.databinding.FragmentProfileLecturerBinding
+import com.utesocial.android.databinding.FragmentProfileStudentBinding
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
@@ -82,7 +85,28 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onDestroyView()
     }
 
-    private fun setup() = bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
+    private fun setup() {
+        when (user.type) {
+            User.UserType.CollegeStudent -> {
+                val profileStudentBinding: FragmentProfileStudentBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_student, binding.linearLayoutInfo, false)
+                binding.frameLayoutInfo.addView(profileStudentBinding.root)
+            }
+
+            User.UserType.Lecturer -> {
+                val profileLecturerBinding: FragmentProfileLecturerBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_lecturer, binding.linearLayoutInfo, false)
+                binding.frameLayoutInfo.addView(profileLecturerBinding.root)
+            }
+
+            User.UserType.Candidate -> {
+                val profileCandidateBinding: FragmentProfileCandidateBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_candidate, binding.linearLayoutInfo, false)
+                binding.frameLayoutInfo.addView(profileCandidateBinding.root)
+            }
+
+            else -> {}
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
+    }
 
     private fun setupBinding() { binding.user = user }
 }
