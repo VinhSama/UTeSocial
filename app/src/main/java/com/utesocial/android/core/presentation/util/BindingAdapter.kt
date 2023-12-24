@@ -146,11 +146,13 @@ fun setAvatar(
 }
 @BindingAdapter("textTime")
 fun setTextTime(
-    materialTextView: MaterialTextView,
+    materialTextView: MaterialTextView?,
     date: Date
 ) {
-    val textTime = Common.getTimeAgo(date, materialTextView.context)
-    materialTextView.text = textTime
+    materialTextView?.apply {
+        val textTime = Common.getTimeAgo(date, context)
+        materialTextView.text = textTime
+    }
 }
 
 @BindingAdapter("image")

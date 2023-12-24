@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.feature_post.presentation.adapter.PostAdapter
@@ -49,16 +50,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        setupBinding()
         setupRecyclerView()
         binding.swipeRefreshLayout.setOnRefreshListener {
             refreshData()
         }
-        refreshData()
-    }
-
-    private fun setupBinding() {
-        binding.viewModel = viewModel
+        viewLifecycleOwner.lifecycleScope.launch {
+            Debug.log("HomeFragment", "Start Refresh Data")
+            refreshData()
+        }
     }
 
     private val pagedAdapter : PostPagedAdapter by lazy {
@@ -84,7 +83,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         binding.recyclerViewPost.adapter = pagedAdapter.withLoadStateFooter(postLoadStateAdapter)
         pagedAdapter.addLoadStateListener { loadState ->
-            val firstInitOrFirstFailed = loadState.source.refresh is LoadState.Loading || loadState.source.refresh is LoadState.Error
+            val loadingState = loadState.source.refresh is LoadState.Loading
+            val firstFailed = loadState.source.refresh is LoadState.Error
             if(loadState.refresh is LoadState.Error) {
                 val errorState = loadState.refresh as LoadState.Error
                 val errorMessage = errorState.error.localizedMessage
@@ -92,9 +92,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     getBaseActivity().showSnackbar(message = errorMessage)
                 }
             }
-            binding.recyclerViewPost.isVisible = !firstInitOrFirstFailed
-            binding.shimmerFrameLayout.isVisible = firstInitOrFirstFailed
-            binding.textViewEmpty.isVisible = loadState.source.refresh is LoadState.Error || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
+            binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
+            Debug.log("HomeFragment", "recyclerViewPost - visible: " + binding.recyclerViewPost.isVisible)
+            Debug.log("HomeFragment", "loadingState: $loadingState")
+            Debug.log("HomeFragment", "firstFailed: $firstFailed")
+
+            binding.shimmerFrameLayout.isVisible = loadingState
+            binding.textViewEmpty.isVisible = firstFailed || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
         }
     }
 

@@ -31,14 +31,11 @@ class PostModelBodyImageAdapter(
         init { binding.lifecycleOwner = lifecycleOwner }
 
         fun bind(postResources: List<PostResource>, position: Int) {
-            val requestOptions = RequestOptions()
-                .placeholder(R.drawable.bac_image_placeholder)
-                .error(R.drawable.bac_image_error)
             binding.apply {
                 Glide
                     .with(imageViewContent.context)
                     .load(postResources[position].url)
-                    .apply(requestOptions)
+                    .error(R.drawable.bac_image_error)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(
@@ -60,7 +57,7 @@ class PostModelBodyImageAdapter(
                             dataSource: DataSource,
                             isFirstResource: Boolean
                         ): Boolean {
-                            Handler().postDelayed(Runnable {
+                            Handler().postDelayed({
                                 shimmerImageView.stopShimmer()
                                 shimmerImageView.visibility = View.GONE
                                 imageViewContent.visibility = View.VISIBLE

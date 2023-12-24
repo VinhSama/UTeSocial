@@ -7,11 +7,12 @@ import com.utesocial.android.core.presentation.main.element.MainActivity
 import com.utesocial.android.databinding.ActivityMainScreenBinding
 
 class MainActivityScreen(
-    activity: MainActivity,
+    val activity: MainActivity,
     private val binding: ActivityMainScreenBinding
 ) : MainPartial(activity, binding) {
 
     fun frameLayoutScreen(): FrameLayout = binding.frameLayoutScreen
 
     fun navController(): NavController = binding.fragmentContainerView.getFragment<NavHostFragment>().navController
+
 }

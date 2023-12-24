@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.utesocial.android.core.data.util.Constants
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.domain.util.ValidationResult
@@ -71,7 +72,10 @@ class LoginViewModel @Inject constructor (
             .process(disposable, onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<LoginBody>?> {
                 override fun onChanged(response: SimpleResponse<AppResponse<LoginBody>?>) {
                     if(response.isSuccessful()) {
-                        response.getResponseBody()?.data?.let { storeAndSetupUIState(it) }
+                        response.getResponseBody()?.data?.let {
+                            Debug.log("loginSuccess", it.user.toString())
+                            storeAndSetupUIState(it)
+                        }
                         mutableLiveData.postValue(response)
                     } else {
                         mutableLiveData.postValue(response)

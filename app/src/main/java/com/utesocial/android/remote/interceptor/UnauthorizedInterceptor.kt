@@ -1,5 +1,6 @@
 package com.utesocial.android.remote.interceptor
 
+import androidx.lifecycle.MutableLiveData
 import com.utesocial.android.core.data.network.dto.TokensBody
 import com.utesocial.android.core.data.util.Common
 import com.utesocial.android.core.data.util.Constants
@@ -11,6 +12,7 @@ import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
 import java.util.Objects
@@ -20,7 +22,8 @@ import javax.inject.Provider
 
 class UnauthorizedInterceptor @Inject constructor(
     private val preferenceManager: PreferenceManager,
-    private val loginApiProvider: Provider<LoginApi>
+    private val loginApiProvider: Provider<LoginApi>,
+    private val unauthorizedEventBroadcast: MutableLiveData<Boolean>,
 ) : Interceptor {
 
 
@@ -63,31 +66,69 @@ class UnauthorizedInterceptor @Inject constructor(
                 .build()
         }
         var response = chain.proceed(request)
-        if(response.code == 401) {
-            response.close()
-            var originRequest : Request
-            synchronized(this) {
-                val currentTokenInRequest = Common.getTokenFromHeader(request)
-                if(currentTokenInRequest != null && !Objects.equals(currentTokenInRequest, getAccessToken())) {
-                    val tokenResponse = refreshToken()
-                    if(tokenResponse != null && tokenResponse.isSuccessful()) {
+        when(response.code) {
+            401 -> {
+                response.close()
+                var originRequest : Request
+                synchronized(this) {
+                    val currentTokenInRequest = Common.getTokenFromHeader(request)
+                    if(currentTokenInRequest != null && !Objects.equals(currentTokenInRequest, getAccessToken())) {
+                        val tokenResponse = refreshToken()
+                        if(tokenResponse != null && tokenResponse.isSuccessful()) {
+                            originRequest = request.newBuilder()
+                                .removeHeader("Authorization")
+                                .build()
+                            response = chain.proceed(originRequest)
+                        } else {
+                            /* Post unauthorized event to global. Change user state to sign-out  */
+                            unauthorizedEventBroadcast.postValue(true)
+                        }
+                    } else {
                         originRequest = request.newBuilder()
                             .removeHeader("Authorization")
                             .build()
                         response = chain.proceed(originRequest)
-                    } else {
-                        /* Post unauthorized event to global. Change user state to sign-out  */
                     }
-                } else {
-                    originRequest = request.newBuilder()
-                        .removeHeader("Authorization")
-                        .build()
-                    response = chain.proceed(originRequest)
+                    return response
+                }
+            }
+            403 -> {
+                response.body?.apply {
+                    val errorMessage = Common.getDetailMessageBody<String>(this, "error")
+                    if(errorMessage.equals("Invalid token")) {
+                        unauthorizedEventBroadcast.postValue(true)
+                    }
                 }
                 return response
             }
+            else -> return response
         }
-        return response
+//        if(response.code == 401) {
+//            response.close()
+//            var originRequest : Request
+//            synchronized(this) {
+//                val currentTokenInRequest = Common.getTokenFromHeader(request)
+//                if(currentTokenInRequest != null && !Objects.equals(currentTokenInRequest, getAccessToken())) {
+//                    val tokenResponse = refreshToken()
+//                    if(tokenResponse != null && tokenResponse.isSuccessful()) {
+//                        originRequest = request.newBuilder()
+//                            .removeHeader("Authorization")
+//                            .build()
+//                        response = chain.proceed(originRequest)
+//                    } else {
+//                        /* Post unauthorized event to global. Change user state to sign-out  */
+//                        unauthorizedEventBroadcast.postValue(true)
+//                    }
+//                } else {
+//                    originRequest = request.newBuilder()
+//                        .removeHeader("Authorization")
+//                        .build()
+//                    response = chain.proceed(originRequest)
+//                }
+//                return response
+//            }
+//        }
+
     }
     @Synchronized
     fun refreshToken() : SimpleResponse<AppResponse<TokensBody>?>? {
