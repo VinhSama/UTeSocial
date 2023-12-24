@@ -1,6 +1,12 @@
 package com.utesocial.android.core.domain.model
 
+import com.google.gson.TypeAdapter
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
+import com.google.gson.stream.JsonWriter
+import com.utesocial.android.core.data.util.Common
 import java.io.Serializable
 import java.util.Date
 
@@ -46,11 +52,34 @@ data class User(
         null,
         null
     )
-
-    enum class UserType(val userType: Int) {
+    @JsonAdapter(UserTypeAdapter::class)
+    enum class UserType(val type: Int) {
+        UNDEFINED(0),
         CollegeStudent(1),
         Lecturer(2),
-        Candidate(3)
+        Candidate(3);
+
+        companion object {
+            fun fromInt(value: Int): UserType? {
+                return entries.find { it.type == value }
+            }
+        }
+
+    }
+
+    class UserTypeAdapter : TypeAdapter<UserType>() {
+        override fun write(out: JsonWriter?, value: UserType?) {
+            out?.value(value?.type)
+        }
+
+        override fun read(`in`: JsonReader?): UserType? {
+            if(`in`?.peek() == JsonToken.NULL) {
+                `in`.nextNull()
+                return null
+            }
+            return UserType.fromInt(`in`?.nextInt() ?: 0)
+        }
+
     }
 
 }

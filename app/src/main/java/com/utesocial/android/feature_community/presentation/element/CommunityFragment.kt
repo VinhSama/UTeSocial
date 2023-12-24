@@ -43,9 +43,9 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         setupBinding()
-        setupRecyclerView()
-        setupListener()
-        observer()
+//        setupRecyclerView()
+//        setupListener()
+//        observer()
     }
 
     private fun setupBinding() {

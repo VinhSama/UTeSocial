@@ -9,6 +9,8 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.utesocial.android.UteSocial
+import com.utesocial.android.core.data.util.Constants
+import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -18,10 +20,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    authorizedUserObservable: BehaviorSubject<User>, ) : ViewModel() {
+    private val authorizedUserObservable: BehaviorSubject<User>,
+    private val preferenceManager: PreferenceManager,
+    val unauthorizedEventBroadcast: MutableLiveData<Boolean>,
+    ) : ViewModel() {
     val authorizedUser = MutableLiveData<User>()
     private val disposable = CompositeDisposable()
+
     init {
+
         disposable.add(
             authorizedUserObservable
                 .distinctUntilChanged()
@@ -32,16 +39,14 @@ class MainViewModel @Inject constructor(
                 }
         )
     }
-//    companion object {
-//
-//        val Factory: ViewModelProvider.Factory = viewModelFactory {
-//            initializer {
-//                val savedStateHandle = createSavedStateHandle()
-//                val application = this[APPLICATION_KEY] as UteSocial
-//                MainViewModel(savedStateHandle)
-//            }
-//        }
-//    }
+
+    fun handleUnauthorizedEvent() {
+        preferenceManager.remove(Constants.CURRENT_USER)
+        preferenceManager.remove(Constants.ACCESS_TOKEN)
+        preferenceManager.remove(Constants.REFRESH_TOKEN)
+        authorizedUserObservable.onNext(User.EMPTY)
+        unauthorizedEventBroadcast.postValue(false)
+    }
 
     override fun onCleared() {
         if(disposable.isDisposed) {

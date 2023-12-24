@@ -5,10 +5,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel" />
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

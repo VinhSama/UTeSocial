@@ -1,6 +1,7 @@
 package com.utesocial.android.di.module
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.utesocial.android.core.data.util.Constants
@@ -92,10 +93,19 @@ class HiltAppModule {
     fun provideAuthorizedUser(preferenceManager: PreferenceManager) : BehaviorSubject<User> {
         if(preferenceManager.getString(Constants.ACCESS_TOKEN, null) != null && preferenceManager.getString(Constants.CURRENT_USER, null) != null) {
             val user = preferenceManager.getObject(Constants.CURRENT_USER, User::class.java)
+            Debug.log("CurrentUser", user.toString())
+            Debug.log("AccessToken", "" + preferenceManager.getString(Constants.ACCESS_TOKEN, null))
+            Debug.log("RefreshToken", "" + preferenceManager.getString(Constants.REFRESH_TOKEN, null))
             if(user != null) {
                 return BehaviorSubject.createDefault(user)
             }
         }
         return BehaviorSubject.createDefault(User.EMPTY)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUnauthorizedEventBroadcast() : MutableLiveData<Boolean> {
+        return MutableLiveData<Boolean>(false)
     }
 }

@@ -8,4 +8,5 @@ class CreatePostFragmentInfo(private val binding: FragmentCreatePostInfoBinding)
     fun setupListener(activity: BaseActivity<*>) = binding.buttonBack.setOnClickListener {
         activity.onBackPressedDispatcher.onBackPressed()
     }
+
 }

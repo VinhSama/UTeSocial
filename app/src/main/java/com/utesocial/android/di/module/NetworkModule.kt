@@ -1,6 +1,7 @@
 package com.utesocial.android.di.module
 
 import android.annotation.SuppressLint
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.utesocial.android.BuildConfig
 import com.utesocial.android.core.data.util.Constants
@@ -64,9 +65,10 @@ class NetworkModule {
     @Provides
     fun provideUnauthorizedInterceptor(
         preferenceManager: PreferenceManager,
-        loginApiProvider: Provider<LoginApi>
+        loginApiProvider: Provider<LoginApi>,
+        unauthorizedEventBroadcast: MutableLiveData<Boolean>
     ): UnauthorizedInterceptor {
-        return UnauthorizedInterceptor(preferenceManager, loginApiProvider)
+        return UnauthorizedInterceptor(preferenceManager, loginApiProvider, unauthorizedEventBroadcast)
     }
 
     @Singleton

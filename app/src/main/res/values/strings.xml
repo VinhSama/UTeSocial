@@ -149,4 +149,8 @@
     <string name="date_util_prefix_over">hơn</string>
     <string name="date_util_prefix_almost">gần</string>
     <string name="date_util_suffix">trước</string>
+
+    <!-- Unauthorized Dialog-->
+    <string name="title_dialog_unauthorized">Xác thực thất bại</string>
+    <string name="msg_dialog_unauthorized">Phiên đăng nhập không khả dụng hoặc đã hết hạn. Vui lòng đăng nhập lại để tiếp tục!</string>
 </resources>

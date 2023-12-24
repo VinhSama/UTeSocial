@@ -9,9 +9,11 @@ data class PostResource (
     val url: String?,
     val resourceType: ResourceType?
 ) : Serializable {
-    enum class ResourceType(val type: String) {
-        IMAGE("Image"),
-        VIDEO("Video")
+    enum class ResourceType() {
+        @SerializedName("Image")
+        IMAGE,
+        @SerializedName("Video")
+        VIDEO
     }
 
     override fun equals(other: Any?): Boolean {

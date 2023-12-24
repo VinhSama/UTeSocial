@@ -115,32 +115,36 @@ class BottomAppBarCustom : BottomAppBar {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        setFAB()
-        setCorner()
+        if(!isInEditMode && this@BottomAppBarCustom.parent != null) {
+            setFAB()
+            setCorner()
+        }
+
     }
 
     private fun setFAB() {
         if (fabId != fabIdDefault) {
-            val view: View = (this@BottomAppBarCustom.parent as View).findViewById(fabId)
+            (this@BottomAppBarCustom.parent as View)?.let {
+                findViewById<View>(fabId)?.let { view ->
+                    if(view::class == FloatingActionButton::class) {
+                        val floatingActionButton = view as FloatingActionButton
+                        val positionDown = resources.getDimension(R.dimen.tra_act_main_bnv_height)
+                        val positionUp = resources.getDimension(R.dimen.tra_act_main_fab_margin_bottom)
+                        val durationDown = resources.getInteger(R.integer.duration_200).toLong()
+                        val durationUp = resources.getInteger(R.integer.duration_85).toLong()
 
-            if (view::class == FloatingActionButton::class) {
-                val floatingActionButton = view as FloatingActionButton
+                        oaScrollUp = ObjectAnimator.ofFloat(floatingActionButton, "translationY", positionDown, positionUp).apply {
+                            duration = durationUp
+                            doOnCancel { floatingActionButton.translationY = positionUp }
+                        }
+                        oaScrollDown = ObjectAnimator.ofFloat(floatingActionButton, "translationY", positionUp, positionDown).apply {
+                            duration = durationDown
+                            doOnCancel { floatingActionButton.translationY = positionDown }
+                        }
 
-                val positionDown = resources.getDimension(R.dimen.tra_act_main_bnv_height)
-                val positionUp = resources.getDimension(R.dimen.tra_act_main_fab_margin_bottom)
-                val durationDown = resources.getInteger(R.integer.duration_200).toLong()
-                val durationUp = resources.getInteger(R.integer.duration_85).toLong()
-
-                oaScrollUp = ObjectAnimator.ofFloat(floatingActionButton, "translationY", positionDown, positionUp).apply {
-                    duration = durationUp
-                    doOnCancel { floatingActionButton.translationY = positionUp }
+                        addOnScrollStateChangedListener(onScrollBehavior)
+                    }
                 }
-                oaScrollDown = ObjectAnimator.ofFloat(floatingActionButton, "translationY", positionUp, positionDown).apply {
-                    duration = durationDown
-                    doOnCancel { floatingActionButton.translationY = positionDown }
-                }
-
-                addOnScrollStateChangedListener(onScrollBehavior)
             }
         }
     }
