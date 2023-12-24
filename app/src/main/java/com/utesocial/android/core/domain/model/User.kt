@@ -18,7 +18,7 @@ data class User(
     var lastName: String,
     var email: String,
     var username: String,
-    var hometown: String,
+    var homeTown: String,
     var birthdate: String,
     var avatar: Avatar? = null,
     var status: Int?,

@@ -127,6 +127,9 @@ class RegisterFragmentContentStudent : BaseFragment<FragmentRegisterContentStude
 
         binding.textInputLayoutMajor.isEnabled = !binding.textInputEditTextMajor.text.isNullOrEmpty()
         binding.textInputLayoutEnrollment.isEnabled = !binding.textInputEditTextEnrollment.text.isNullOrEmpty()
+
+        checkEmptyFaculty()
+        checkEmptyMajor()
     }
 
     private fun setupBinding() { binding.fragment = this@RegisterFragmentContentStudent }
@@ -320,7 +323,7 @@ class RegisterFragmentContentStudent : BaseFragment<FragmentRegisterContentStude
         if (text.trim().isEmpty()) {
             val error = resources.getString(R.string.str_fra_register_error_empty)
             setError(textInputLayout, error)
-        } else if (text.trim().length < 3) {
+        } else if (text.trim().length < 2) {
             val error = resources.getString(R.string.str_fra_register_error_min)
             setError(textInputLayout, error)
         } else {

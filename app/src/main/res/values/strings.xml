@@ -82,7 +82,7 @@
     <string name="str_fra_register_dialog_major_positive">OK</string>
     <string name="str_fra_register_error_email">Email không hợp lệ</string>
     <string name="str_fra_register_error_empty">Thông tin bắt buộc</string>
-    <string name="str_fra_register_error_min">Yêu cầu tối thiểu 3 ký tự</string>
+    <string name="str_fra_register_error_min">Yêu cầu tối thiểu 2 ký tự</string>
     <string name="str_fra_register_error_pass_digit">Mật khẩu phải có ít nhất 1 ký tự số</string>
     <string name="str_fra_register_error_pass_lower">Mật khẩu phải có ít nhất 1 chữ thường</string>
     <string name="str_fra_register_error_pass_match">Mật khẩu không khớp</string>
@@ -99,7 +99,6 @@
     <string name="str_ite_post_interact_btn_comment">%d bình luận</string>
     <string name="str_ite_post_interact_btn_like">%d lượt thích</string>
     <string name="str_fra_create_post_tiet">Nhập nội dung bài viết</string>
-    <string name="str_registered_successfully">Đăng ký tài khoản thành công. Vui lòng đăng nhập lại</string>
     <string name="str_remove_item_create_post">Đã xóa file phương tiện</string>
     <string name="str_fra_create_post_btn_new">Thêm hình ảnh/video mới</string>
     <string name="str_fra_settings_tv_hint_profile">Xem thêm thông tin</string>
@@ -107,6 +106,12 @@
     <string name="str_fra_settings_btn_change_password">Đổi mật khẩu</string>
     <string name="str_fra_settings_tv_name">%1$s %2$s</string>
     <string name="str_fra_profile_tv_title_post">Bài viết của tôi</string>
+
+    <string name="str_registered_successfully">Đăng ký thành công. Vui lòng đăng nhập</string>
+    <string name="str_registered_failed_email">Email đã được đăng ký tài khoản</string>
+
+    <string name="str_logout_success">Đã đăng xuất tài khoản</string>
+    <string name="str_error_logout">Có lỗi xảy ra! Vui lòng thử lại sau</string>
 
     <!-- Transition -->
     <string name="tra_register_content_role_candidate">RegisterContentRoleCandidate</string>

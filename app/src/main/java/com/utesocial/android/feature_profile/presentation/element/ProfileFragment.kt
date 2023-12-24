@@ -89,16 +89,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         when (user.type) {
             User.UserType.CollegeStudent -> {
                 val profileStudentBinding: FragmentProfileStudentBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_student, binding.linearLayoutInfo, false)
+                profileStudentBinding.user = user
                 binding.frameLayoutInfo.addView(profileStudentBinding.root)
             }
 
             User.UserType.Lecturer -> {
                 val profileLecturerBinding: FragmentProfileLecturerBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_lecturer, binding.linearLayoutInfo, false)
+                profileLecturerBinding.user = user
                 binding.frameLayoutInfo.addView(profileLecturerBinding.root)
             }
 
             User.UserType.Candidate -> {
                 val profileCandidateBinding: FragmentProfileCandidateBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_candidate, binding.linearLayoutInfo, false)
+                profileCandidateBinding.user = user
                 binding.frameLayoutInfo.addView(profileCandidateBinding.root)
             }
 

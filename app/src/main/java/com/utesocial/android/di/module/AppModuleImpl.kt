@@ -19,6 +19,8 @@ import com.utesocial.android.feature_register.domain.use_case.RegisterUseCase
 import com.utesocial.android.feature_register.domain.use_case.RegisterUserUseCase
 import com.utesocial.android.feature_post.domain.use_case.GetFeedPostsUseCase
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
+import com.utesocial.android.feature_settings.domain.use_case.LogoutUseCase
+import com.utesocial.android.feature_settings.domain.use_case.SettingsUseCase
 
 class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
 
@@ -50,4 +52,8 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
     override val postUseCase : PostUseCase by lazy { PostUseCase(
         getFeedPostsUseCase = GetFeedPostsUseCase(appRepository.postRepository)
     )}
+
+    override val settingsUseCase: SettingsUseCase by lazy { SettingsUseCase(
+        logoutUseCase = LogoutUseCase(appRepository.settingsRepository)
+    ) }
 }
