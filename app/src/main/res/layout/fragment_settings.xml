@@ -1,24 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="user"
+            type="com.utesocial.android.core.domain.model.User" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_root"
+    <LinearLayout
+        android:id="@+id/linear_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
         tools:context=".feature_settings.presentation.element.SettingsFragment">
 
-        <TextView
-            android:gravity="center"
-            android:textSize="50sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_profile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Settings" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bac_cl_post"
+            android:padding="16dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view_avatar"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:transitionName="@string/tra_settings_profile_avatar"
+                app:avatar="@{user.avatar.url}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toStartOf="@id/linear_layout_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_logout"
+                app:layout_constraintStart_toEndOf="@id/image_view_avatar"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{@string/str_fra_settings_tv_name(user.firstName, user.lastName)}"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:transitionName="@string/tra_settings_profile_name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/str_fra_settings_tv_hint_profile"
+                    android:textColor="?attr/colorOutline"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_logout"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="@dimen/ite_post_info_iv_menu_height"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/des_ite_post_info_btn_menu"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ico_right_from_bracket_regular"
+                app:iconGravity="textStart"
+                app:iconTint="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/linear_layout_info"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_change_avatar"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:text="@string/str_fra_settings_btn_change_avatar"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_change_password"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:text="@string/str_fra_settings_btn_change_password"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </layout>

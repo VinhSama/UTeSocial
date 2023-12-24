@@ -101,13 +101,19 @@
     <string name="str_fra_create_post_tiet">Nhập nội dung bài viết</string>
     <string name="str_registered_successfully">Đăng ký tài khoản thành công. Vui lòng đăng nhập lại</string>
     <string name="str_remove_item_create_post">Đã xóa file phương tiện</string>
+    <string name="str_fra_create_post_btn_new">Thêm hình ảnh/video mới</string>
+    <string name="str_fra_settings_tv_hint_profile">Xem thêm thông tin</string>
+    <string name="str_fra_settings_btn_change_avatar">Đổi ảnh đại diện</string>
+    <string name="str_fra_settings_btn_change_password">Đổi mật khẩu</string>
+    <string name="str_fra_settings_tv_name">%1$s %2$s</string>
+    <string name="str_fra_profile_tv_title_post">Bài viết của tôi</string>
 
     <!-- Transition -->
     <string name="tra_register_content_role_candidate">RegisterContentRoleCandidate</string>
     <string name="tra_register_content_role_lecturer">RegisterContentRoleLecturer</string>
     <string name="tra_register_content_role_student">RegisterContentRoleStudent</string>
-
-    <string name="str_fra_create_post_btn_new">Thêm hình ảnh/video mới</string>
+    <string name="tra_settings_profile_avatar">SettingsProfileAvatar</string>
+    <string name="tra_settings_profile_name">SettingsProfileName</string>
 
     <!-- Validation Message -->
     <string name="validate_msg_field_not_empty">(*) Giá trị của trường này không được rỗng</string>
@@ -149,6 +155,37 @@
     <string name="date_util_prefix_over">hơn</string>
     <string name="date_util_prefix_almost">gần</string>
     <string name="date_util_suffix">trước</string>
+
+    <string name="str_fra_profile_tv_title_info"><u>Thông tin người dùng:</u></string>
+    <string name="str_fra_profile_tv_title_role"><u>Thông tin chi tiết:</u></string>
+
+    <string name="str_fra_profile_student_tv_role"><b><i>Vai trò:</i></b> Sinh viên</string>
+    <string name="str_fra_profile_student_tv_identity_code"><b><i>Mã sinh viên:</i></b></string>
+    <string name="str_fra_profile_student_tv_email"><b><i>Email:</i></b></string>
+    <string name="str_fra_profile_student_tv_birthdate"><b><i>Ngày sinh:</i></b></string>
+    <string name="str_fra_profile_student_tv_hometown"><b><i>Quê quán:</i></b></string>
+    <string name="str_fra_profile_student_tv_faculty"><b><i>Khoa:</i></b></string>
+    <string name="str_fra_profile_student_tv_major"><b><i>Ngành:</i></b></string>
+    <string name="str_fra_profile_student_tv_enrollment"><b><i>Niên khóa:</i></b></string>
+    <string name="str_fra_profile_student_tv_class_code"><b><i>Mã lớp:</i></b></string>
+    <string name="str_fra_profile_student_tv_graduated"><b><i>Trạng thái:</i></b></string>
+
+    <string name="str_fra_profile_lecturer_tv_role"><b><i>Vai trò:</i></b> Giảng viên</string>
+    <string name="str_fra_profile_lecturer_tv_identity_code"><b><i>Mã giảng viên:</i></b></string>
+
+    <string name="str_fra_profile_candidate_tv_role"><b><i>Vai trò:</i></b> Thí sinh</string>
+    <string name="str_fra_profile_candidate_tv_identity_code"><b><i>Mã thí sinh:</i></b></string>
+    <string name="str_fra_profile_candidate_tv_major"><b><i>Ngành dự định:</i></b></string>
+    <string name="str_fra_profile_candidate_tv_school"><b><i>Trường hiện tại:</i></b></string>
+
+    <string name="str_fra_change_avatar_tb_title">Đổi ảnh đại diện</string>
+    <string name="str_fra_change_avatar_btn_choose_image">Chọn hình ảnh</string>
+    <string name="str_fra_change_avatar_btn_save">Lưu</string>
+
+    <string name="str_fra_change_pass_tb_title">Đổi mật khẩu</string>
+    <string name="str_fra_change_pass_til_password_old">Nhập mật khẩu cũ</string>
+    <string name="str_fra_change_pass_til_password_new">Nhập mật khẩu mới</string>
+    <string name="str_fra_change_pass_til_password_confirm">Xác nhận mật khẩu</string>
 
     <!-- Unauthorized Dialog-->
     <string name="title_dialog_unauthorized">Xác thực thất bại</string>

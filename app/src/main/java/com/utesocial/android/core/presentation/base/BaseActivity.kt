@@ -104,8 +104,13 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
             override fun handleOnBackPressed() {
                 handleActionBar(true)
+
                 isEnabled = false
                 onBackPressedDispatcher.onBackPressed()
+
+                when (navController()?.currentDestination?.id) {
+                    R.id.item_fra_notification, R.id.item_fra_settings -> handleActionBar(false)
+                }
             }
         }
 

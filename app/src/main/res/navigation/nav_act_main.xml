@@ -47,7 +47,33 @@
         android:id="@+id/item_fra_settings"
         android:name="com.utesocial.android.feature_settings.presentation.element.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+
+        <action
+            android:id="@+id/action_settings_profile"
+            app:destination="@id/item_fra_profile"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
+        <action
+            android:id="@+id/action_settings_change_avatar"
+            app:destination="@id/item_fra_change_avatar"
+            app:enterAnim="@anim/anim_slide_up"
+            app:exitAnim="@anim/anim_slide_down"
+            app:popEnterAnim="@anim/anim_slide_up"
+            app:popExitAnim="@anim/anim_slide_down" />
+
+        <action
+            android:id="@+id/action_settings_change_password"
+            app:destination="@id/item_fra_change_password"
+            app:enterAnim="@anim/anim_slide_up"
+            app:exitAnim="@anim/anim_slide_down"
+            app:popEnterAnim="@anim/anim_slide_up"
+            app:popExitAnim="@anim/anim_slide_down" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/item_fra_post"
@@ -58,10 +84,10 @@
 <!--        <argument-->
 <!--            android:name="post"-->
 <!--            app:argType="com.utesocial.android.feature_post.domain.model.Post" />-->
+
         <argument
             android:name="postModel"
-            app:argType="com.utesocial.android.feature_post.domain.model.PostModel"
-            />
+            app:argType="com.utesocial.android.feature_post.domain.model.PostModel" />
 
     </fragment>
 
@@ -70,5 +96,29 @@
         android:name="com.utesocial.android.feature_create_post.presentation.element.CreatePostFragment"
         android:label="CreatePostFragment"
         tools:layout="@layout/fragment_create_post" />
+
+    <fragment
+        android:id="@+id/item_fra_profile"
+        android:name="com.utesocial.android.feature_profile.presentation.element.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+
+        <argument
+            android:name="user"
+            app:argType="com.utesocial.android.core.domain.model.User" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_fra_change_avatar"
+        android:name="com.utesocial.android.feature_change_avatar.presentation.element.ChangeAvatarFragment"
+        android:label="ChangeAvatarFragment"
+        tools:layout="@layout/fragment_change_avatar" />
+
+    <fragment
+        android:id="@+id/item_fra_change_password"
+        android:name="com.utesocial.android.feature_change_password.presentation.element.ChangePasswordFragment"
+        android:label="ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password" />
 
 </navigation>
