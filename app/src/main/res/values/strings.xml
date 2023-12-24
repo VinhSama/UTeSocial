@@ -176,4 +176,13 @@
     <string name="str_fra_profile_candidate_tv_identity_code"><b><i>Mã thí sinh:</i></b></string>
     <string name="str_fra_profile_candidate_tv_major"><b><i>Ngành dự định:</i></b></string>
     <string name="str_fra_profile_candidate_tv_school"><b><i>Trường hiện tại:</i></b></string>
+
+    <string name="str_fra_change_avatar_tb_title">Đổi ảnh đại diện</string>
+    <string name="str_fra_change_avatar_btn_choose_image">Chọn hình ảnh</string>
+    <string name="str_fra_change_avatar_btn_save">Lưu</string>
+
+    <string name="str_fra_change_pass_tb_title">Đổi mật khẩu</string>
+    <string name="str_fra_change_pass_til_password_old">Nhập mật khẩu cũ</string>
+    <string name="str_fra_change_pass_til_password_new">Nhập mật khẩu mới</string>
+    <string name="str_fra_change_pass_til_password_confirm">Xác nhận mật khẩu</string>
 </resources>

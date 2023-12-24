@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
@@ -51,8 +53,23 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             getBaseActivity().handleBar(false)
         }
 
+        binding.buttonChangeAvatar.setOnClickListener {
+            val action = SettingsFragmentDirections.actionSettingsChangeAvatar()
+            navigation(action)
+        }
+
+        binding.buttonChangePassword.setOnClickListener {
+            val action = SettingsFragmentDirections.actionSettingsChangePassword()
+            navigation(action)
+        }
+
         binding.buttonLogout.setOnClickListener {
             getBaseActivity().showSnackbar("Đăng xuất!!!")
         }
+    }
+
+    private fun navigation(action: NavDirections) {
+        getBaseActivity().navController()?.navigate(action)
+        getBaseActivity().handleBar(false)
     }
 }
