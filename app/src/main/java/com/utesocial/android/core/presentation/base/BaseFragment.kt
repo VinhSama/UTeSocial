@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
 
-    protected abstract var binding: DB
+    abstract var binding: DB
     protected abstract val viewModel: ViewModel?
 
     private lateinit var activity: BaseActivity<*>

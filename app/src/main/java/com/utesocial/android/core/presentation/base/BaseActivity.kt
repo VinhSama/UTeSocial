@@ -34,7 +34,7 @@ import kotlinx.coroutines.withContext
 
 abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
-    protected abstract val binding: DB
+    abstract val binding: DB
     protected abstract val viewModel: ViewModel?
 
     private val animatorDuration by lazy { resources.getInteger(R.integer.duration_200).toLong() }

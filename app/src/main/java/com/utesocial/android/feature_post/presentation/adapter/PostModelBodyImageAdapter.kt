@@ -1,12 +1,19 @@
 package com.utesocial.android.feature_post.presentation.adapter
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
+import androidx.media3.common.MediaItem
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultDataSourceFactory
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.MediaSource
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -17,6 +24,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.utesocial.android.R
 import com.utesocial.android.databinding.ItemPostBodyImageBinding
+import com.utesocial.android.databinding.ItemPostBodyVideoBinding
+import com.utesocial.android.feature_create_post.domain.model.MediaUrl
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.domain.model.PostResource
 
@@ -25,6 +34,32 @@ class PostModelBodyImageAdapter(
     private val postModel: PostModel,
     private val listener: PostBodyImageListener
 ) : RecyclerView.Adapter<PostModelBodyImageAdapter.PostBodyImageViewHolder>() {
+
+    inner class PostBodyVideoViewHolder(private val binding: ItemPostBodyVideoBinding) : RecyclerView.ViewHolder(binding.root) {
+        private lateinit var player: ExoPlayer
+        private var playbackPosition = 0L
+        private var playWhenReady = true
+        init {
+            binding.lifecycleOwner = lifecycleOwner
+            binding.videoViewPost.player = player
+        }
+        fun preparePlayer() {
+            player = ExoPlayer.Builder(binding.root.context).build()
+            player?.playWhenReady = true
+            binding.videoViewPost.player = player
+            val defaultHttpDataSourceFactory = DefaultHttpDataSource.Factory()
+            val mediaItem = MediaItem.fromUri(Uri.parse(""))
+        }
+        fun bind(postResources: List<PostResource>, position: Int) {
+            binding.apply {
+
+            }
+        }
+
+//        fun buildMediaSource(remoteMedia: MediaUrl.RemoteMedia) : MediaSource {
+//            val dataSourceFactory = DefaultDataSource.Factory(binding.root.context, androidx.media3.datasource.DataSource.Factory {  })
+//        }
+    }
 
     inner class PostBodyImageViewHolder(private val binding: ItemPostBodyImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
