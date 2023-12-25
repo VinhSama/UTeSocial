@@ -20,6 +20,7 @@ import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
+import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentSettingsBinding
 import com.utesocial.android.feature_settings.presentation.state_holder.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,6 +83,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         }
 
         binding.buttonLogout.setOnClickListener {
+            showLoadingDialog()
             val accessToken = HashMap<String, String>()
             accessToken["accessToken"] = preferenceManager.getString(Constants.ACCESS_TOKEN, "")!!
             viewModel.logout(accessToken)

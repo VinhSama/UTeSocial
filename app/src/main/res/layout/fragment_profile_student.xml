@@ -8,6 +8,10 @@
             name="user"
             type="com.utesocial.android.core.domain.model.User" />
 
+        <variable
+            name="major"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Khoa tại đây"
+                android:text="@{user.details.faculty.name}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -212,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Ngành tại đây"
+                android:text="@{major}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -241,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Niên khóa tại đây"
+                android:text="@{user.details.enrollmentYear.name}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -270,7 +274,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Mã lớp tại đây"
+                android:text="@{user.details.classCode}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -298,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Tốt nghiệp hoặc chưa"
+                android:text="@{user.details.graduated ? @string/str_fra_register_content_student_rb_graduated :  @string/str_fra_register_content_student_rb_not_graduated}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>

@@ -8,6 +8,10 @@
             name="user"
             type="com.utesocial.android.core.domain.model.User" />
 
+        <variable
+            name="major"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="@{}"
+                android:text="@{major}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>

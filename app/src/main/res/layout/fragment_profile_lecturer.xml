@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Khoa tại đây"
+                android:text="@{user.details.faculty.name}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>

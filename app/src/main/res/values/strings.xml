@@ -24,7 +24,7 @@
     <string name="str_act_login_til_email_hint">Email</string>
     <string name="str_act_login_til_password_hint">Mật khẩu</string>
     <string name="str_act_main_bottom_bnv_item">•</string>
-    <string name="str_act_main_top_tv_hint">Tìm kiếm</string>
+    <string name="str_act_main_top_tv_hint">Tìm kiếm người dùng</string>
     <string name="str_bs_notify_btn_delete">Gỡ bỏ thông báo này</string>
     <string name="str_bs_notify_btn_mark">Đánh dấu là đã đọc</string>
     <string name="str_fra_community_tv_empty">Không có bài viết đề xuất</string>
@@ -188,9 +188,13 @@
     <string name="str_fra_change_avatar_btn_save">Lưu</string>
 
     <string name="str_fra_change_pass_tb_title">Đổi mật khẩu</string>
-    <string name="str_fra_change_pass_til_password_old">Nhập mật khẩu cũ</string>
+    <string name="str_fra_change_pass_til_password_current">Nhập mật khẩu hiện tại</string>
     <string name="str_fra_change_pass_til_password_new">Nhập mật khẩu mới</string>
     <string name="str_fra_change_pass_til_password_confirm">Xác nhận mật khẩu</string>
+
+    <string name="str_act_main_search_tv_loading">Đang tải…</string>
+    <string name="str_act_main_search_tv_empty">Nhập từ khóa để tìm kiếm</string>
+    <string name="str_act_main_search_tv_not_found">Không tìm thấy người dùng</string>
 
     <!-- Unauthorized Dialog-->
     <string name="title_dialog_unauthorized">Xác thực thất bại</string>

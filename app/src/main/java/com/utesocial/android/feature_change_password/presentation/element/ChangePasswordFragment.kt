@@ -2,6 +2,7 @@ package com.utesocial.android.feature_change_password.presentation.element
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.databinding.FragmentChangePasswordBinding
-import com.utesocial.android.feature_create_post.presentation.adapter.ChooseMediaAdapter
 
 class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
 
@@ -33,13 +33,39 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setup()
         setupBinding()
+        setupListener()
+    }
+
+    private fun setup() {
+        binding.textInputLayoutPasswordCurrent.isEndIconVisible = false
+        binding.textInputLayoutPasswordCurrent.errorIconDrawable = null
+
+        binding.textInputLayoutPasswordNew.isEndIconVisible = false
+        binding.textInputLayoutPasswordNew.errorIconDrawable = null
+
+        binding.textInputLayoutPasswordConfirm.isEndIconVisible = false
+        binding.textInputLayoutPasswordConfirm.errorIconDrawable = null
     }
 
     private fun setupBinding() { binding.fragment = this@ChangePasswordFragment }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupListener() {
+        binding.scrollViewContent.setOnTouchListener { _, _ ->
+            val viewFocus = binding.scrollViewContent.findFocus()
+            if (viewFocus != null) {
+                getBaseActivity().handleHideKeyboard(viewFocus)
+            }
+            false
+        }
+
+        binding.toolbar.setNavigationOnClickListener { getBaseActivity().onBackPressedDispatcher.onBackPressed() }
+    }
+
     private fun updateContinueButton() {
-        val isOldPasswordValid = checkValid(binding.textInputLayoutPasswordOld, binding.textInputEditTextPasswordOld)
+        val isOldPasswordValid = checkValid(binding.textInputLayoutPasswordCurrent, binding.textInputEditTextPasswordCurrent)
         val isNewPasswordValid = checkValid(binding.textInputLayoutPasswordNew, binding.textInputEditTextPasswordNew)
         val isConfirmPasswordValid = checkValid(binding.textInputLayoutPasswordConfirm, binding.textInputEditTextPasswordConfirm)
 
@@ -62,15 +88,20 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         binding.buttonChangePassword.isEnabled = false
     }
 
-    fun checkOldPassword() {
-        binding.textInputLayoutPasswordOld.error = null
-        binding.textInputLayoutPasswordOld.isErrorEnabled = false
-        val text = binding.textInputEditTextPasswordOld.text ?: ""
+    fun checkCurrentPassword() {
+        binding.textInputLayoutPasswordCurrent.error = null
+        binding.textInputLayoutPasswordCurrent.isErrorEnabled = false
+        val text = binding.textInputEditTextPasswordCurrent.text ?: ""
 
-        if (text.trim().isEmpty()) {
+        if (text.isEmpty()) {
+            binding.textInputLayoutPasswordCurrent.isEndIconVisible = false
             val error = resources.getString(R.string.str_fra_register_error_empty)
-            setError(binding.textInputLayoutPasswordOld, error)
+            setError(binding.textInputLayoutPasswordCurrent, error)
         } else {
+            if (!binding.textInputLayoutPasswordCurrent.isEndIconVisible) {
+                binding.textInputLayoutPasswordCurrent.isEndIconVisible = true
+            }
+
             updateContinueButton()
         }
     }
@@ -122,6 +153,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
             if (!binding.textInputEditTextPasswordConfirm.text.isNullOrEmpty()) {
                 checkConfirmPassword()
             }
+
             updateContinueButton()
         }
     }
@@ -130,10 +162,10 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         binding.textInputLayoutPasswordConfirm.error = null
         binding.textInputLayoutPasswordConfirm.isErrorEnabled = false
 
-        val password = binding.textInputEditTextPasswordNew.text.toString()
-        val repass = binding.textInputEditTextPasswordConfirm.text.toString()
+        val passwordNew = binding.textInputEditTextPasswordNew.text.toString()
+        val passwordConfirm = binding.textInputEditTextPasswordConfirm.text.toString()
 
-        if (repass.isEmpty()) {
+        if (passwordConfirm.isEmpty()) {
             binding.textInputLayoutPasswordConfirm.isEndIconVisible = false
             val error = resources.getString(R.string.str_fra_register_error_empty)
             setError(binding.textInputLayoutPasswordConfirm, error)
@@ -142,7 +174,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
                 binding.textInputLayoutPasswordConfirm.isEndIconVisible = true
             }
 
-            if (password != repass) {
+            if (passwordNew != passwordConfirm) {
                 val error = resources.getString(R.string.str_fra_register_error_pass_match)
                 setError(binding.textInputLayoutPasswordConfirm, error)
                 return

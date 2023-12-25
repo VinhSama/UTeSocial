@@ -127,9 +127,6 @@ class RegisterFragmentContentStudent : BaseFragment<FragmentRegisterContentStude
 
         binding.textInputLayoutMajor.isEnabled = !binding.textInputEditTextMajor.text.isNullOrEmpty()
         binding.textInputLayoutEnrollment.isEnabled = !binding.textInputEditTextEnrollment.text.isNullOrEmpty()
-
-        checkEmptyFaculty()
-        checkEmptyMajor()
     }
 
     private fun setupBinding() { binding.fragment = this@RegisterFragmentContentStudent }
@@ -255,7 +252,9 @@ class RegisterFragmentContentStudent : BaseFragment<FragmentRegisterContentStude
                     if (it.isEmpty()) {
                         binding.textInputLayoutEnrollment.isEnabled = false
                     } else {
-                        binding.textInputLayoutEnrollment.isEnabled = true
+                        if (!binding.textInputEditTextMajor.text.isNullOrEmpty()) {
+                            binding.textInputLayoutEnrollment.isEnabled = true
+                        }
 
                         registerEnrollmentYearAdapter.resetData()
                         registerEnrollmentYearData.clear()
