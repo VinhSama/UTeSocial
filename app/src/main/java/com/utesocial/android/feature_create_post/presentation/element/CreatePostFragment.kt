@@ -22,20 +22,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.focusChanges
 import com.permissionx.guolindev.PermissionX
 import com.utesocial.android.R
-import com.utesocial.android.UteSocial
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showDialog
 import com.utesocial.android.databinding.FragmentCreatePostBinding
+import com.utesocial.android.feature_create_post.domain.model.MediaItem
 import com.utesocial.android.feature_create_post.domain.model.MediaReq
+import com.utesocial.android.feature_create_post.domain.model.MediaUrl
 import com.utesocial.android.feature_create_post.presentation.SpanSizeLookup
 import com.utesocial.android.feature_create_post.presentation.adapter.ChooseMediaAdapter
+import com.utesocial.android.feature_create_post.presentation.adapter.MediaAdapter
 import com.utesocial.android.feature_create_post.presentation.element.partial.CreatePostFragmentInfo
 import com.utesocial.android.feature_create_post.presentation.state_holder.CreatePostViewModel
 import com.utesocial.android.feature_create_post.presentation.state_holder.state.InputSelectorEvent
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.Multipart
+import java.io.File
+import java.net.URI
 
 @AndroidEntryPoint
 class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
@@ -46,8 +54,10 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     private val infoBinding by lazy { CreatePostFragmentInfo(binding.info) }
 
     private val data: ArrayList<MediaReq> by lazy { ArrayList() }
-//    private val mediaItems: ArrayList<>
+    private val mediaItems: ArrayList<MediaItem> by lazy { ArrayList() }
+    private val mediaItemsHashSet : LinkedHashSet<MediaItem> by lazy { LinkedHashSet() }
     private val chooseMediaAdapter by lazy { ChooseMediaAdapter(this@CreatePostFragment, data) }
+    private val mediaAdapter by lazy { MediaAdapter(viewLifecycleOwner ) }
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -79,6 +89,10 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 edtContent.append(it.emoji)
             }
             viewModel.apply {
+
+                viewModel.mediaItems.observe(viewLifecycleOwner) {
+                    mediaAdapter.submitList(it)
+                }
 
                 inputSelectorUsing.observe(viewLifecycleOwner) {selector ->
                     when(selector) {
@@ -181,7 +195,8 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerViewMedia.adapter = chooseMediaAdapter
+        binding.recyclerViewMedia.adapter = mediaAdapter
+//        binding.recyclerViewMedia.adapter = chooseMediaAdapter
         val layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
         layoutManager.spanSizeLookup = SpanSizeLookup(5, 1, 2)
         binding.recyclerViewMedia.layoutManager = layoutManager
@@ -196,14 +211,12 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     private val chooseMultipleMediaLauncher = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uri ->
         if (uri.isNotEmpty()) {
-            val mediaReq: List<MediaReq> = uri.map {
-                val isVideo = getBaseActivity().contentResolver.getType(it)!!.startsWith("video")
-                MediaReq(uri = it, isVideo = isVideo)
+            val mediaItems = uri.map {
+                val isVideo = requireActivity().contentResolver.getType(it)!!.startsWith("video")
+                MediaItem(MediaUrl.LocalMedia(it), isVideo)
             }
-            val positionInsert = data.size
-
-            data.addAll(mediaReq)
-            chooseMediaAdapter.notifyItemInserted(positionInsert)
+            mediaItemsHashSet.addAll(mediaItems)
+            viewModel.mediaItems.postValue(mediaItemsHashSet.toMutableList())
         }
         viewModel.inputSelectorUsing.postValue(InputSelectorEvent.NoneSelector)
     }
@@ -222,9 +235,24 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         ) {
             getBaseActivity().showSnackbar(getString(R.string.str_remove_item_create_post))
             val positionRemoved = viewHolder.adapterPosition
+            val item = mediaAdapter.getItem(positionRemoved)
+            mediaItemsHashSet.remove(item)
+            viewModel.mediaItems.postValue(mediaItemsHashSet.toMutableList())
 
-            data.removeAt(positionRemoved)
-            chooseMediaAdapter.notifyItemRemoved(positionRemoved)
+        }
+    }
+
+    fun getResourceRequestBody() {
+        val builder = MultipartBody.Builder()
+        builder.setType(MultipartBody.FORM)
+        mediaItemsHashSet.forEach { item ->
+            val file = File(URI.create((item.mediaUrl as MediaUrl.LocalMedia).uri.toString()))
+            if(item.isVideo) {
+
+            } else {
+
+//                val requestBody = RequestBody.create(MediaType.parse("image/${file.path.substring(file.path.lastIndexOf(".") + 1)}"), file)
+            }
         }
     }
 }

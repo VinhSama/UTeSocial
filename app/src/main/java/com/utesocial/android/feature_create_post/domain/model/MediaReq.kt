@@ -39,10 +39,11 @@ data class MediaItem(
 }
 
 sealed class MediaUrl {
-    data class LocalMedia(val uri: Uri? = null) {
+    data class LocalMedia(val uri: Uri? = null) : MediaUrl() {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
+            if (!super.equals(other)) return false
 
             other as LocalMedia
 
@@ -50,13 +51,16 @@ sealed class MediaUrl {
         }
 
         override fun hashCode(): Int {
-            return uri?.hashCode() ?: 0
+            var result = super.hashCode()
+            result = 31 * result + (uri?.hashCode() ?: 0)
+            return result
         }
     }
-    data class RemoteMedia(val url: String?) {
+    data class RemoteMedia(val url: String?) : MediaUrl() {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
+            if (!super.equals(other)) return false
 
             other as RemoteMedia
 
@@ -64,7 +68,9 @@ sealed class MediaUrl {
         }
 
         override fun hashCode(): Int {
-            return url?.hashCode() ?: 0
+            var result = super.hashCode()
+            result = 31 * result + (url?.hashCode() ?: 0)
+            return result
         }
     }
 
