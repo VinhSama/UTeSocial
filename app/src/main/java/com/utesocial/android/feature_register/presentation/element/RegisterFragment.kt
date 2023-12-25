@@ -1,6 +1,7 @@
 package com.utesocial.android.feature_register.presentation.element
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,7 +129,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                             onBackPressedCallbackExit.isEnabled = false
                             onBackPressedCallbackStep.isEnabled = true
                             topBinding.enableNavigationIcon()
-                            getBaseActivity().showSnackbar(it)
+                            if (it.contains("HTTP 409")) {
+                                getBaseActivity().showSnackbar(getString(R.string.str_registered_failed_email))
+                            } else {
+                                getBaseActivity().showSnackbar(it)
+                            }
                         }
                     }
                 }

@@ -8,6 +8,10 @@
             name="user"
             type="com.utesocial.android.core.domain.model.User" />
 
+        <variable
+            name="major"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt MSSV tại đây"
+                android:text="@{user.identityCode}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -69,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Email tại đây"
+                android:text="@{user.email}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -98,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Ngày sinh tại đây"
+                android:text="@{user.birthdate}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -127,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Quê quán tại đây"
+                android:text="@{user.homeTown}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -183,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt Khoa tại đây"
+                android:text="@{major}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>
@@ -211,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:text="Đặt tên trường tại đây"
+                android:text="@{user.details.highSchool}"
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </LinearLayout>

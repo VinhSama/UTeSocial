@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="fragment"
+            type="com.utesocial.android.feature_login.presentation.element.LoginFragment" />
+
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -53,6 +57,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_input_edit_text_password"
                     android:layout_width="match_parent"
+                    android:afterTextChanged="@{text -> fragment.checkEmptyPassword()}"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
 
@@ -62,22 +67,22 @@
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/str_act_login_btn_login"
                 android:textAllCaps="true"
                 android:textSize="16sp" />
 
-            <com.google.android.material.button.MaterialButton
+            <!--<com.google.android.material.button.MaterialButton
                 android:id="@+id/button_forgot"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="36dp"
                 android:background="@android:color/transparent"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp"
-                android:text="@string/str_act_login_btn_forgot" />
+                android:text="@string/str_act_login_btn_forgot" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_register"

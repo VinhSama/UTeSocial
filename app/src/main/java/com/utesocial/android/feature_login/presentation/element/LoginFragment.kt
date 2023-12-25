@@ -51,6 +51,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setup()
+        setupBinding()
         setupListener()
         binding.apply {
             viewModel.apply {
@@ -182,6 +184,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
+    private fun setup() {
+        binding.textInputLayoutPassword.isEndIconVisible = false
+        binding.textInputLayoutPassword.errorIconDrawable = null
+    }
+
+    private fun setupBinding() { binding.fragment = this@LoginFragment }
 
     private fun setupListener() {
         binding.buttonRegister.setOnClickListener {
@@ -190,6 +198,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
             val action = LoginFragmentDirections.actionLoginRegister()
             getBaseActivity().navController()?.navigate(action/*, null, null, extras*/)
+        }
+    }
+
+    fun checkEmptyPassword() {
+        if (binding.textInputEditTextPassword.text.isNullOrEmpty()) {
+            binding.textInputLayoutPassword.isEndIconVisible = false
+        } else {
+            if (!binding.textInputLayoutPassword.isEndIconVisible) {
+                binding.textInputLayoutPassword.isEndIconVisible = true
+            }
         }
     }
 }

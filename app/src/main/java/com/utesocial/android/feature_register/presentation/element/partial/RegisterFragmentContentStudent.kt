@@ -252,7 +252,9 @@ class RegisterFragmentContentStudent : BaseFragment<FragmentRegisterContentStude
                     if (it.isEmpty()) {
                         binding.textInputLayoutEnrollment.isEnabled = false
                     } else {
-                        binding.textInputLayoutEnrollment.isEnabled = true
+                        if (!binding.textInputEditTextMajor.text.isNullOrEmpty()) {
+                            binding.textInputLayoutEnrollment.isEnabled = true
+                        }
 
                         registerEnrollmentYearAdapter.resetData()
                         registerEnrollmentYearData.clear()
@@ -320,7 +322,7 @@ class RegisterFragmentContentStudent : BaseFragment<FragmentRegisterContentStude
         if (text.trim().isEmpty()) {
             val error = resources.getString(R.string.str_fra_register_error_empty)
             setError(textInputLayout, error)
-        } else if (text.trim().length < 3) {
+        } else if (text.trim().length < 2) {
             val error = resources.getString(R.string.str_fra_register_error_min)
             setError(textInputLayout, error)
         } else {

@@ -42,6 +42,8 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
     }
 
     private fun setupListener() {
+        binding.toolbar.setNavigationOnClickListener { getBaseActivity().onBackPressedDispatcher.onBackPressed() }
+
         binding.buttonChooseImage.setOnClickListener {
             mediaReq = null
             chooseSingleMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))

@@ -13,6 +13,10 @@ import com.utesocial.android.feature_register.data.repository.RegisterRepository
 import com.utesocial.android.feature_register.domain.repository.RegisterRepository
 import com.utesocial.android.feature_post.data.repository.PostRepositoryImpl
 import com.utesocial.android.feature_post.domain.repository.PostRepository
+import com.utesocial.android.feature_profile.data.repository.ProfileRepositoryImpl
+import com.utesocial.android.feature_profile.domain.repository.ProfileRepository
+import com.utesocial.android.feature_settings.data.repository.SettingsRepositoryImpl
+import com.utesocial.android.feature_settings.domain.repository.SettingsRepository
 
 class AppRepositoryImpl(private val appApi: AppApi) : AppRepository {
 
@@ -27,4 +31,8 @@ class AppRepositoryImpl(private val appApi: AppApi) : AppRepository {
     override val loginRepository: LoginRepository by lazy { LoginRepositoryImpl(appApi.loginApi) }
 
     override val postRepository: PostRepository by lazy { PostRepositoryImpl(appApi.postApi)}
+
+    override val settingsRepository: SettingsRepository by lazy { SettingsRepositoryImpl(appApi.settingsApi) }
+
+    override val profileRepository: ProfileRepository by lazy { ProfileRepositoryImpl(appApi.profileApi) }
 }
