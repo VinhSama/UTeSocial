@@ -13,6 +13,8 @@ import com.utesocial.android.di.network.AppApi
 import com.utesocial.android.di.network.AppApiImpl
 import com.utesocial.android.di.repository.AppRepository
 import com.utesocial.android.di.repository.AppRepositoryImpl
+import com.utesocial.android.feature_community.data.network.CommunityApi
+import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_login.data.network.LoginApi
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_post.data.network.PostApi
@@ -56,7 +58,11 @@ class HiltAppModule {
     fun providePostApi(retrofit: Retrofit) : PostApi {
         return retrofit.create(PostApi::class.java)
     }
-
+    @Singleton
+    @Provides
+    fun provideCommunityApi(retrofit: Retrofit) : CommunityApi {
+        return retrofit.create(CommunityApi::class.java)
+    }
     @Singleton
     @Provides
     fun provideGlobalDisposable() : CompositeDisposable {
@@ -64,8 +70,8 @@ class HiltAppModule {
     }
     @Singleton
     @Provides
-    fun provideAppApi(loginApi: LoginApi, postApi: PostApi) : AppApi {
-        return AppApiImpl(loginApi = loginApi, postApi = postApi)
+    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi) : AppApi {
+        return AppApiImpl(loginApi = loginApi, postApi = postApi, communityApi = communityApi)
     }
 
     @Singleton
@@ -86,7 +92,11 @@ class HiltAppModule {
         return appModule.postUseCase
     }
 
-
+    @Singleton
+    @Provides
+    fun provideCommunityUseCase(appModule: AppModule) : CommunityUseCase {
+        return appModule.communityUseCase
+    }
 
     @Singleton
     @Provides

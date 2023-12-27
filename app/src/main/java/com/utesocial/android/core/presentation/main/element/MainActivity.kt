@@ -103,7 +103,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         animatorExit = R.animator.animator_act_main_bnv_exit,
                         animatorPopEnter = R.animator.animator_act_main_bnv_enter,
                         animatorPopExit = R.animator.animator_act_main_bnv_exit,
-                        R.id.item_fra_notification, R.id.item_fra_settings
+                        R.id.item_fra_notification, R.id.item_fra_settings,
+                        R.id.item_fra_community
                     )
 
                     topBinding.setup()
@@ -113,41 +114,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         }
-//        val isLogin = intent.getBooleanExtra("login", false)
-//        if (!isLogin) {
-//            Intent(this@MainActivity, AuthActivity::class.java).apply {
-//                startActivity(this)
-//                finish()
-//            }
-//        }
-//
-//        disableDragActionBar(topBinding.appBarLayout())
-//        setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
-//        setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
-//
-//        val navController = screenBinding.navController()
-//        setupNavController(navController)
-//        setupSnackbar(binding.floatingActionButtonCreate)
-//
-//        NavigationUICustom.setupWithNavController(
-//            this@MainActivity,
-//            bottomBinding.bottomNavigationView(),
-//            navController,
-//            animEnter = R.anim.anim_act_main_bnv_enter,
-//            animExit = R.anim.anim_act_main_bnv_exit,
-//            animPopEnter = R.anim.anim_act_main_bnv_enter,
-//            animPopExit = R.anim.anim_act_main_bnv_exit,
-//            animatorEnter = R.animator.animator_act_main_bnv_enter,
-//            animatorExit = R.animator.animator_act_main_bnv_exit,
-//            animatorPopEnter = R.animator.animator_act_main_bnv_enter,
-//            animatorPopExit = R.animator.animator_act_main_bnv_exit,
-//            R.id.item_fra_notification, R.id.item_fra_settings
-//        )
-//
-//        topBinding.setup()
-//        bottomBinding.setup()
-//
-//        splashScreen.setKeepOnScreenCondition { false }
     }
 
     private fun setupListener() {

@@ -109,7 +109,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
 
                 when (navController()?.currentDestination?.id) {
-                    R.id.item_fra_notification, R.id.item_fra_settings -> handleActionBar(false)
+                    R.id.item_fra_notification, R.id.item_fra_settings, R.id.item_fra_community -> handleActionBar(false)
                 }
             }
         }

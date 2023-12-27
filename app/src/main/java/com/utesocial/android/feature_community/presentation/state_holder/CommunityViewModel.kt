@@ -10,22 +10,17 @@ import com.utesocial.android.UteSocial
 import com.utesocial.android.core.domain.util.Resource
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_community.presentation.state_holder.state.CommunityState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class CommunityViewModel(private val communityUseCase: CommunityUseCase) : ViewModel() {
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val appModule = (this[APPLICATION_KEY] as UteSocial).appModule
-                CommunityViewModel(appModule.communityUseCase)
-            }
-        }
-    }
+@HiltViewModel
+class CommunityViewModel @Inject constructor(
+    private val communityUseCase: CommunityUseCase
+) : ViewModel() {
 
     private val _communityState = MutableStateFlow(CommunityState())
     val communityState: StateFlow<CommunityState> = _communityState

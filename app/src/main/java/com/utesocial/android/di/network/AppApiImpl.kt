@@ -18,16 +18,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AppApiImpl(
     loginApi: LoginApi,
-    postApi: PostApi
+    postApi: PostApi,
+    communityApi: CommunityApi
 ) : AppApi {
 
     override val registerApi: RegisterApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build().create(RegisterApi::class.java) }
 
-    override val communityApi: CommunityApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create(CommunityApi::class.java) }
+    override val communityApi: CommunityApi by lazy { communityApi }
 
     override val homeApi: HomeApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
