@@ -9,10 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.tabs.TabLayoutMediator
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.databinding.FragmentCommunityBinding
 import com.utesocial.android.feature_community.presentation.adapter.CommunityAdapter
+import com.utesocial.android.feature_community.presentation.adapter.CommunityFragmentsAdapter
+import com.utesocial.android.feature_community.presentation.element.partial.CommunityTabItem
 import com.utesocial.android.feature_community.presentation.state_holder.CommunityViewModel
 import com.utesocial.android.feature_group.domain.model.Group
 import com.utesocial.android.feature_post.domain.model.Post
@@ -45,6 +48,7 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         setupBinding()
+        setupTabItem()
 //        setupRecyclerView()
 //        setupListener()
 //        observer()
@@ -55,7 +59,18 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
     }
 
     private fun setupTabItem() {
-
+        val tabFriends = CommunityTabItem(binding, resources.getString(R.string.str_fra_community_tab_title_friends))
+        val tabRequests = CommunityTabItem(binding, resources.getString(R.string.str_fra_community_tab_title_request))
+        val fragmentsAdapter = CommunityFragmentsAdapter(childFragmentManager, viewLifecycleOwner)
+        binding.communityViewPager.adapter = fragmentsAdapter
+        TabLayoutMediator(binding.communityTabLayout, binding.communityViewPager) { tab, position ->
+            val tabItem : CommunityTabItem = if(position == 0) {
+                tabFriends
+            } else {
+                tabRequests
+            }
+            tab.customView = tabItem.rootView()
+        }.attach()
     }
 
     private fun setupRecyclerView() {

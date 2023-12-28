@@ -7,7 +7,7 @@ import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.feature_notification.presentation.notify.element.NotifyFragment
 import com.utesocial.android.feature_notification.presentation.request.element.RequestFragment
 
-class NotificationAdapter(
+class NotificationAdapter   (
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {

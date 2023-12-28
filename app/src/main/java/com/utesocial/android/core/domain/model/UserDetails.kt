@@ -1,12 +1,16 @@
 package com.utesocial.android.core.domain.model
 
+import androidx.room.Embedded
 import java.io.Serializable
 
 data class UserDetails (
     var graduated: Boolean,
     var classCode: String,
+    @Embedded
     var faculty: Faculty?,
+    @Embedded
     var major: Major?,
+    @Embedded
     var enrollmentYear: EnrollmentYear?,
     val registeredMajor: Major?,
     val highSchool: String?
