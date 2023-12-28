@@ -19,7 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class AppApiImpl(
     loginApi: LoginApi,
     postApi: PostApi,
-    communityApi: CommunityApi
+    communityApi: CommunityApi,
+    settingsApi: SettingsApi
 ) : AppApi {
 
     override val registerApi: RegisterApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
@@ -45,10 +46,7 @@ class AppApiImpl(
         .build().create(ProfileApi::class.java) }
 
 
-    override val settingsApi: SettingsApi = Retrofit.Builder().baseUrl(BASE_URL)
-        .client(OkHttpClient().newBuilder().addInterceptor(provideHttpLoggingInterceptor()).build())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build().create(SettingsApi::class.java)
+    override val settingsApi: SettingsApi by lazy { settingsApi }
 
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor { message ->

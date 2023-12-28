@@ -19,6 +19,7 @@ import com.utesocial.android.feature_login.data.network.LoginApi
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
+import com.utesocial.android.feature_settings.data.network.SettingsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,6 +64,12 @@ class HiltAppModule {
     fun provideCommunityApi(retrofit: Retrofit) : CommunityApi {
         return retrofit.create(CommunityApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideSettingApi(retrofit: Retrofit) : SettingsApi {
+        return retrofit.create(SettingsApi::class.java)
+    }
     @Singleton
     @Provides
     fun provideGlobalDisposable() : CompositeDisposable {
@@ -70,8 +77,8 @@ class HiltAppModule {
     }
     @Singleton
     @Provides
-    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi) : AppApi {
-        return AppApiImpl(loginApi = loginApi, postApi = postApi, communityApi = communityApi)
+    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, settingsApi: SettingsApi) : AppApi {
+        return AppApiImpl(loginApi = loginApi, postApi = postApi, communityApi = communityApi, settingsApi = settingsApi)
     }
 
     @Singleton
