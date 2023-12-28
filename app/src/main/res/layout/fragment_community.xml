@@ -11,56 +11,80 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator_layout_root"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature_community.presentation.element.CommunityFragment">
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_frame_layout"
+        >
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/community_tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:loading="@{viewModel.communityState.loading}">
-
-            <include layout="@layout/fragment_community_placeholder" />
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabIndicatorColor="?attr/colorSecondary"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="@dimen/_2sdp"
+            app:tabMode="fixed"
+            />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/community_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:notLoading="@{!viewModel.communityState.loading}">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/community_tab_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
-            <RelativeLayout
-                android:id="@+id/relative_layout_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_community"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--        android:id="@+id/coordinator_layout_root"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:context=".feature_community.presentation.element.CommunityFragment">-->
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:text="@string/str_fra_community_tv_empty"
-                    android:textColor="?attr/colorOnBackground"
-                    android:textSize="@dimen/fra_community_tv_empty"
-                    app:empty="@{!viewModel.communityState.posts.empty}" />
+<!--        <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--            android:id="@+id/shimmer_frame_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:loading="@{viewModel.communityState.loading}">-->
 
-            </RelativeLayout>
+<!--            <include layout="@layout/fragment_community_placeholder" />-->
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--        </com.facebook.shimmer.ShimmerFrameLayout>-->
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--            android:id="@+id/swipe_refresh_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:notLoading="@{!viewModel.communityState.loading}">-->
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/relative_layout_content"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recycler_view_community"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+
+<!--                <com.google.android.material.textview.MaterialTextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:fontFamily="serif"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/str_fra_community_tv_empty"-->
+<!--                    android:textColor="?attr/colorOnBackground"-->
+<!--                    android:textSize="@dimen/fra_community_tv_empty"-->
+<!--                    app:empty="@{!viewModel.communityState.posts.empty}" />-->
+
+<!--            </RelativeLayout>-->
+
+<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 </layout>

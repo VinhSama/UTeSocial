@@ -106,6 +106,8 @@
     <string name="str_fra_settings_btn_change_password">Đổi mật khẩu</string>
     <string name="str_fra_settings_tv_name">%1$s %2$s</string>
     <string name="str_fra_profile_tv_title_post">Bài viết của tôi</string>
+    <string name="str_fra_community_tab_title_friends">Bạn bè</string>
+    <string name="str_fra_community_tab_title_request">Yêu cầu</string>
 
     <string name="str_registered_successfully">Đăng ký thành công. Vui lòng đăng nhập</string>
     <string name="str_registered_failed_email">Email đã được đăng ký tài khoản</string>

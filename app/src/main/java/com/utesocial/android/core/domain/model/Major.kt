@@ -1,11 +1,12 @@
 package com.utesocial.android.core.domain.model
 
-import com.google.gson.annotations.SerializedName
-import com.google.gson.internal.LinkedTreeMap
+import java.io.Serializable
 
 data class Major(
-    @SerializedName("_id")
-    var id: String = "",
-    var code: String = "",
-    var name: LinkedTreeMap<String, String> = LinkedTreeMap()
-)
+    val code: String?,
+    val name: HashMap<String, String>
+) : Serializable {
+    override fun toString(): String {
+        return "Major(code=$code, name=$name)"
+    }
+}

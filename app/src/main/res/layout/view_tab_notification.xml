@@ -25,16 +25,16 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_title"
-            android:layout_width="@dimen/tab_notification_tv_title_size"
-            android:layout_height="@dimen/tab_notification_tv_title_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@{title}"
+            android:text="test"
             android:textAppearance="?attr/textAppearanceTitleSmall"
             android:textColor="@color/color_fra_notification_tab_title_selected"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/frame_layout_badge"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,12 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stateListAnimator="@animator/animator_fra_notification_tab_container_badge_enabled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_view_title"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/text_view_title"
+            android:paddingTop="@dimen/_5sdp"
             app:lifecycle="@{lifecycle}"
-            app:showBadge="@{numberBadge != 0}">
+            app:showBadge="@{true}">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_view_badge"
@@ -63,9 +63,9 @@
                 android:textColor="?attr/colorOnError"
                 android:textSize="@dimen/tab_notification_tv_badge"
                 android:textStyle="bold"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:lifecycle="@{lifecycle}"
-                app:numberBadge="@{numberBadge}" />
+                app:numberBadge="@{12}" />
 
         </FrameLayout>
 

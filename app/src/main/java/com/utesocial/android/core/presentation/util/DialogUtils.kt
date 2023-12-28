@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,8 +14,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.utesocial.android.R
+import com.utesocial.android.core.presentation.base.BaseActivity
+import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.element.MainActivity
+import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 
 
 var showingDialog: Dialog? = null
@@ -163,6 +168,8 @@ fun Fragment.showDialog(
     }
 }
 
+
+
 fun AppCompatActivity.showDialog(
     title: String? = null,
     message: String? = null,
@@ -214,3 +221,68 @@ fun dismissLoadingDialog() {
     }
 }
 
+
+
+fun AppCompatActivity.showError(
+    response: SimpleResponse<*>
+) {
+    (this as BaseActivity<*>).binding?.apply {
+        if(response.isFailure()) {
+            response.getError()?.let { error ->
+                if(error.undefinedMessage.isNullOrEmpty()) {
+                    Snackbar.make(
+                        root,
+                        error.errorType.stringResId,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } else {
+                    Snackbar.make(
+                        root,
+                        error.undefinedMessage.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+}
+
+fun BaseFragment<*>.showError(
+    response : SimpleResponse<*>
+) {
+    binding?.apply {
+        if(response.isFailure()) {
+            response.getError()?.let { error ->
+                if(error.undefinedMessage.isNullOrEmpty()) {
+                    Snackbar.make(
+                        root,
+                        error.errorType.stringResId,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } else {
+                    Snackbar.make(
+                        root,
+                        error.undefinedMessage.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+}
+
+fun Fragment.showLongToast(
+    text: String
+) {
+    context?.applicationContext.let {
+        Toast.makeText(it, text, Toast.LENGTH_LONG).show()
+    }
+}
+
+fun Fragment.showShortToast(
+    text: String
+) {
+    context?.applicationContext.let {
+        Toast.makeText(it, text, Toast.LENGTH_SHORT).show()
+    }
+}

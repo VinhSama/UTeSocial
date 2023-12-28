@@ -1,5 +1,10 @@
 package com.utesocial.android.core.domain.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.TypeAdapter
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
@@ -7,11 +12,14 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import com.utesocial.android.core.data.util.Common
+import io.reactivex.rxjava3.annotations.NonNull
 import java.io.Serializable
 import java.util.Date
 
+@Entity(indices = [Index(value = ["userId"], unique = true)])
 data class User(
     @SerializedName("_id")
+    @PrimaryKey(autoGenerate = false)
     var userId: String,
     var identityCode: String,
     var firstName: String,
@@ -27,6 +35,7 @@ data class User(
     var type: UserType?,
     var createdAt: Date?,
     var updatedAt: Date?,
+    @Embedded
     var details: UserDetails?
 ) : Serializable {
 

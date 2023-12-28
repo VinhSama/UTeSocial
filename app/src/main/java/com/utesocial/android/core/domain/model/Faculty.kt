@@ -1,10 +1,12 @@
 package com.utesocial.android.core.domain.model
 
-import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Faculty(
-    @SerializedName("_id")
-    var id: String = "",
-    var code: String = "",
-    var name: String = ""
-)
+    val code: String?,
+    val name: String?
+) : Serializable {
+    override fun toString(): String {
+        return "Faculty(code=$code, name=$name)"
+    }
+}

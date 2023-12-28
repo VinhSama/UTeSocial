@@ -34,7 +34,7 @@ import kotlinx.coroutines.withContext
 
 abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
-    protected abstract val binding: DB
+    abstract val binding: DB
     protected abstract val viewModel: ViewModel?
 
     private val animatorDuration by lazy { resources.getInteger(R.integer.duration_200).toLong() }
@@ -109,7 +109,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
 
                 when (navController()?.currentDestination?.id) {
-                    R.id.item_fra_notification, R.id.item_fra_settings -> handleActionBar(false)
+                    R.id.item_fra_notification, R.id.item_fra_settings, R.id.item_fra_community -> handleActionBar(false)
                 }
             }
         }
