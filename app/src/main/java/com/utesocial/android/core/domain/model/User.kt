@@ -91,4 +91,49 @@ data class User(
 
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as User
+
+        if (userId != other.userId) return false
+        if (identityCode != other.identityCode) return false
+        if (firstName != other.firstName) return false
+        if (lastName != other.lastName) return false
+        if (email != other.email) return false
+        if (username != other.username) return false
+        if (homeTown != other.homeTown) return false
+        if (birthdate != other.birthdate) return false
+        if (avatar != other.avatar) return false
+        if (status != other.status) return false
+        if (friends != other.friends) return false
+        if (friendCount != other.friendCount) return false
+        if (type != other.type) return false
+        if (createdAt != other.createdAt) return false
+        if (updatedAt != other.updatedAt) return false
+        return details == other.details
+    }
+
+    override fun hashCode(): Int {
+        var result = userId.hashCode()
+        result = 31 * result + identityCode.hashCode()
+        result = 31 * result + firstName.hashCode()
+        result = 31 * result + lastName.hashCode()
+        result = 31 * result + email.hashCode()
+        result = 31 * result + username.hashCode()
+        result = 31 * result + homeTown.hashCode()
+        result = 31 * result + birthdate.hashCode()
+        result = 31 * result + (avatar?.hashCode() ?: 0)
+        result = 31 * result + (status ?: 0)
+        result = 31 * result + friends.hashCode()
+        result = 31 * result + (friendCount ?: 0)
+        result = 31 * result + (type?.hashCode() ?: 0)
+        result = 31 * result + (createdAt?.hashCode() ?: 0)
+        result = 31 * result + (updatedAt?.hashCode() ?: 0)
+        result = 31 * result + (details?.hashCode() ?: 0)
+        return result
+    }
+
+
 }

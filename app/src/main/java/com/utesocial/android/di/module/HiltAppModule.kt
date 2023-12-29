@@ -1,7 +1,11 @@
 package com.utesocial.android.di.module
 
 import android.content.Context
+import android.os.Handler.Callback
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.utesocial.android.core.data.util.Constants
@@ -13,7 +17,10 @@ import com.utesocial.android.di.network.AppApi
 import com.utesocial.android.di.network.AppApiImpl
 import com.utesocial.android.di.repository.AppRepository
 import com.utesocial.android.di.repository.AppRepositoryImpl
+import com.utesocial.android.feature_community.data.datasource.database.FriendsListDatabase
 import com.utesocial.android.feature_community.data.network.CommunityApi
+import com.utesocial.android.feature_community.domain.dao.FriendsListDao
+import com.utesocial.android.feature_community.domain.dao.FriendsRemoteKeysDao
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_login.data.network.LoginApi
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
@@ -125,4 +132,29 @@ class HiltAppModule {
     fun provideUnauthorizedEventBroadcast() : MutableLiveData<Boolean> {
         return MutableLiveData<Boolean>(false)
     }
+    @Singleton
+    @Provides
+    fun provideFriendsDatabase(@ApplicationContext context: Context) : FriendsListDatabase {
+
+        return Room
+            .databaseBuilder(context, FriendsListDatabase::class.java, "friendsCaching")
+            .fallbackToDestructiveMigration()
+            .addCallback(object: RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    Debug.log("FriendsListDatabase", "onCreate")
+                }
+            } )
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFriendsListDao(friendsListDatabase: FriendsListDatabase) : FriendsListDao =
+        friendsListDatabase.getFriendsListDao()
+
+    @Singleton
+    @Provides
+    fun provideFriendsRemoteKeyDao(friendsListDatabase: FriendsListDatabase) : FriendsRemoteKeysDao =
+        friendsListDatabase.getRemoteKeysDao()
+
 }

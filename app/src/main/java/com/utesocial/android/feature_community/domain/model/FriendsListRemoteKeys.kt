@@ -1,13 +1,13 @@
 package com.utesocial.android.feature_community.domain.model
 
+import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-class FriendsListRemoteKeys(
+@Entity
+data class FriendsListRemoteKeys(
     @PrimaryKey(autoGenerate = false)
-    val userId: String,
-    val prevKey: Int,
-    val currentPage: Int,
-    val nextKey: Int?,
-    val createdAt: Long = System.currentTimeMillis()
+    var userId: String,
+    var prevKey: Int?,
+    var nextKey: Int?,
+    var createdAt: Long = System.currentTimeMillis()
 ) {
 }
