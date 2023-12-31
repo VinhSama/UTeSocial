@@ -19,6 +19,7 @@ import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseActivity
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.element.MainActivity
+import com.utesocial.android.remote.networkState.Error
 import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 
 
@@ -247,6 +248,27 @@ fun AppCompatActivity.showError(
     }
 }
 
+fun BaseFragment<*>.showError(
+    error: Error?
+) {
+    binding?.apply {
+        error?.apply {
+            if(undefinedMessage.isNullOrEmpty()) {
+                Snackbar.make(
+                    root,
+                    errorType.stringResId,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            } else {
+                Snackbar.make(
+                    root,
+                    undefinedMessage.toString(),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+}
 fun BaseFragment<*>.showError(
     response : SimpleResponse<*>
 ) {

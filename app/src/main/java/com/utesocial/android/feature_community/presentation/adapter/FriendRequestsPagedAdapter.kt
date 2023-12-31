@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -19,37 +18,31 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.utesocial.android.R
-import com.utesocial.android.core.domain.model.User
-import com.utesocial.android.databinding.LayoutFriendItemBinding
+import com.utesocial.android.databinding.LayoutFriendRequestItemBinding
+import com.utesocial.android.feature_community.domain.model.FriendRequest
 
-class FriendsListPagedAdapter(
-    private val lifecycleOwner: LifecycleOwner,
-) : PagingDataAdapter<User, ViewHolder>(UserListDiffCallback()) {
-
-    class UserListDiffCallback : DiffUtil.ItemCallback<User>() {
-        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+class FriendRequestsPagedAdapter : PagingDataAdapter<FriendRequest, ViewHolder>(FriendRequestDiffCallback()) {
+    class FriendRequestDiffCallback : DiffUtil.ItemCallback<FriendRequest>() {
+        override fun areItemsTheSame(oldItem: FriendRequest, newItem: FriendRequest): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem.userId == newItem.userId
+        override fun areContentsTheSame(oldItem: FriendRequest, newItem: FriendRequest): Boolean {
+            return oldItem.requestId == newItem.requestId
         }
 
-        override fun getChangePayload(oldItem: User, newItem: User): Any? {
+        override fun getChangePayload(oldItem: FriendRequest, newItem: FriendRequest): Any? {
             if(oldItem != newItem) {
                 return newItem
             }
             return super.getChangePayload(oldItem, newItem)
         }
-
     }
-
-    inner class FriendViewHolder(private val binding: LayoutFriendItemBinding) : ViewHolder(binding.root) {
-
+    inner class FriendRequestViewHolder(private val binding: LayoutFriendRequestItemBinding) : ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(user: User) {
+        fun bind(friendRequest: FriendRequest) {
             binding.apply {
-                val url = user.avatar?.url
+                val url = friendRequest.sender.avatar?.url
                 url?.let {
                     Glide.with(binding.root.context)
                         .load(it)
@@ -85,7 +78,6 @@ class FriendsListPagedAdapter(
 
                         })
                         .into(imvAvatar)
-
                 } ?: run {
                     Glide.with(binding.root.context)
                         .load(AppCompatResources.getDrawable(binding.root.context, R.drawable.ico_default_profile))
@@ -121,24 +113,21 @@ class FriendsListPagedAdapter(
                         })
                         .into(imvAvatar)
                 }
-                txvFullName.text = "${user.firstName} ${user.lastName}"
-                txvUsername.text = user.username ?: ""
-
+                txvFullName.text = "${friendRequest.sender.firstName} ${friendRequest.sender.lastName}"
+                txvUsername.text = friendRequest.sender.username ?: ""
             }
         }
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         item?.let {
-            (holder as FriendViewHolder).bind(item)
+            (holder as FriendRequestViewHolder).bind(item)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return FriendViewHolder(
-            LayoutFriendItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FriendRequestViewHolder(
+            LayoutFriendRequestItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
-
 }

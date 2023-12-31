@@ -1,7 +1,6 @@
 package com.utesocial.android.di.module
 
 import android.content.Context
-import android.os.Handler.Callback
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -17,7 +16,7 @@ import com.utesocial.android.di.network.AppApi
 import com.utesocial.android.di.network.AppApiImpl
 import com.utesocial.android.di.repository.AppRepository
 import com.utesocial.android.di.repository.AppRepositoryImpl
-import com.utesocial.android.feature_community.data.datasource.database.FriendsListDatabase
+import com.utesocial.android.feature_community.data.datasource.database.CommunityDatabase
 import com.utesocial.android.feature_community.data.network.CommunityApi
 import com.utesocial.android.feature_community.domain.dao.FriendsListDao
 import com.utesocial.android.feature_community.domain.dao.FriendsRemoteKeysDao
@@ -134,10 +133,10 @@ class HiltAppModule {
     }
     @Singleton
     @Provides
-    fun provideFriendsDatabase(@ApplicationContext context: Context) : FriendsListDatabase {
+    fun provideFriendsDatabase(@ApplicationContext context: Context) : CommunityDatabase {
 
         return Room
-            .databaseBuilder(context, FriendsListDatabase::class.java, "friendsCaching")
+            .databaseBuilder(context, CommunityDatabase::class.java, "friendsCaching")
             .fallbackToDestructiveMigration()
             .addCallback(object: RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
@@ -149,12 +148,12 @@ class HiltAppModule {
 
     @Singleton
     @Provides
-    fun provideFriendsListDao(friendsListDatabase: FriendsListDatabase) : FriendsListDao =
-        friendsListDatabase.getFriendsListDao()
+    fun provideFriendsListDao(communityDatabase: CommunityDatabase) : FriendsListDao =
+        communityDatabase.getFriendsListDao()
 
     @Singleton
     @Provides
-    fun provideFriendsRemoteKeyDao(friendsListDatabase: FriendsListDatabase) : FriendsRemoteKeysDao =
-        friendsListDatabase.getRemoteKeysDao()
+    fun provideFriendsRemoteKeyDao(communityDatabase: CommunityDatabase) : FriendsRemoteKeysDao =
+        communityDatabase.getRemoteKeysDao()
 
 }

@@ -11,9 +11,9 @@ import com.utesocial.android.core.domain.model.User
 interface FriendsListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(friendsList: List<User>) : List<User>
+    suspend fun insertAll(friendsList: List<User>)
     @Upsert
-    suspend fun upsertAll(friendsList: List<User>) : List<User>
+    suspend fun upsertAll(friendsList: List<User>)
 
     @Query("Select * from User")
     fun getFriendsList() : PagingSource<Int, User>

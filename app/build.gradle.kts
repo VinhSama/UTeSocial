@@ -106,6 +106,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-rxjava3:$room_version")
+    implementation("androidx.room:room-paging:$room_version")
 
 
 

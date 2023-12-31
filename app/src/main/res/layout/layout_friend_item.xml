@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp"
-    style="@style/Widget.Material3.CardView.Elevated"
+    style="@style/Widget.Material3.CardView.Outlined"
     app:contentPadding="@dimen/_5sdp"
+    android:clickable="true"
+    app:strokeWidth="0dp"
+    app:cardUseCompatPadding="true"
+    app:contentPaddingTop="@dimen/_8sdp"
+    app:contentPaddingBottom="@dimen/_8sdp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

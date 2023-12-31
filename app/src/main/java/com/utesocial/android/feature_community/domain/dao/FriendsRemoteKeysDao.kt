@@ -14,6 +14,6 @@ interface FriendsRemoteKeysDao {
     @Query("Select * from FriendsListRemoteKeys where userId = :id")
     suspend fun getRemoteKeys(id: String) : FriendsListRemoteKeys
 
-    @Query("Delete from FRIENDSLISTREMOTEKEYS")
+    @Query("Delete from FriendsListRemoteKeys")
     suspend fun clearAll()
 }

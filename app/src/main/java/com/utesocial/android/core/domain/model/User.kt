@@ -28,13 +28,12 @@ data class User(
     var username: String,
     var homeTown: String,
     var birthdate: String,
+    @Embedded(prefix = "avatar_")
     var avatar: Avatar? = null,
     var status: Int?,
     var friends: List<String>,
     var friendCount: Int?,
     var type: UserType?,
-    var createdAt: Date?,
-    var updatedAt: Date?,
     @Embedded
     var details: UserDetails?
 ) : Serializable {
@@ -58,8 +57,6 @@ data class User(
         null,
         null,
         null,
-        null,
-        null
     )
     @JsonAdapter(UserTypeAdapter::class)
     enum class UserType(val type: Int) {
@@ -110,8 +107,6 @@ data class User(
         if (friends != other.friends) return false
         if (friendCount != other.friendCount) return false
         if (type != other.type) return false
-        if (createdAt != other.createdAt) return false
-        if (updatedAt != other.updatedAt) return false
         return details == other.details
     }
 
@@ -129,8 +124,6 @@ data class User(
         result = 31 * result + friends.hashCode()
         result = 31 * result + (friendCount ?: 0)
         result = 31 * result + (type?.hashCode() ?: 0)
-        result = 31 * result + (createdAt?.hashCode() ?: 0)
-        result = 31 * result + (updatedAt?.hashCode() ?: 0)
         result = 31 * result + (details?.hashCode() ?: 0)
         return result
     }
