@@ -1,6 +1,10 @@
 package com.utesocial.android.di.repository
 
 import com.utesocial.android.di.network.AppApi
+import com.utesocial.android.feature_change_avatar.data.repository.ChangeAvatarRepositoryImpl
+import com.utesocial.android.feature_change_avatar.domain.repository.ChangeAvatarRepository
+import com.utesocial.android.feature_change_password.data.repository.ChangePasswordRepositoryImpl
+import com.utesocial.android.feature_change_password.domain.repository.ChangePasswordRepository
 import com.utesocial.android.feature_community.data.repository.CommunityRepositoryImpl
 import com.utesocial.android.feature_community.domain.repository.CommunityRepository
 import com.utesocial.android.feature_home.data.repository.HomeRepositoryImpl
@@ -35,4 +39,8 @@ class AppRepositoryImpl(private val appApi: AppApi) : AppRepository {
     override val settingsRepository: SettingsRepository by lazy { SettingsRepositoryImpl(appApi.settingsApi) }
 
     override val profileRepository: ProfileRepository by lazy { ProfileRepositoryImpl(appApi.profileApi) }
+
+    override val changeAvatarRepository: ChangeAvatarRepository by lazy { ChangeAvatarRepositoryImpl(appApi.changeAvatarApi) }
+
+    override val changePasswordRepository: ChangePasswordRepository by lazy { ChangePasswordRepositoryImpl(appApi.changePasswordApi) }
 }

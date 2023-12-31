@@ -1,6 +1,10 @@
 package com.utesocial.android.di.module
 
 import com.utesocial.android.di.repository.AppRepository
+import com.utesocial.android.feature_change_avatar.domain.use_case.ChangeAvatarUseCase
+import com.utesocial.android.feature_change_avatar.domain.use_case.DeleteAvatarUseCase
+import com.utesocial.android.feature_change_avatar.domain.use_case.UploadAvatarUseCase
+import com.utesocial.android.feature_change_password.domain.use_case.ChangePasswordUseCase
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_community.domain.use_case.GetCommunityInfoUseCase
 import com.utesocial.android.feature_community.domain.use_case.GetFriendsListUseCase
@@ -64,4 +68,13 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
     override val settingsUseCase: SettingsUseCase by lazy { SettingsUseCase(
         logoutUseCase = LogoutUseCase(appRepository.settingsRepository)
     ) }
+
+    override val changeAvatarUseCase: ChangeAvatarUseCase by lazy { ChangeAvatarUseCase(
+        uploadAvatarUseCase = UploadAvatarUseCase(appRepository.changeAvatarRepository),
+        deleteAvatarUseCase = DeleteAvatarUseCase(appRepository.changeAvatarRepository)
+    ) }
+
+    override val changePasswordUseCase: ChangePasswordUseCase by lazy {
+        ChangePasswordUseCase(appRepository.changePasswordRepository)
+    }
 }

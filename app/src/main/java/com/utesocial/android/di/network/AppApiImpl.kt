@@ -3,6 +3,8 @@ package com.utesocial.android.di.network
 import com.utesocial.android.BuildConfig
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.di.util.Constants.BASE_URL
+import com.utesocial.android.feature_change_avatar.data.network.ChangeAvatarApi
+import com.utesocial.android.feature_change_password.data.network.ChangePasswordApi
 import com.utesocial.android.feature_community.data.network.CommunityApi
 import com.utesocial.android.feature_home.data.network.HomeApi
 import com.utesocial.android.feature_login.data.network.LoginApi
@@ -20,7 +22,8 @@ class AppApiImpl(
     loginApi: LoginApi,
     postApi: PostApi,
     communityApi: CommunityApi,
-    settingsApi: SettingsApi
+    changeAvatarApi: ChangeAvatarApi,
+    changePasswordApi: ChangePasswordApi
 ) : AppApi {
 
     override val registerApi: RegisterApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
@@ -46,7 +49,9 @@ class AppApiImpl(
         .build().create(ProfileApi::class.java) }
 
 
-    override val settingsApi: SettingsApi by lazy { settingsApi }
+    override val settingsApi: SettingsApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build().create(SettingsApi::class.java) }
 
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
@@ -59,4 +64,8 @@ class AppApiImpl(
         }
         return loggingInterceptor
     }
+
+    override val changeAvatarApi: ChangeAvatarApi by lazy { changeAvatarApi }
+
+    override val changePasswordApi: ChangePasswordApi by lazy { changePasswordApi }
 }

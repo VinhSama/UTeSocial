@@ -1,5 +1,7 @@
 package com.utesocial.android.di.module
 
+import com.utesocial.android.feature_change_avatar.domain.use_case.ChangeAvatarUseCase
+import com.utesocial.android.feature_change_password.domain.use_case.ChangePasswordUseCase
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_home.domain.use_case.HomeUseCase
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
@@ -17,4 +19,6 @@ interface AppModule {
     val loginUseCase: LoginUseCase
     val postUseCase: PostUseCase
     val settingsUseCase: SettingsUseCase
+    val changeAvatarUseCase: ChangeAvatarUseCase
+    val changePasswordUseCase: ChangePasswordUseCase
 }

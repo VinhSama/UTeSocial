@@ -1,5 +1,7 @@
 package com.utesocial.android.di.network
 
+import com.utesocial.android.feature_change_avatar.data.network.ChangeAvatarApi
+import com.utesocial.android.feature_change_password.data.network.ChangePasswordApi
 import com.utesocial.android.feature_community.data.network.CommunityApi
 import com.utesocial.android.feature_home.data.network.HomeApi
 import com.utesocial.android.feature_login.data.network.LoginApi
@@ -19,4 +21,6 @@ interface AppApi {
     val postApi: PostApi
     val settingsApi: SettingsApi
     val profileApi: ProfileApi
+    val changeAvatarApi: ChangeAvatarApi
+    val changePasswordApi: ChangePasswordApi
 }

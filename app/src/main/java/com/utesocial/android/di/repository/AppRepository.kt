@@ -1,5 +1,7 @@
 package com.utesocial.android.di.repository
 
+import com.utesocial.android.feature_change_avatar.domain.repository.ChangeAvatarRepository
+import com.utesocial.android.feature_change_password.domain.repository.ChangePasswordRepository
 import com.utesocial.android.feature_community.domain.repository.CommunityRepository
 import com.utesocial.android.feature_home.domain.repository.HomeRepository
 import com.utesocial.android.feature_login.domain.repository.LoginRepository
@@ -19,4 +21,6 @@ interface AppRepository {
     val postRepository: PostRepository
     val settingsRepository: SettingsRepository
     val profileRepository: ProfileRepository
+    val changeAvatarRepository: ChangeAvatarRepository
+    val changePasswordRepository: ChangePasswordRepository
 }

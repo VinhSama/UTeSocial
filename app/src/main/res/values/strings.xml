@@ -164,7 +164,7 @@
     <string name="date_util_suffix">trước</string>
 
     <string name="str_fra_profile_tv_title_info"><u>Thông tin người dùng:</u></string>
-    <string name="str_fra_profile_tv_title_role"><u>Thông tin chi tiết:</u></string>
+    <string name="str_fra_profile_tv_title_role">Thông tin chi tiết</string>
 
     <string name="str_fra_profile_student_tv_role"><b><i>Vai trò:</i></b> Sinh viên</string>
     <string name="str_fra_profile_student_tv_identity_code"><b><i>Mã sinh viên:</i></b></string>
@@ -186,8 +186,8 @@
     <string name="str_fra_profile_candidate_tv_school"><b><i>Trường hiện tại:</i></b></string>
 
     <string name="str_fra_change_avatar_tb_title">Đổi ảnh đại diện</string>
-    <string name="str_fra_change_avatar_btn_choose_image">Chọn hình ảnh</string>
-    <string name="str_fra_change_avatar_btn_save">Lưu</string>
+    <string name="str_fra_change_avatar_btn_update_avatar">Lưu thay đổi</string>
+    <string name="str_fra_change_avatar_btn_remove_avatar">Xóa ảnh đại diện</string>
 
     <string name="str_fra_change_pass_tb_title">Đổi mật khẩu</string>
     <string name="str_fra_change_pass_til_password_current">Nhập mật khẩu hiện tại</string>
@@ -201,4 +201,28 @@
     <!-- Unauthorized Dialog-->
     <string name="title_dialog_unauthorized">Xác thực thất bại</string>
     <string name="msg_dialog_unauthorized">Phiên đăng nhập không khả dụng hoặc đã hết hạn. Vui lòng đăng nhập lại để tiếp tục!</string>
+
+    <string name="str_change_password_success">Đổi mật khẩu thành công</string>
+    <string name="str_change_avatar_image_format_error">Định dạng của hình ảnh không hợp lệ</string>
+    <string name="str_change_avatar_image_not_found">Không xác định được hình ảnh. Vui lòng chọn lại từ thư viện hình ảnh</string>
+    <string name="str_change_avatar_image_success">Đã cập nhật ảnh đại diện</string>
+    <string name="str_change_avatar_image_fail">Không thể cập nhật ảnh đại diện. Vui lòng thử lại sau</string>
+
+    <string name="str_change_avatar_remove_success">Xóa ảnh đại diện thành công</string>
+    <string name="str_change_avatar_remove_fail_empty">Không tìm thấy ảnh đại diện</string>
+    <string name="str_change_avatar_permission_request_content">Cần cấp quyền cho phép ứng dụng truy cập vào các tệp hình ảnh</string>
+    <string name="str_change_avatar_permission_request_positive">CÀI ĐẶT</string>
+    <string name="str_change_avatar_permission_request_neutral">HỦY</string>
+    <string name="str_change_avatar_permission_forward_content">Cần cấp các quyền cần thiết thủ công trong \'Cài đặt\'</string>
+    <string name="str_change_avatar_permission_forward_positive">ĐỒNG Ý</string>
+    <string name="str_change_avatar_permission_forward_neutral">HỦY</string>
+    <string name="str_change_avatar_permission_denied">Không thể truy cập thư viện hình ảnh</string>
+
+    <string name="str_fra_profile_info_tv_title">Thông tin chi tiết</string>
+    <string name="str_fra_profile_info_tv_name">%1$s %2$s</string>
+    <string name="str_fra_profile_info_tv_role">Vai trò: %1$s</string>
+    <string name="str_fra_profile_info_tv_email">Email: %1$s</string>
+    <string name="str_fra_profile_info_more">--- Xem thêm thông tin ---</string>
+    <string name="str_fra_profile_friend_tv_title">Bạn bè của tôi (%1$d)</string>
+    <string name="str_fra_profile_friend_tv_empty">Không có danh sách bạn bè</string>
 </resources>
