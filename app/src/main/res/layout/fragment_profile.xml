@@ -6,18 +6,126 @@
     <data>
 
         <variable
-            name="user"
-            type="com.utesocial.android.core.domain.model.User" />
+            name="mainViewModel"
+            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator_layout_root"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         tools:context=".feature_profile.presentation.element.ProfileFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_layout_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="16:9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/bac_profile" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_back"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:icon="@drawable/ico_arrow_left_regular"
+                    app:iconGravity="start"
+                    app:iconTint="?attr/colorOnSecondaryContainer"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/button_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_menu"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:icon="@drawable/ico_ellipsis_regular"
+                    app:iconGravity="end"
+                    app:iconTint="?attr/colorOnTertiaryContainer"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/button_back"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bac_iv_list_avatar"
+                android:transitionName="@string/tra_settings_profile_avatar"
+                app:layout_anchor="@id/constraint_layout_background"
+                app:layout_anchorGravity="bottom|center">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view_avatar"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="6dp"
+                    app:avatar="@{mainViewModel.authorizedUser.avatar.url}" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                app:layout_anchor="@id/relative_layout_avatar"
+                app:layout_anchorGravity="bottom">
+
+                <include
+                    android:id="@+id/username"
+                    layout="@layout/fragment_profile_username"
+                    app:mainViewModel="@{mainViewModel}" />
+
+                <include
+                    android:id="@+id/info"
+                    layout="@layout/fragment_profile_info"
+                    app:user="@{mainViewModel.authorizedUser}" />
+
+                <include
+                    android:id="@+id/friend"
+                    layout="@layout/fragment_profile_friend" />
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,8 +229,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_post" />
 
-        </LinearLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>-->
 
 </layout>

@@ -2,6 +2,7 @@ package com.utesocial.android.feature_settings.presentation.element
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,11 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Constants
 import com.utesocial.android.core.data.util.PreferenceManager
+import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
+import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentSettingsBinding
 import com.utesocial.android.feature_settings.presentation.state_holder.SettingsViewModel
@@ -34,7 +37,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     override val viewModel: SettingsViewModel by viewModels { SettingsViewModel.Factory }
 
     private val mainViewModel: MainViewModel by viewModels(ownerProducer = { getBaseActivity() })
-    private val user by lazy { mainViewModel.authorizedUser.value }
 
     @Inject
     lateinit var preferenceManager: PreferenceManager
@@ -55,7 +57,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         observer()
     }
 
-    private fun setupBinding() { binding.user = user }
+    private fun setupBinding() { binding.mainViewModel = mainViewModel }
 
     private fun setupListener() {
         binding.constraintLayoutProfile.setOnClickListener {
@@ -64,17 +66,22 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
             val extras = FragmentNavigatorExtras(
                 binding.imageViewAvatar to transitionAvatar,
-                binding.textViewName to transitionName
+                binding.textViewUsername to transitionName
             )
-            val action = SettingsFragmentDirections.actionSettingsProfile(user!!)
+            val action = SettingsFragmentDirections.actionSettingsProfile()
 
             getBaseActivity().navController()?.navigate(action, extras)
             getBaseActivity().handleBar(false)
         }
 
         binding.buttonChangeAvatar.setOnClickListener {
+            val transitionAvatar = resources.getString(R.string.tra_settings_profile_avatar)
+
+            val extras = FragmentNavigatorExtras(binding.imageViewAvatar to transitionAvatar)
             val action = SettingsFragmentDirections.actionSettingsChangeAvatar()
-            navigation(action)
+
+            getBaseActivity().navController()?.navigate(action, extras)
+            getBaseActivity().handleBar(false)
         }
 
         binding.buttonChangePassword.setOnClickListener {
@@ -106,6 +113,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                         Toast.makeText(getBaseActivity(), getString(R.string.str_logout_success), LENGTH_SHORT).show()
                     }
                 } else if (it.message.isNotEmpty()) {
+                    dismissLoadingDialog()
                     getBaseActivity().showSnackbar(message = getString(R.string.str_error_logout))
                     viewModel.resetStatus()
                 }

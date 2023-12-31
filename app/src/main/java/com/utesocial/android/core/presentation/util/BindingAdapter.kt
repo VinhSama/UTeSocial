@@ -20,6 +20,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Common
+import com.utesocial.android.core.domain.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -181,6 +182,21 @@ fun setImage(
         .error(R.drawable.bac_image_error)
 
     Glide.with(shapeableImageView.context).load(image).apply(requestOptions).into(shapeableImageView)
+}
+
+@BindingAdapter("username")
+fun setUsername(
+    materialTextView: MaterialTextView,
+    user: User?
+) {
+    val text = user?.username?.ifEmpty {
+        materialTextView.context.getString(
+            R.string.str_fra_settings_tv_name,
+            user.firstName,
+            user.lastName
+        )
+    } ?: ""
+    materialTextView.text = text
 }
 
 @BindingAdapter("wallpapers")

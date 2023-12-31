@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="mainViewModel"
+            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -45,41 +49,74 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/image_view_avatar"
-                    android:layout_width="150dp"
-                    android:scaleType="centerCrop"
+                <RelativeLayout
+                    android:id="@+id/relative_layout_avatar"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/bac_ava_change"
                     android:transitionName="@string/tra_settings_profile_avatar"
-                    app:layout_constraintBottom_toTopOf="@id/button_choose_image"
+                    app:layout_constraintBottom_toTopOf="@id/button_update_avatar"
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ico_default_profile" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/image_view_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="3dp"
+                        android:scaleType="centerCrop"
+                        app:avatar="@{mainViewModel.authorizedUser.avatar.url}" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/image_view_choose"
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="3dp"
+                        android:alpha="0.9"
+                        android:background="@drawable/bac_select_image" />
+
+                </RelativeLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_choose_image"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:id="@+id/button_update_avatar"
                     android:layout_width="match_parent"
-                    android:layout_height="66dp"
-                    android:layout_marginTop="48dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginBottom="24dp"
-                    android:text="@string/str_fra_change_avatar_btn_choose_image"
-                    app:layout_constraintBottom_toTopOf="@id/button_save"
+                    android:backgroundTint="@color/color_fra_change_avatar_btn_update_enabled"
+                    android:text="@string/str_fra_change_avatar_btn_update_avatar"
+                    android:textColor="@color/color_fra_change_avatar_btn_text_update_enabled"
+                    app:icon="@drawable/ico_floppy_disk_solid"
+                    app:iconGravity="textStart"
+                    app:iconPadding="16dp"
+                    app:iconTint="@color/color_fra_change_avatar_btn_text_update_enabled"
+                    app:layout_constraintBottom_toTopOf="@id/button_remove_avatar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image_view_avatar" />
+                    app:layout_constraintTop_toBottomOf="@id/relative_layout_avatar" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_save"
+                    android:id="@+id/button_remove_avatar"
                     android:layout_width="match_parent"
-                    android:layout_height="66dp"
-                    android:text="@string/str_fra_change_avatar_btn_save"
+                    android:layout_height="70dp"
+                    android:backgroundTint="@color/color_fra_change_avatar_btn_remove_enabled"
+                    android:text="@string/str_fra_change_avatar_btn_remove_avatar"
+                    android:textColor="@color/color_fra_change_avatar_btn_text_remove_enabled"
+                    app:icon="@drawable/ico_image_slash_solid"
+                    app:iconGravity="textStart"
+                    app:iconPadding="16dp"
+                    app:iconTint="@color/color_fra_change_avatar_btn_text_remove_enabled"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_choose_image" />
+                    app:layout_constraintTop_toBottomOf="@id/button_update_avatar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.utesocial.android.core.domain.model.User" />
+            name="mainViewModel"
+            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
 
     </data>
 
@@ -31,7 +31,7 @@
                 android:layout_width="48dp"
                 android:layout_height="0dp"
                 android:transitionName="@string/tra_settings_profile_avatar"
-                app:avatar="@{user.avatar.url}"
+                app:avatar="@{mainViewModel.authorizedUser.avatar.url}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toStartOf="@id/linear_layout_info"
@@ -50,16 +50,16 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_view_name"
+                    android:id="@+id/text_view_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{@string/str_fra_settings_tv_name(user.firstName, user.lastName)}"
                     android:textColor="?attr/colorOnSurface"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:transitionName="@string/tra_settings_profile_name" />
+                    android:transitionName="@string/tra_settings_profile_name"
+                    app:username="@{mainViewModel.authorizedUser}" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/text_view_hint"

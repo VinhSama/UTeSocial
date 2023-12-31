@@ -345,7 +345,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             .onForwardToSettings { scope, deniedList ->
                 scope.showForwardToSettingsDialog(
                     deniedList,
-                    "YouBạn cần phải cho phép các quyền cần thiết trong Cài đặt bằng tay",
+                    "Bạn cần phải cho phép các quyền cần thiết trong 'Cài đặt' thủ công",
                     "ĐỒNG Ý",
                     "HỦY"
                 )

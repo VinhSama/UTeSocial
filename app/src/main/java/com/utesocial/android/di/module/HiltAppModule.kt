@@ -17,6 +17,10 @@ import com.utesocial.android.di.network.AppApiImpl
 import com.utesocial.android.di.repository.AppRepository
 import com.utesocial.android.di.repository.AppRepositoryImpl
 import com.utesocial.android.feature_community.data.datasource.database.CommunityDatabase
+import com.utesocial.android.feature_change_avatar.data.network.ChangeAvatarApi
+import com.utesocial.android.feature_change_avatar.domain.use_case.ChangeAvatarUseCase
+import com.utesocial.android.feature_change_password.data.network.ChangePasswordApi
+import com.utesocial.android.feature_change_password.domain.use_case.ChangePasswordUseCase
 import com.utesocial.android.feature_community.data.network.CommunityApi
 import com.utesocial.android.feature_community.domain.dao.FriendsListDao
 import com.utesocial.android.feature_community.domain.dao.FriendsRemoteKeysDao
@@ -73,9 +77,16 @@ class HiltAppModule {
 
     @Singleton
     @Provides
-    fun provideSettingApi(retrofit: Retrofit) : SettingsApi {
-        return retrofit.create(SettingsApi::class.java)
+    fun provideChangeAvatarApi(retrofit: Retrofit) : ChangeAvatarApi {
+        return retrofit.create(ChangeAvatarApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideChangePasswordApi(retrofit: Retrofit) : ChangePasswordApi {
+        return retrofit.create(ChangePasswordApi::class.java)
+    }
+
     @Singleton
     @Provides
     fun provideGlobalDisposable() : CompositeDisposable {
@@ -83,8 +94,14 @@ class HiltAppModule {
     }
     @Singleton
     @Provides
-    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, settingsApi: SettingsApi) : AppApi {
-        return AppApiImpl(loginApi = loginApi, postApi = postApi, communityApi = communityApi, settingsApi = settingsApi)
+    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi) : AppApi {
+        return AppApiImpl(
+            loginApi = loginApi,
+            postApi = postApi,
+            communityApi = communityApi,
+            changeAvatarApi = changeAvatarApi,
+            changePasswordApi = changePasswordApi
+        )
     }
 
     @Singleton
@@ -103,6 +120,18 @@ class HiltAppModule {
     @Provides
     fun providePostUseCase(appModule: AppModule) : PostUseCase{
         return appModule.postUseCase
+    }
+
+    @Singleton
+    @Provides
+    fun provideChangeAvatarUseCase(appModule: AppModule) : ChangeAvatarUseCase {
+        return appModule.changeAvatarUseCase
+    }
+
+    @Singleton
+    @Provides
+    fun provideChangePasswordUseCase(appModule: AppModule) : ChangePasswordUseCase {
+        return appModule.changePasswordUseCase
     }
 
     @Singleton

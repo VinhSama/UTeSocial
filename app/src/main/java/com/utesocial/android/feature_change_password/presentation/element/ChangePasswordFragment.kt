@@ -1,23 +1,43 @@
 package com.utesocial.android.feature_change_password.presentation.element
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Constants
+import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseFragment
+import com.utesocial.android.core.presentation.util.dismissLoadingDialog
+import com.utesocial.android.core.presentation.util.showError
+import com.utesocial.android.core.presentation.util.showLoadingDialog
+import com.utesocial.android.core.presentation.util.showShortToast
 import com.utesocial.android.databinding.FragmentChangePasswordBinding
+import com.utesocial.android.feature_change_password.domain.model.ChangePasswordReq
+import com.utesocial.android.feature_change_password.presentation.state_holder.ChangePasswordViewModel
+import com.utesocial.android.feature_login.presentation.state_holder.LoginViewModel
+import com.utesocial.android.remote.networkState.Status
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
 
     override lateinit var binding: FragmentChangePasswordBinding
-    override val viewModel: ViewModel? = null
+    override val viewModel: ChangePasswordViewModel by viewModels()
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -36,6 +56,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         setup()
         setupBinding()
         setupListener()
+//        observer()
     }
 
     private fun setup() {
@@ -62,6 +83,41 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         }
 
         binding.toolbar.setNavigationOnClickListener { getBaseActivity().onBackPressedDispatcher.onBackPressed() }
+
+        binding.buttonChangePassword.setOnClickListener {
+            val changePasswordReq = ChangePasswordReq(
+                currentPassword = (binding.textInputEditTextPasswordCurrent.text ?: "").toString(),
+                newPassword = (binding.textInputEditTextPasswordNew.text ?: "").toString()
+            )
+            viewModel.changePassword(changePasswordReq)
+                .observe(viewLifecycleOwner) { responseState ->
+                    when(responseState.getNetworkState().getStatus()) {
+                        Status.RUNNING -> showLoadingDialog()
+                        Status.SUCCESS -> {
+                            dismissLoadingDialog()
+
+                            binding.textInputEditTextPasswordCurrent.setText("")
+                            binding.textInputLayoutPasswordCurrent.error = null
+                            binding.textInputLayoutPasswordCurrent.isErrorEnabled = false
+
+                            binding.textInputEditTextPasswordNew.setText("")
+                            binding.textInputLayoutPasswordNew.error = null
+                            binding.textInputLayoutPasswordNew.isErrorEnabled = false
+
+                            binding.textInputEditTextPasswordConfirm.setText("")
+                            binding.textInputLayoutPasswordConfirm.error = null
+                            binding.textInputLayoutPasswordConfirm.isErrorEnabled = false
+
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_change_password_success))
+                        }
+                        Status.FAILED -> {
+                            dismissLoadingDialog()
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_error_logout))
+                        }
+                        else -> return@observe
+                    }
+                }
+        }
     }
 
     private fun updateContinueButton() {
@@ -100,6 +156,12 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         } else {
             if (!binding.textInputLayoutPasswordCurrent.isEndIconVisible) {
                 binding.textInputLayoutPasswordCurrent.isEndIconVisible = true
+            }
+
+            if (text.length < 8) {
+                val error = resources.getString(R.string.str_fra_register_error_pass_size)
+                setError(binding.textInputLayoutPasswordCurrent, error)
+                return
             }
 
             updateContinueButton()
