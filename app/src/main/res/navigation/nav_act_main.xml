@@ -101,7 +101,17 @@
         android:id="@+id/item_fra_profile"
         android:name="com.utesocial.android.feature_profile.presentation.element.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_profile_detail"
+            app:destination="@id/item_fra_detail"
+            app:enterAnim="@anim/anim_slide_up"
+            app:exitAnim="@anim/anim_slide_down"
+            app:popEnterAnim="@anim/anim_slide_up"
+            app:popExitAnim="@anim/anim_slide_down" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/item_fra_change_avatar"
@@ -114,5 +124,11 @@
         android:name="com.utesocial.android.feature_change_password.presentation.element.ChangePasswordFragment"
         android:label="ChangePasswordFragment"
         tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/item_fra_detail"
+        android:name="com.utesocial.android.feature_detail.presentation.element.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail" />
 
 </navigation>

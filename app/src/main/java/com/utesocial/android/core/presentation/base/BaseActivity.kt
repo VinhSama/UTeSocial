@@ -109,7 +109,10 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
 
                 when (navController()?.currentDestination?.id) {
-                    R.id.item_fra_notification, R.id.item_fra_settings, R.id.item_fra_community -> handleActionBar(false)
+                    R.id.item_fra_notification,
+                    R.id.item_fra_settings,
+                    R.id.item_fra_community,
+                    R.id.item_fra_profile -> handleActionBar(false)
                 }
             }
         }
@@ -188,8 +191,13 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
             override fun handleOnBackPressed() {
                 handleBottomBar(true)
+
                 isEnabled = false
                 onBackPressedDispatcher.onBackPressed()
+
+                when (navController()?.currentDestination?.id) {
+                    R.id.item_fra_profile -> handleBottomBar(false)
+                }
             }
         }
 

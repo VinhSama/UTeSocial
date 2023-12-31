@@ -184,6 +184,20 @@ fun setImage(
     Glide.with(shapeableImageView.context).load(image).apply(requestOptions).into(shapeableImageView)
 }
 
+@BindingAdapter("role")
+fun setType(
+    materialTextView: MaterialTextView,
+    user: User?
+) {
+    val resources = materialTextView.resources
+    val text = when (user?.type) {
+        User.UserType.CollegeStudent -> resources.getString(R.string.str_fra_profile_info_tv_role_college_student)
+        User.UserType.Lecturer -> resources.getString(R.string.str_fra_profile_info_tv_role_lecturer)
+        else -> resources.getString(R.string.str_fra_profile_info_tv_role_candidate)
+    }
+    materialTextView.text = text
+}
+
 @BindingAdapter("username")
 fun setUsername(
     materialTextView: MaterialTextView,

@@ -12,6 +12,7 @@ import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.databinding.FragmentProfileBinding
+import com.utesocial.android.feature_profile.presentation.adapter.ProfileFriendAdapter
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
@@ -41,6 +42,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+    }
+
+    private fun setup() { bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback) }
+
+    override fun onDestroyView() {
+        bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
+        super.onDestroyView()
     }*/
 
     override fun initDataBinding(
@@ -68,40 +76,24 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         setupBinding()
+        setupRecyclerView()
+        setupListener()
     }
 
     private fun setupBinding() { binding.mainViewModel = mainViewModel }
 
-    /*private fun setup() {
-        when (user.type) {
-            User.UserType.CollegeStudent -> {
-                val profileStudentBinding: FragmentProfileStudentBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_student, binding.linearLayoutInfo, false)
-                profileStudentBinding.user = user
-                profileStudentBinding.major = user.details?.major?.name?.get("vi") ?: ""
-                binding.frameLayoutInfo.addView(profileStudentBinding.root)
-            }
+    private fun setupRecyclerView() {
+//        val profileFriendAdapter = ProfileFriendAdapter(this@ProfileFragment, arrayListOf("", "", ""))
+//        binding.friend.recyclerViewFriend.adapter = profileFriendAdapter
+    }
 
-            User.UserType.Lecturer -> {
-                val profileLecturerBinding: FragmentProfileLecturerBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_lecturer, binding.linearLayoutInfo, false)
-                profileLecturerBinding.user = user
-                binding.frameLayoutInfo.addView(profileLecturerBinding.root)
-            }
+    private fun setupListener() {
+        binding.info.cardViewInfo.setOnClickListener { navigationDetail() }
+        binding.info.buttonMore.setOnClickListener { navigationDetail() }
+    }
 
-            User.UserType.Candidate -> {
-                val profileCandidateBinding: FragmentProfileCandidateBinding = DataBindingUtil.inflate(LayoutInflater.from(binding.linearLayoutInfo.context), R.layout.fragment_profile_candidate, binding.linearLayoutInfo, false)
-                profileCandidateBinding.user = user
-                profileCandidateBinding.major = user.details?.registeredMajor?.name?.get("vi") ?: ""
-                binding.frameLayoutInfo.addView(profileCandidateBinding.root)
-            }
-
-            else -> {}
-        }
-
-        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
-    }*/
-
-    /*override fun onDestroyView() {
-        bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
-        super.onDestroyView()
-    }*/
+    private fun navigationDetail() {
+        val action = ProfileFragmentDirections.actionProfileDetail()
+        getBaseActivity().navController()?.navigate(action)
+    }
 }
