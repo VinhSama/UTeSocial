@@ -12,6 +12,8 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -30,6 +32,8 @@ import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.util.FileRequestBody
+import com.utesocial.android.core.presentation.util.InputMethodLifecycleHelper
+import com.utesocial.android.core.presentation.util.Mode
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.hideLoading
 import com.utesocial.android.core.presentation.util.showDialog
@@ -68,6 +72,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     override lateinit var binding: FragmentCreatePostBinding
     override val viewModel: CreatePostViewModel by viewModels()
+    private var originalMode : Int? = null
 
     private val infoBinding by lazy { CreatePostFragmentInfo(binding.info) }
 
@@ -84,6 +89,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     ): FragmentCreatePostBinding {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_create_post, container, false)
         return binding
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        originalMode = activity?.window?.attributes?.softInputMode
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     private fun functionNotAvailable() = run {
@@ -110,6 +124,9 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner
+            .lifecycle
+            .addObserver(InputMethodLifecycleHelper(activity?.window, Mode.ADJUST_RESIZE, binding.root))
         setupRecyclerView()
         setupListener()
 
@@ -477,5 +494,18 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
         }
         return builder.build()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        originalMode?.let {
+            activity?.window?.apply {
+                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
+                    setDecorFitsSystemWindows(true)
+                } else {
+                    setSoftInputMode(it)
+                }
+            }
+        }
     }
 }

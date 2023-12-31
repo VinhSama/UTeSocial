@@ -7,6 +7,7 @@ import com.utesocial.android.feature_change_avatar.domain.use_case.UploadAvatarU
 import com.utesocial.android.feature_change_password.domain.use_case.ChangePasswordUseCase
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_community.domain.use_case.GetCommunityInfoUseCase
+import com.utesocial.android.feature_community.domain.use_case.GetFriendRequestsUseCase
 import com.utesocial.android.feature_community.domain.use_case.GetFriendsListUseCase
 import com.utesocial.android.feature_community.domain.use_case.SearchUserUseCase
 import com.utesocial.android.feature_home.domain.use_case.GetSuggestPostsUseCase
@@ -43,7 +44,8 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
     override val communityUseCase: CommunityUseCase by lazy { CommunityUseCase(
         getCommunityInfoUseCase = GetCommunityInfoUseCase(appRepository.communityRepository),
         searchUserUseCase = SearchUserUseCase(appRepository.communityRepository),
-        getFriendsListUseCase = GetFriendsListUseCase(appRepository.communityRepository)
+        getFriendsListUseCase = GetFriendsListUseCase(appRepository.communityRepository),
+        getFriendRequestsUseCase = GetFriendRequestsUseCase(appRepository.communityRepository)
     ) }
 
     override val homeUseCase: HomeUseCase by lazy { HomeUseCase(

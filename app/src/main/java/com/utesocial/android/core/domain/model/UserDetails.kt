@@ -6,12 +6,13 @@ import java.io.Serializable
 data class UserDetails (
     var graduated: Boolean,
     var classCode: String,
-    @Embedded
+    @Embedded(prefix = "faculty_")
     var faculty: Faculty?,
-    @Embedded
+    @Embedded(prefix = "major_")
     var major: Major?,
-    @Embedded
+    @Embedded(prefix = "enrollmentYear_")
     var enrollmentYear: EnrollmentYear?,
+    @Embedded(prefix = "registeredMajor_")
     val registeredMajor: Major?,
     val highSchool: String?
 ) : Serializable {

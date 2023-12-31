@@ -1,19 +1,17 @@
 package com.utesocial.android.feature_community.domain.repository
 
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.util.ResponseException
 import com.utesocial.android.feature_community.data.datasource.database.CommunityDatabase
-import com.utesocial.android.feature_community.data.network.dto.FriendsListResponse
-import com.utesocial.android.feature_community.domain.model.FriendsListRemoteKeys
+import com.utesocial.android.feature_community.data.network.dto.FriendRequestsResponse
+import com.utesocial.android.feature_community.domain.model.FriendRequest
+import com.utesocial.android.feature_community.domain.model.FriendRequestRemoteKeys
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
-import com.utesocial.android.remote.networkState.NetworkState
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
 import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -25,23 +23,24 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ExperimentalPagingApi::class)
-class FriendsListRemoteMediator(
+class FriendRequestsRemoteMediator(
     private val communityDatabase: CommunityDatabase,
     private val communityUseCase: CommunityUseCase,
     private val disposable: CompositeDisposable,
     private val coroutineScope: CoroutineScope,
     private val search: String
-    ) : RemoteMediator<Int, User>() {
+) : RemoteMediator<Int, FriendRequest>() {
+
     companion object {
         private const val STARTING_PAGE_INDEX = 1
     }
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
-
-    val responseState = MutableLiveData<NetworkState>()
-
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, User>): MediatorResult {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, FriendRequest>
+    ): MediatorResult {
         val page = when (val pageKeyData = getKeyPageData(loadType, state)) {
             is MediatorResult.Success -> {
                 return pageKeyData
@@ -52,43 +51,41 @@ class FriendsListRemoteMediator(
             }
         }
         return suspendCoroutine { continuation ->
-            communityUseCase.getFriendsListUseCase
+            communityUseCase.getFriendRequestsUseCase
                 .invoke(page, state.config.pageSize, search)
                 .process(
                     disposable,
                     onStateChanged = object :
-                        SimpleCall.OnStateChanged<AppResponse<FriendsListResponse>?> {
-                        override fun onChanged(response: SimpleResponse<AppResponse<FriendsListResponse>?>) {
-                            responseState.postValue(response.getNetworkState())
-                            if (response.isSuccessful()) {
+                        SimpleCall.OnStateChanged<AppResponse<FriendRequestsResponse>?> {
+                        override fun onChanged(response: SimpleResponse<AppResponse<FriendRequestsResponse>?>) {
+                            if(response.isSuccessful()) {
                                 var endOfList : Boolean? = null
-                                response.getResponseBody()?.data?.friends?.apply {
+                                response.getResponseBody()?.data?.requests?.apply {
                                     endOfList = isEmpty() || (size / state.config.pageSize < 1)
                                 }
-                                this@FriendsListRemoteMediator.coroutineScope.launch {
+                                this@FriendRequestsRemoteMediator.coroutineScope.launch {
                                     communityDatabase.withTransaction {
-                                        if (loadType == LoadType.REFRESH) {
-                                            communityDatabase.getRemoteKeysDao().clearAll()
-                                            communityDatabase.getFriendsListDao().clearAll()
+                                        if(loadType == LoadType.REFRESH) {
+                                            communityDatabase.getRequestRemoteKeysDao().clearAll()
+                                            communityDatabase.getFriendRequestsDao().clearAll()
                                         }
                                         val prevKey =
-                                            if (page == STARTING_PAGE_INDEX) null else page - 1
+                                            if(page == STARTING_PAGE_INDEX) null else page - 1
                                         val nextKey = if (endOfList == true) null else page + 1
                                         val keys =
-                                            response.getResponseBody()?.data?.friends?.map { user ->
-                                                FriendsListRemoteKeys(user.userId, prevKey, nextKey)
+                                            response.getResponseBody()?.data?.requests?.map { request ->
+                                                FriendRequestRemoteKeys(request.requestId, prevKey, nextKey)
                                             }
                                         keys?.let {
-                                            communityDatabase.getRemoteKeysDao().insertRemote(it)
+                                            communityDatabase.getRequestRemoteKeysDao().insertRemote(keys)
                                         }
-                                        response.getResponseBody()?.data?.friends?.let {
-                                            communityDatabase.getFriendsListDao().insertAll(it)
+                                        response.getResponseBody()?.data?.requests?.let {
+                                            communityDatabase.getFriendRequestsDao().insertAll(it)
                                         }
                                     }
                                     endOfList?.let {
                                         continuation.resume(MediatorResult.Success(it))
                                     }
-
                                 }
                             }
                             if(response.isFailure()) {
@@ -98,12 +95,11 @@ class FriendsListRemoteMediator(
 
                     }
                 )
-
-
         }
     }
 
-    private suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, User>): Any {
+
+    private suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, FriendRequest>): Any {
         return when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRefreshRemoteKey(state)
@@ -128,29 +124,27 @@ class FriendsListRemoteMediator(
         }
     }
 
-    private suspend fun getRefreshRemoteKey(state: PagingState<Int, User>): FriendsListRemoteKeys? {
+    private suspend fun getRefreshRemoteKey(state: PagingState<Int, FriendRequest>): FriendRequestRemoteKeys? {
         return withContext(Dispatchers.IO) {
             state.anchorPosition?.let { position ->
-                state.closestItemToPosition(position)?.userId?.let { repId ->
-                    communityDatabase.getRemoteKeysDao().getRemoteKeys(repId)
+                state.closestItemToPosition(position)?.requestId?.let { repId ->
+                    communityDatabase.getRequestRemoteKeysDao().getRemoteKeys(repId)
                 }
             }
         }
     }
 
-    private suspend fun getLastRemoteKey(state: PagingState<Int, User>): FriendsListRemoteKeys? {
+    private suspend fun getLastRemoteKey(state: PagingState<Int, FriendRequest>): FriendRequestRemoteKeys? {
         return withContext(Dispatchers.IO) {
-            state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-                ?.let { user -> communityDatabase.getRemoteKeysDao().getRemoteKeys(user.userId) }
+            state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+                ?.let { friendRequest -> communityDatabase.getRequestRemoteKeysDao().getRemoteKeys(friendRequest.requestId) }
         }
     }
 
-    private suspend fun getFirstRemoteKey(state: PagingState<Int, User>): FriendsListRemoteKeys? {
+    private suspend fun getFirstRemoteKey(state: PagingState<Int, FriendRequest>): FriendRequestRemoteKeys? {
         return withContext(Dispatchers.IO) {
             state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-                ?.let { user -> communityDatabase.getRemoteKeysDao().getRemoteKeys(user.userId) }
+                ?.let { friendRequest -> communityDatabase.getRequestRemoteKeysDao().getRemoteKeys(friendRequest.requestId) }
         }
     }
-
-
 }

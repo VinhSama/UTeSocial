@@ -6,7 +6,7 @@ import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
 
 class GetFriendsListUseCase(private val communityRepository: CommunityRepository) {
-    operator fun invoke(page: Int, limit: Int, search: String): SimpleCall<AppResponse<FriendsListResponse>> {
+    operator fun invoke(page: Int, limit: Int, search: String = ""): SimpleCall<AppResponse<FriendsListResponse>> {
         return communityRepository.getFriendsList(page, limit, search)
     }
 }
