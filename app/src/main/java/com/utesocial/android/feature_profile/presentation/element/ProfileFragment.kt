@@ -28,9 +28,10 @@ import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentProfileBinding
+import com.utesocial.android.databinding.ViewDialogConfirmBinding
 import com.utesocial.android.databinding.ViewDialogInputBinding
 import com.utesocial.android.feature_post.domain.model.PostModel
-import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.feature_profile.presentation.adapter.ProfileLoadStateAdapter
 import com.utesocial.android.feature_profile.presentation.adapter.ProfilePagedAdapter
 import com.utesocial.android.feature_profile.presentation.state_holder.ProfileViewModel
@@ -48,20 +49,53 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private val mainViewModel: MainViewModel by viewModels(ownerProducer = { getBaseActivity() })
     private val user by lazy { args.user }
 
-    private lateinit var bindingDialog: ViewDialogInputBinding
-    private lateinit var dialog: AlertDialog
+    private lateinit var bindingDialogUsername: ViewDialogInputBinding
+    private lateinit var dialogUsername: AlertDialog
+
+    private lateinit var bindingDialogDelete: ViewDialogConfirmBinding
+    private lateinit var dialogDelete: AlertDialog
+
     private lateinit var popupMenu: PopupMenu
 
+    private val postListener = object : PostListener {
+
+        override fun onShowDetail(postModel: PostModel) {
+            val action = ProfileFragmentDirections.actionProfilePost(postModel)
+            getBaseActivity().navController()?.navigate(action)
+        }
+
+        override fun onDeletePost(postId: String) {
+            bindingDialogDelete.buttonPositive.setOnClickListener {
+                dialogDelete.dismiss()
+
+                viewModel.deleteMyPost(postId).observe(viewLifecycleOwner) { responseState ->
+                    when (responseState.getNetworkState().getStatus()) {
+                        Status.RUNNING -> showLoadingDialog()
+                        Status.SUCCESS -> {
+                            dismissLoadingDialog()
+                            refreshData()
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_success))
+                        }
+
+                        Status.FAILED -> {
+                            dismissLoadingDialog()
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_fail))
+                        }
+
+                        else -> return@observe
+                    }
+                }
+            }
+
+            dialogDelete.show()
+        }
+    }
     private val pagedAdapter: ProfilePagedAdapter by lazy {
         ProfilePagedAdapter(
             viewLifecycleOwner,
-            object : PostModelBodyImageAdapter.PostBodyImageListener {
-
-                override fun onClick(postModel: PostModel) {
-                    val action = ProfileFragmentDirections.actionProfilePost(postModel)
-                    getBaseActivity().navController()?.navigate(action)
-                }
-            })
+            postListener,
+            mainViewModel.authorizedUser.value?.userId ?: ""
+        )
     }
 
     override fun initDataBinding(
@@ -81,13 +115,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         sharedElementEnterTransition = ChangeBounds()
         sharedElementReturnTransition = ChangeBounds()
 
-        bindingDialog =
+        bindingDialogUsername =
             DataBindingUtil.inflate(inflater, R.layout.view_dialog_input, container, false)
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(bindingDialog.root.context)
-        materialAlertDialogBuilder.setView(bindingDialog.root)
+        val materialAlertDialogBuilderUsername = MaterialAlertDialogBuilder(bindingDialogUsername.root.context)
+        materialAlertDialogBuilderUsername.setView(bindingDialogUsername.root)
+        dialogUsername = materialAlertDialogBuilderUsername.create()
+        dialogUsername.window?.attributes?.windowAnimations = R.style.DialogInputUsername
 
-        dialog = materialAlertDialogBuilder.create()
-        dialog.window?.attributes?.windowAnimations = R.style.DialogInputUsername
+        bindingDialogDelete =
+            DataBindingUtil.inflate(inflater, R.layout.view_dialog_confirm, container, false)
+        val materialAlertDialogBuilderDelete = MaterialAlertDialogBuilder(bindingDialogDelete.root.context)
+        materialAlertDialogBuilderDelete.setView(bindingDialogDelete.root)
+        dialogDelete = materialAlertDialogBuilderDelete.create()
+        dialogDelete.window?.attributes?.windowAnimations = R.style.DialogConfirmDelete
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -112,7 +152,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         popupMenu = PopupMenu(binding.buttonMenu.context, binding.buttonMenu)
         popupMenu.menuInflater.inflate(R.menu.menu_fra_profile_btn, popupMenu.menu)
 
-        bindingDialog.buttonPositive.isEnabled = false
+        bindingDialogUsername.buttonPositive.isEnabled = false
 
         binding.post.recyclerViewPost.layoutParams = RelativeLayout.LayoutParams(
             MATCH_PARENT,
@@ -123,7 +163,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private fun setupBinding() {
         binding.user = user
         binding.isVisit = user.userId != (mainViewModel.authorizedUser.value?.userId ?: "")
-        bindingDialog.fragment = this@ProfileFragment
+        bindingDialogUsername.fragment = this@ProfileFragment
     }
 
     private fun setupRecyclerView() {
@@ -162,7 +202,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_change_username -> {
-                    dialog.show()
+                    dialogUsername.show()
                     true
                 }
 
@@ -187,24 +227,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
-        bindingDialog.buttonPositive.setOnClickListener {
-            bindingDialog.textInputEditText.clearFocus()
+        bindingDialogUsername.buttonPositive.setOnClickListener {
+            bindingDialogUsername.textInputEditText.clearFocus()
 
-            viewModel.updateUsername(bindingDialog.textInputEditText.text.toString())
+            viewModel.updateUsername(bindingDialogUsername.textInputEditText.text.toString())
                 .observe(viewLifecycleOwner) { responseState ->
                     when (responseState.getNetworkState().getStatus()) {
                         Status.RUNNING -> showLoadingDialog()
                         Status.SUCCESS -> {
                             dismissLoadingDialog()
-                            dialog.dismiss()
+
                             binding.username.textViewUsername.text =
-                                mainViewModel.authorizedUser.value?.username ?: ""
+                                bindingDialogUsername.textInputEditText.text
+                            dialogUsername.dismiss()
+
+                            bindingDialogUsername.textInputEditText.setText("")
+                            refreshData()
+
                             getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_change_username_success))
                         }
 
                         Status.FAILED -> {
                             dismissLoadingDialog()
-                            bindingDialog.buttonPositive.isEnabled = false
+                            bindingDialogUsername.buttonPositive.isEnabled = false
                             getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_change_username_fail))
                         }
 
@@ -212,24 +257,23 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     }
                 }
         }
-        bindingDialog.buttonNeutral.setOnClickListener { dialog.dismiss() }
+        bindingDialogUsername.buttonNeutral.setOnClickListener { dialogUsername.dismiss() }
 
+        bindingDialogDelete.buttonNeutral.setOnClickListener { dialogDelete.dismiss() }
+
+        binding.buttonBack.setOnClickListener { getBaseActivity().onBackPressedDispatcher.onBackPressed() }
         binding.buttonMenu.setOnClickListener { popupMenu.show() }
 
-        binding.username.buttonChangeUsername.setOnClickListener { dialog.show() }
+        binding.username.buttonChangeUsername.setOnClickListener { dialogUsername.show() }
 
         binding.info.cardViewInfo.setOnClickListener {
             navigation(
-                ProfileFragmentDirections.actionProfileDetail(
-                    user
-                )
+                ProfileFragmentDirections.actionProfileDetail(user)
             )
         }
         binding.info.buttonMore.setOnClickListener {
             navigation(
-                ProfileFragmentDirections.actionProfileDetail(
-                    user
-                )
+                ProfileFragmentDirections.actionProfileDetail(user)
             )
         }
     }
@@ -246,8 +290,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun enablePositiveButton() {
         val isInputValid =
-            checkValid(bindingDialog.textInputLayout, bindingDialog.textInputEditText)
-        bindingDialog.buttonPositive.isEnabled = isInputValid
+            checkValid(bindingDialogUsername.textInputLayout, bindingDialogUsername.textInputEditText)
+        bindingDialogUsername.buttonPositive.isEnabled = isInputValid
     }
 
     private fun checkValid(
@@ -256,15 +300,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     ): Boolean = textInputLayout.error.isNullOrEmpty() && !textInputEditText.text.isNullOrEmpty()
 
     private fun setError(error: String) {
-        bindingDialog.textInputLayout.isErrorEnabled = true
-        bindingDialog.textInputLayout.error = error
-        bindingDialog.buttonPositive.isEnabled = false
+        bindingDialogUsername.textInputLayout.isErrorEnabled = true
+        bindingDialogUsername.textInputLayout.error = error
+        bindingDialogUsername.buttonPositive.isEnabled = false
     }
 
     fun checkInputUsername() {
-        bindingDialog.textInputLayout.error = null
-        bindingDialog.textInputLayout.isErrorEnabled = false
-        val text = bindingDialog.textInputEditText.text ?: ""
+        bindingDialogUsername.textInputLayout.error = null
+        bindingDialogUsername.textInputLayout.isErrorEnabled = false
+        val text = bindingDialogUsername.textInputEditText.text ?: ""
 
         if (text.trim().isEmpty()) {
             val error = resources.getString(R.string.str_fra_register_error_empty)

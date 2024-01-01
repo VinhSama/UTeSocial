@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/item_remove"
-        android:icon="@drawable/ico_align_slash_solid"
+        android:icon="@drawable/ico_trash_solid"
         android:title="@string/str_fra_post_btn_menu_remove" />
 
-    <item
+    <!--<item
         android:id="@+id/item_report"
         android:icon="@drawable/ico_flag_solid"
-        android:title="@string/str_fra_post_btn_menu_report" />
+        android:title="@string/str_fra_post_btn_menu_report" />-->
 
 </menu>

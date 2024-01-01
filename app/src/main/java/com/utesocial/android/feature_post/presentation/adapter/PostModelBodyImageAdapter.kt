@@ -33,11 +33,13 @@ import com.utesocial.android.databinding.ItemPostBodyImageBinding
 import com.utesocial.android.databinding.ItemPostBodyVideoBinding
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.domain.model.PostResource
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 
 class PostModelBodyImageAdapter(
     private val lifecycleOwner: LifecycleOwner,
     private val postModel: PostModel,
-    private val listener: PostBodyImageListener
+    private val listener: PostListener
+//    private val listener: PostBodyImageListener
 ) : RecyclerView.Adapter<PostModelBodyImageAdapter.PostBodyMediaViewHolder>() {
 
     companion object {
@@ -151,7 +153,7 @@ class PostModelBodyImageAdapter(
                     })
                     .into(imageViewContent)
                 imageViewContent.setOnClickListener {
-                    listener.onClick(postModel)
+                    listener.onShowDetail(postModel)
                 }
             }
         }
@@ -191,7 +193,7 @@ class PostModelBodyImageAdapter(
         fun onClick(postModel: PostModel)
     }
 
-    interface PostBodyImageListener {
+    /*interface PostBodyImageListener {
         fun onClick(postModel: PostModel)
-    }
+    }*/
 }

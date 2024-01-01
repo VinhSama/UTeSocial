@@ -10,7 +10,7 @@ import com.utesocial.android.R
 import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.feature_post.presentation.element.partial.PostBody
 import com.utesocial.android.feature_post.presentation.element.partial.InfoItemPost
-import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.databinding.ItemGroupBinding
 import com.utesocial.android.databinding.ItemPostBinding
 import com.utesocial.android.feature_post.presentation.element.partial.InfoItemGroup
@@ -18,7 +18,7 @@ import com.utesocial.android.feature_post.presentation.element.partial.InfoItemG
 class PostAdapter(
     private val lifecycleOwner: LifecycleOwner,
     private val data: List<Post>,
-    private val listener: PostBodyImageListener
+    private val listener: PostListener
 ) : Adapter<ViewHolder>() {
 
     companion object {

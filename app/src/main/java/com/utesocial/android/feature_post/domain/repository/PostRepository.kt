@@ -13,4 +13,6 @@ interface PostRepository {
     fun getFeedPosts(page: Int, limit: Int, userType: Like.UserType) : SimpleCall<AppResponse<PostBody>>
     fun uploadPostResources(attachments: RequestBody) : SimpleCall<AppResponse<PostResourcesBody>>
     fun createPost(createPostRequest: CreatePostRequest) : SimpleCall<AppResponse<PostModel>>
+
+    fun deletePost(postId: String): SimpleCall<AppResponse<Void>>
 }

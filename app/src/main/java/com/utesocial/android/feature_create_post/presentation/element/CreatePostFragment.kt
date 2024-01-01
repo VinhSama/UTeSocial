@@ -277,7 +277,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                     }
                                     if (response.isSuccessful()) {
                                         dismissLoadingDialog()
-                                        showLongToast("Post success!!")
+                                        showLongToast(getString(R.string.str_fra_create_post_success))
                                         requireActivity().onBackPressedDispatcher.onBackPressed()
                                     }
                                 }
@@ -313,7 +313,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                                 if (response.isSuccessful()) {
                                                     dismissLoadingDialog()
                                                     requireActivity().onBackPressedDispatcher.onBackPressed()
-                                                    showLongToast("Post success!!")
+                                                    showLongToast(getString(R.string.str_fra_create_post_success))
 
                                                 }
                                             }

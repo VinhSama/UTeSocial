@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseFragment
@@ -19,9 +16,9 @@ import com.utesocial.android.feature_community.presentation.element.partial.Comm
 import com.utesocial.android.feature_community.presentation.state_holder.CommunityViewModel
 import com.utesocial.android.feature_group.domain.model.Group
 import com.utesocial.android.feature_post.domain.model.Post
-import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
+import com.utesocial.android.feature_post.domain.model.PostModel
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
@@ -74,9 +71,9 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
     }
 
     private fun setupRecyclerView() {
-        communityAdapter = CommunityAdapter(this@CommunityFragment, groups, posts, object : PostBodyImageListener {
+        communityAdapter = CommunityAdapter(this@CommunityFragment, groups, posts, object : PostListener {
 
-            override fun onClick(post: Post) {
+            override fun onShowDetail(postModel: PostModel) {
 //                val action = CommunityFragmentDirections.actionCommunityPost(post)
 //                getBaseActivity().navController()?.navigate(action)
 //                getBaseActivity().handleBar(false)

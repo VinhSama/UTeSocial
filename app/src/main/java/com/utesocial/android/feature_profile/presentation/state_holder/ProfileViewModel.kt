@@ -42,28 +42,8 @@ class ProfileViewModel @Inject constructor(
                     if (response.isSuccessful()) {
                         response.getResponseBody()?.data?.let {
                             Debug.log("updateUsernameSuccess", it.toString())
-                            val user = authorizedUserObservable.value?.copy(
-                                userId = it.userId,
-                                identityCode = it.identityCode,
-                                firstName = it.firstName,
-                                lastName = it.lastName,
-                                email = it.email,
-                                username = it.username,
-                                homeTown = it.homeTown,
-                                birthdate = it.birthdate,
-                                avatar = it.avatar,
-                                status = it.status,
-                                friends = it.friends,
-                                friendCount = it.friendCount,
-                                type = it.type,
-                                details = it.details
-                            )
-                            user?.details = authorizedUserObservable.value?.details?.copy(
-                                registeredMajor = it.details?.registeredMajor
-                            )
-
-                            preferenceManager.putObject(Constants.CURRENT_USER, user!!)
-                            authorizedUserObservable.onNext(user)
+                            preferenceManager.putObject(Constants.CURRENT_USER, it)
+                            authorizedUserObservable.onNext(it)
                         }
                         mutableLiveData.postValue(response)
                     } else {
@@ -87,7 +67,7 @@ class ProfileViewModel @Inject constructor(
 
     fun deleteMyPost(postId: String): LiveData<SimpleResponse<AppResponse<Void>?>> {
         val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<Void>?>> = MutableLiveData()
-        profileUseCase.deleteMyPostUseCase(postId).process(
+        profileUseCase.deletePostUseCase(postId).process(
             disposable,
             onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Void>?> {
 

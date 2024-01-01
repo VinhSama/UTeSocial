@@ -33,7 +33,7 @@
     <string name="str_fra_notification_tab_title_notify">Thông báo</string>
     <string name="str_fra_notification_tab_title_request">Yêu cầu</string>
     <string name="str_fra_notify_tv_empty">Không có thông báo</string>
-    <string name="str_fra_post_btn_menu_remove">Gỡ bài viết</string>
+    <string name="str_fra_post_btn_menu_remove">Xóa bài viết</string>
     <string name="str_fra_post_btn_menu_report">Báo cáo vi phạm</string>
     <string name="str_fra_post_info_tv_title">Chi tiết bài viết</string>
     <string name="str_fra_register_content_candidate_til_identity_hint">Mã thí sinh</string>
@@ -270,4 +270,13 @@
     <string name="str_dialog_change_username_fail">Không thể cập nhật Username. Vui lòng thử lại sau</string>
 
     <string name="str_fra_change_avatar_take_photo_error">Không thể truy xuất được hình ảnh. Vui lòng thử lại sau</string>
+
+    <string name="str_dialog_confirm_delete_post_title">Xóa bài viết</string>
+    <string name="str_dialog_confirm_delete_post_content">Bạn có chắc chắn muốn xóa bài viết này không?</string>
+    <string name="str_dialog_confirm_delete_post_confirm">Xóa</string>
+    <string name="str_dialog_confirm_delete_post_cancel">Hủy</string>
+    <string name="str_dialog_confirm_delete_post_success">Đã xóa bài viết</string>
+    <string name="str_dialog_confirm_delete_post_fail">Không thể xóa bài viết. Vui lòng thử lại sau</string>
+
+    <string name="str_fra_create_post_success">Đăng bài viết thành công!!!</string>
 </resources>
