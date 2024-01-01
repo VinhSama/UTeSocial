@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -18,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.animation.doOnCancel
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.transition.ChangeBounds
@@ -55,6 +57,7 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
         RequestOptions().circleCrop().placeholder(R.drawable.pla_oval)
             .error(R.drawable.ico_default_profile)
     }
+    private lateinit var photoCaptureUri: Uri
     private var mediaItem: MediaItem? = null
 
     private val oaShowChooseImage by lazy {
@@ -117,6 +120,7 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
     }
 
     private fun setup() {
+        photoCaptureUri = createPhotoUri()
         countDownTimer.start()
         binding.buttonUpdateAvatar.isEnabled = false
     }
@@ -289,9 +293,11 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
             }
             .request { allGranted, _, _ ->
                 if (allGranted) {
-                    chooseSingleMediaLauncher.launch(
+                    /*chooseSingleMediaLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
+                    )*/
+                    Log.d("VVVVV", "Uri: $photoCaptureUri")
+                    openCameraLauncher.launch(photoCaptureUri)
                 } else {
                     getBaseActivity().showSnackbar(getString(R.string.str_change_avatar_permission_denied))
                 }
@@ -311,6 +317,32 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
 
                 Glide.with(this@ChangeAvatarFragment).load(uri).apply(requestOptions)
                     .into(binding.imageViewAvatar)
+            }
+        }
+
+    private fun createPhotoUri(): Uri {
+        val photo = File(getBaseActivity().filesDir, "my_avatar.png")
+        return FileProvider.getUriForFile(
+            getBaseActivity(),
+            getBaseActivity().packageName + ".provider",
+            photo
+        )
+    }
+
+    private fun deleteOldPhoto() {
+
+    }
+
+    private val openCameraLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) {
+            if (it) {
+                mediaItem = MediaItem(mediaUrl = MediaUrl.LocalMedia(photoCaptureUri), isVideo = false)
+                binding.buttonUpdateAvatar.isEnabled = true
+
+                Glide.with(this@ChangeAvatarFragment).load(photoCaptureUri).apply(requestOptions)
+                    .into(binding.imageViewAvatar)
+            } else {
+                getBaseActivity().showSnackbar(getString(R.string.str_fra_change_avatar_take_photo_error))
             }
         }
 }

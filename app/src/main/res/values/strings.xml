@@ -268,4 +268,6 @@
     <string name="str_dialog_change_username_error_min">Username tối thiểu 3 ký tự</string>
     <string name="str_dialog_change_username_success">Đã cập nhật Username</string>
     <string name="str_dialog_change_username_fail">Không thể cập nhật Username. Vui lòng thử lại sau</string>
+
+    <string name="str_fra_change_avatar_take_photo_error">Không thể truy xuất được hình ảnh. Vui lòng thử lại sau</string>
 </resources>

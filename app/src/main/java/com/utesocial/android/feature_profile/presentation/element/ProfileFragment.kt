@@ -56,10 +56,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         ProfilePagedAdapter(
             viewLifecycleOwner,
             object : PostModelBodyImageAdapter.PostBodyImageListener {
+
                 override fun onClick(postModel: PostModel) {
-//                val action = HomeFragmentDirections.actionHomePost(postModel)
-//                getBaseActivity().navController()?.navigate(action)
-//                getBaseActivity().handleBar(false)
+                    val action = ProfileFragmentDirections.actionProfilePost(postModel)
+                    getBaseActivity().navController()?.navigate(action)
                 }
             })
     }

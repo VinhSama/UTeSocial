@@ -11,4 +11,6 @@ interface ProfileRepository {
     fun updateUsername(username: UsernameReq): SimpleCall<AppResponse<User>>
 
     fun getMyPosts(userId: String, page: Int, limit: Int): SimpleCall<AppResponse<PostBody>>
+
+    fun deleteMyPost(postId: String): SimpleCall<AppResponse<Void>>
 }
