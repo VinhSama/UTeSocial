@@ -5,6 +5,7 @@ import com.utesocial.android.feature_community.data.network.dto.CommunityDto
 import com.utesocial.android.feature_community.data.network.dto.FriendRequestsResponse
 import com.utesocial.android.feature_community.data.network.dto.FriendsListResponse
 import com.utesocial.android.feature_community.data.network.dto.SearchUserResponse
+import com.utesocial.android.feature_community.data.network.request.AnswerFriendRequest
 import com.utesocial.android.feature_community.domain.repository.CommunityRepository
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
@@ -34,5 +35,9 @@ class CommunityRepositoryImpl(private val communityApi: CommunityApi) : Communit
         search: String
     ): SimpleCall<AppResponse<FriendRequestsResponse>> {
         return communityApi.getFriendRequest(page, limit, search)
+    }
+
+    override fun answerFriendRequest(answerFriendRequest: AnswerFriendRequest): SimpleCall<AppResponse<Int>> {
+        return communityApi.answerFriendRequest(answerFriendRequest)
     }
 }

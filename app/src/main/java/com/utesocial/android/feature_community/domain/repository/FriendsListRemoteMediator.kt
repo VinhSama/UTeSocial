@@ -17,6 +17,7 @@ import com.utesocial.android.remote.networkState.NetworkState
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
 import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +31,8 @@ class FriendsListRemoteMediator(
     private val communityUseCase: CommunityUseCase,
     private val disposable: CompositeDisposable,
     private val coroutineScope: CoroutineScope,
-    private val search: String
+    private val search: String,
+    private val listenFriendCountChanged: BehaviorSubject<Int>
     ) : RemoteMediator<Int, User>() {
     companion object {
         private const val STARTING_PAGE_INDEX = 1
@@ -62,9 +64,15 @@ class FriendsListRemoteMediator(
                             responseState.postValue(response.getNetworkState())
                             if (response.isSuccessful()) {
                                 var endOfList : Boolean? = null
-                                response.getResponseBody()?.data?.friends?.apply {
-                                    endOfList = isEmpty() || (size / state.config.pageSize < 1)
+                                response.getResponseBody()?.data?.let { body ->
+                                    body.friends.apply {
+                                        endOfList = isEmpty() || (size / state.config.pageSize < 1)
+                                    }
+                                    if(search.trim().isEmpty()) {
+                                        listenFriendCountChanged.onNext(body.totalCount)
+                                    }
                                 }
+
                                 this@FriendsListRemoteMediator.coroutineScope.launch {
                                     communityDatabase.withTransaction {
                                         if (loadType == LoadType.REFRESH) {

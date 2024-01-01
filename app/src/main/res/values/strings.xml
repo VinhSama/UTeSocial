@@ -223,4 +223,12 @@
     <string name="str_fra_profile_info_more">--- Xem thêm thông tin ---</string>
     <string name="str_fra_profile_friend_tv_title">Bạn bè của tôi (%1$d)</string>
     <string name="str_fra_profile_friend_tv_empty">Không có danh sách bạn bè</string>
+
+    <string name="str_accept_request">Chấp nhận</string>
+    <string name="str_remove_request">Xóa</string>
+    <string name="str_accept_friend_request_notify">Các bạn đã là bạn bè</string>
+    <string name="str_remove_friend_request_notify">Đã gỡ lời mời</string>
+    <string name="str_search_hint_friend_request">Tìm kiếm yêu cầu</string>
+    <string name="str_search_hint_friend_list">Tìm kiếm bạn bè</string>
+    <string name="str_total_friend_count">%s bạn bè</string>
 </resources>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -20,8 +21,11 @@ import com.bumptech.glide.request.target.Target
 import com.utesocial.android.R
 import com.utesocial.android.databinding.LayoutFriendRequestItemBinding
 import com.utesocial.android.feature_community.domain.model.FriendRequest
+import kotlinx.coroutines.withContext
 
-class FriendRequestsPagedAdapter : PagingDataAdapter<FriendRequest, ViewHolder>(FriendRequestDiffCallback()) {
+class FriendRequestsPagedAdapter(
+    val requestItemOnActions: RequestItemOnActions
+) : PagingDataAdapter<FriendRequest, ViewHolder>(FriendRequestDiffCallback()) {
     class FriendRequestDiffCallback : DiffUtil.ItemCallback<FriendRequest>() {
         override fun areItemsTheSame(oldItem: FriendRequest, newItem: FriendRequest): Boolean {
             return oldItem == newItem
@@ -115,6 +119,31 @@ class FriendRequestsPagedAdapter : PagingDataAdapter<FriendRequest, ViewHolder>(
                 }
                 txvFullName.text = "${friendRequest.sender.firstName} ${friendRequest.sender.lastName}"
                 txvUsername.text = friendRequest.sender.username ?: ""
+
+                viewGroupBtnActions.isVisible = friendRequest.status == FriendRequest.FriendState.PENDING
+                txvRespondNotify.isVisible = friendRequest.status != FriendRequest.FriendState.PENDING
+                when(friendRequest.status) {
+                    FriendRequest.FriendState.ACCEPTED -> {
+                        root.context?.apply {
+                            txvRespondNotify.text = getString(R.string.str_accept_friend_request_notify)
+                        }
+                    }
+                    FriendRequest.FriendState.REJECTED -> {
+                        root.context?.apply {
+                            txvRespondNotify.text = getString(R.string.str_remove_friend_request_notify)
+                        }
+                    }
+                    else -> {}
+                }
+                btnAccept.setOnClickListener {
+                    requestItemOnActions.onAcceptClick(friendRequest)
+                }
+                btnDeny.setOnClickListener {
+                    requestItemOnActions.onDenyClick(friendRequest)
+                }
+                root.setOnClickListener {
+                    requestItemOnActions.onProfileClick(friendRequest)
+                }
             }
         }
     }
@@ -129,5 +158,11 @@ class FriendRequestsPagedAdapter : PagingDataAdapter<FriendRequest, ViewHolder>(
         return FriendRequestViewHolder(
             LayoutFriendRequestItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
+    }
+
+    interface RequestItemOnActions {
+        fun onAcceptClick(request: FriendRequest)
+        fun onDenyClick(request: FriendRequest)
+        fun onProfileClick(request: FriendRequest)
     }
 }

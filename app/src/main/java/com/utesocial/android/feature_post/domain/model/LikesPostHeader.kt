@@ -1,13 +1,14 @@
 package com.utesocial.android.feature_post.domain.model
 
 import com.google.gson.annotations.SerializedName
-import com.utesocial.android.core.domain.model.Avatar
 import java.io.Serializable
 
-data class UserAuthor(
+data class LikesPostHeader(
     @SerializedName("_id")
-    val id : String?,
-    val username: String?,
+    val likeId: String,
     val fullName: String = "",
-    val avatar: String = "",
-) : Serializable
+    val userId: String,
+    val isFriend: Boolean
+) : Serializable {
+
+}

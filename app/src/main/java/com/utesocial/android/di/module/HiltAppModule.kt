@@ -27,6 +27,7 @@ import com.utesocial.android.feature_community.domain.dao.FriendsRemoteKeysDao
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
 import com.utesocial.android.feature_login.data.network.LoginApi
 import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
+import com.utesocial.android.feature_post.data.datasource.database.PostDatabase
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 import com.utesocial.android.feature_settings.data.network.SettingsApi
@@ -172,6 +173,20 @@ class HiltAppModule {
                     Debug.log("FriendsListDatabase", "onCreate")
                 }
             } )
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providePostDatabase(@ApplicationContext context: Context) : PostDatabase {
+        return Room
+            .databaseBuilder(context, PostDatabase::class.java, "postsCaching")
+            .fallbackToDestructiveMigration()
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    Debug.log("PostDatabase", "onCreate")
+                }
+            })
             .build()
     }
 
