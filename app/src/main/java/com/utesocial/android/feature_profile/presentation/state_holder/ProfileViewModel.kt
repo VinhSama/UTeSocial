@@ -85,6 +85,23 @@ class ProfileViewModel @Inject constructor(
         pagingSourceFactory = { MyPostPageKeyedDataSource(profileUseCase, userId, disposable) }
     ).liveData.cachedIn(viewModelScope)
 
+    fun deleteMyPost(postId: String): LiveData<SimpleResponse<AppResponse<Void>?>> {
+        val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<Void>?>> = MutableLiveData()
+        profileUseCase.deleteMyPostUseCase(postId).process(
+            disposable,
+            onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Void>?> {
+
+                override fun onChanged(response: SimpleResponse<AppResponse<Void>?>) {
+                    if (response.isSuccessful()) {
+                        response.getResponseBody()?.data?.let { Debug.log("deletePostSuccess", it.toString()) }
+                    }
+                    mutableLiveData.postValue(response)
+                }
+            }
+        )
+        return mutableLiveData
+    }
+
     override fun onCleared() {
         disposable.dispose()
         super.onCleared()

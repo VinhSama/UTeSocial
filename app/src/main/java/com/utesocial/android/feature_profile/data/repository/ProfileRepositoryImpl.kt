@@ -10,15 +10,15 @@ import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
 
 class ProfileRepositoryImpl(private val profileApi: ProfileApi) : ProfileRepository {
 
-    override fun updateUsername(username: UsernameReq): SimpleCall<AppResponse<User>> {
-        return profileApi.updateUsername(username)
-    }
+    override fun updateUsername(username: UsernameReq): SimpleCall<AppResponse<User>> =
+        profileApi.updateUsername(username)
 
     override fun getMyPosts(
         userId: String,
         page: Int,
         limit: Int
-    ): SimpleCall<AppResponse<PostBody>> {
-        return profileApi.getMyPosts(userId, page, limit)
-    }
+    ): SimpleCall<AppResponse<PostBody>> = profileApi.getMyPosts(userId, page, limit)
+
+    override fun deleteMyPost(postId: String): SimpleCall<AppResponse<Void>> =
+        profileApi.deleteMyPost(postId)
 }
