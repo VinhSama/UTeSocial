@@ -5,9 +5,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="mainViewModel"
-            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
+            name="user"
+            type="com.utesocial.android.core.domain.model.User" />
+
+        <variable
+            name="isVisit"
+            type="Boolean" />
 
     </data>
 
@@ -74,6 +80,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
+                        android:visibility="@{isVisit ? View.GONE : View.VISIBLE}"
                         app:icon="@drawable/ico_ellipsis_regular"
                         app:iconGravity="end"
                         app:iconTint="?attr/colorOnTertiaryContainer"
@@ -99,7 +106,7 @@
                         android:layout_height="150dp"
                         android:layout_centerInParent="true"
                         android:layout_margin="6dp"
-                        app:avatar="@{mainViewModel.authorizedUser.avatar.url}"
+                        app:avatar="@{user.avatar.url}"
                         app:srcCompat="@drawable/ico_default_profile" />
 
                 </RelativeLayout>
@@ -112,7 +119,6 @@
             android:id="@+id/scroll_view_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -124,12 +130,29 @@
                 <include
                     android:id="@+id/username"
                     layout="@layout/fragment_profile_username"
-                    app:mainViewModel="@{mainViewModel}" />
+                    app:isVisit="@{isVisit}"
+                    app:user="@{user}" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_request"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/str_fra_profile_add_friend"
+                    android:textAllCaps="true"
+                    android:visibility="@{isVisit ? View.VISIBLE : View.GONE}"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/ico_user_plus_solid"
+                    app:iconGravity="textStart"
+                    app:iconPadding="12dp"
+                    app:iconSize="0dp" />
 
                 <include
                     android:id="@+id/info"
                     layout="@layout/fragment_profile_info"
-                    app:user="@{mainViewModel.authorizedUser}" />
+                    app:user="@{user}" />
 
                 <!--<include
                     android:id="@+id/friend"
@@ -152,111 +175,5 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <!--<androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_layout_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:paddingHorizontal="16dp">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_view_avatar"
-                android:layout_width="88dp"
-                android:layout_height="0dp"
-                android:transitionName="@string/tra_settings_profile_avatar"
-                app:avatar="@{user.avatar.url}"
-                app:layout_constraintBottom_toTopOf="@id/text_view_name"
-                app:layout_constraintDimensionRatio="h,1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@{@string/str_fra_settings_tv_name(user.firstName, user.lastName)}"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:transitionName="@string/tra_settings_profile_name"
-                app:layout_constraintBottom_toTopOf="@id/scroll_view_info"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_view_avatar" />
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/scroll_view_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_view_name">
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_view_title_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginHorizontal="20dp"
-                        android:text="@string/str_fra_profile_tv_title_info"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-
-                    <FrameLayout
-                        android:id="@+id/frame_layout_info"
-                        android:layout_width="match_parent"
-                        android:layout_marginHorizontal="8dp"
-                        android:layout_height="match_parent" />
-
-                </LinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_posts"
-            style="@style/Widget.Material3.BottomSheet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
-            app:layout_behavior="@string/bottom_sheet_behavior">
-
-            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/str_fra_profile_tv_title_post"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_post"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_post" />
-
-        </LinearLayout>-->
 
 </layout>

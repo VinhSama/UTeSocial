@@ -36,7 +36,7 @@
             android:layout_marginHorizontal="@dimen/ite_post_info_ll_info_margin_horizontal"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button_menu"
+            app:layout_constraintEnd_toStartOf="@id/button_remove"
             app:layout_constraintStart_toEndOf="@id/image_view_avatar"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -66,14 +66,15 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_menu"
+            android:id="@+id/button_remove"
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="@dimen/ite_post_info_iv_menu_width"
             android:layout_height="@dimen/ite_post_info_iv_menu_height"
             android:background="@android:color/transparent"
             android:contentDescription="@string/des_ite_post_info_btn_menu"
             android:padding="@dimen/ite_post_info_iv_menu_padding"
-            app:icon="@drawable/ico_ellipsis_regular"
+            app:icon="@drawable/ico_xmark_solid"
+            app:iconSize="0dp"
             app:iconGravity="textStart"
             app:iconTint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"

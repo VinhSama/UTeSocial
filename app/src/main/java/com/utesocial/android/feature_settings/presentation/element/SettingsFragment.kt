@@ -68,7 +68,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 binding.imageViewAvatar to transitionAvatar,
                 binding.textViewUsername to transitionName
             )
-            val action = SettingsFragmentDirections.actionSettingsProfile()
+            val action = SettingsFragmentDirections.actionSettingsProfile(mainViewModel.authorizedUser.value!!)
 
             getBaseActivity().navController()?.navigate(action, extras)
             getBaseActivity().handleBar(false)

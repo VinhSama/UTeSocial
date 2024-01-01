@@ -246,4 +246,18 @@
     <string name="str_fra_detail_student_tv_major">Ngành: %1$s</string>
     <string name="str_fra_detail_student_tv_class_code">Mã lớp: %1$s</string>
     <string name="str_fra_detail_student_tv_enrollment_year">Khóa học: %1$s</string>
+
+    <string name="str_menu_fra_profile_username_title">Đổi Username</string>
+    <string name="str_menu_fra_profile_avatar_title">Đổi ảnh đại diện</string>
+    <string name="str_menu_fra_profile_password_title">Đổi mật khẩu</string>
+
+    <string name="str_fra_profile_add_friend">Kết bạn</string>
+
+    <string name="str_dialog_change_username_title">Đổi Username</string>
+    <string name="str_dialog_change_username_hint">Nhập Username</string>
+    <string name="str_dialog_change_username_save">Lưu</string>
+    <string name="str_dialog_change_username_cancel">Hủy</string>
+    <string name="str_dialog_change_username_error_min">Username tối thiểu 3 ký tự</string>
+    <string name="str_dialog_change_username_success">Đã cập nhật Username</string>
+    <string name="str_dialog_change_username_fail">Không thể cập nhật Username. Vui lòng thử lại sau</string>
 </resources>

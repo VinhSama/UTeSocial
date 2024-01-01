@@ -124,7 +124,7 @@ data class User(
         result = 31 * result + friends.hashCode()
         result = 31 * result + (friendCount ?: 0)
         result = 31 * result + (type?.hashCode() ?: 0)
-        result = 31 * result + (details?.hashCode() ?: 0)
+//        result = 31 * result + (details?.hashCode() ?: 0)
         return result
     }
 

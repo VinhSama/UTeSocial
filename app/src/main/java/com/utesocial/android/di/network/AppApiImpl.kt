@@ -22,6 +22,7 @@ class AppApiImpl(
     loginApi: LoginApi,
     postApi: PostApi,
     communityApi: CommunityApi,
+    profileApi: ProfileApi,
     changeAvatarApi: ChangeAvatarApi,
     changePasswordApi: ChangePasswordApi
 ) : AppApi {
@@ -44,9 +45,7 @@ class AppApiImpl(
 
     override val postApi: PostApi by lazy { postApi }
 
-    override val profileApi: ProfileApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create(ProfileApi::class.java) }
+    override val profileApi: ProfileApi by lazy { profileApi }
 
 
     override val settingsApi: SettingsApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)

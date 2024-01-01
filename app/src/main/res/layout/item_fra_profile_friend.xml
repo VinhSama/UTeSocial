@@ -8,7 +8,7 @@
 
     <com.google.android.material.carousel.MaskableFrameLayout
         android:id="@+id/maskable_frame_layout"
-        android:layout_width="170dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/ite_fra_community_group_mfl_margin_horizontal"
         android:foreground="?attr/selectableItemBackground"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_view_avatar"

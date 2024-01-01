@@ -30,7 +30,9 @@ import com.jakewharton.rxbinding4.widget.textChanges
 import com.permissionx.guolindev.PermissionX
 import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Debug
+import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.base.BaseFragment
+import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.FileRequestBody
 import com.utesocial.android.core.presentation.util.InputMethodLifecycleHelper
 import com.utesocial.android.core.presentation.util.Mode
@@ -75,6 +77,8 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     private var originalMode : Int? = null
 
     private val infoBinding by lazy { CreatePostFragmentInfo(binding.info) }
+
+    private val mainViewModel: MainViewModel by viewModels(ownerProducer = { getBaseActivity() })
 
     private val data: ArrayList<MediaReq> by lazy { ArrayList() }
     private val mediaItems: ArrayList<MediaItem> by lazy { ArrayList() }
@@ -122,8 +126,13 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         )
     }
 
+    private fun setupBinding() {
+        binding.mainViewModel = mainViewModel
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBinding()
         viewLifecycleOwner
             .lifecycle
             .addObserver(InputMethodLifecycleHelper(activity?.window, Mode.ADJUST_RESIZE, binding.root))

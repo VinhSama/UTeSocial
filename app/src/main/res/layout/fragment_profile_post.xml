@@ -3,34 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_post"
+    <RelativeLayout
+        android:id="@+id/relative_layout_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp">
+        android:layout_marginTop="18dp"
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="32dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/str_fra_profile_post_tv_title"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/relative_layout_post"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
-        <RelativeLayout
-            android:id="@+id/relative_layout_post"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_title">
+            android:layout_below="@id/text_view_title"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone">
+
+            <include layout="@layout/item_post_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_post_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/text_view_title"
+            android:layout_centerHorizontal="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_post"
@@ -44,19 +54,19 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_post" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_empty"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_empty_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="100dp"
-                android:gravity="center"
-                android:text="@string/str_fra_profile_post_tv_empty"
-                android:textColor="?attr/colorOnBackground"
-                android:textSize="17sp" />
+                android:layout_marginTop="48dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/lottie_not_found"
+                app:tint="?attr/colorSecondary" />
 
         </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>
