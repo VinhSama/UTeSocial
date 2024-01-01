@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="userDetail"
+            type="com.utesocial.android.core.domain.model.UserDetails" />
+
+        <variable
+            name="major"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_detail_student"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{userDetail.graduated ? @string/str_fra_detail_student_tv_role_graduated : @string/str_fra_detail_student_tv_role}"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_faculty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{@string/str_fra_detail_student_tv_faculty(userDetail.faculty.name)}"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{@string/str_fra_detail_student_tv_major(major)}"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_class_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{@string/str_fra_detail_student_tv_class_code(userDetail.classCode)}"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_enrollment_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{@string/str_fra_detail_student_tv_enrollment_year(userDetail.enrollmentYear.name)}"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</layout>

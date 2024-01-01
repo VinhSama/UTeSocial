@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_change_username"
+        android:title="@string/str_menu_fra_profile_username_title" />
+
+    <item
+        android:id="@+id/item_change_avatar"
+        android:title="@string/str_menu_fra_profile_avatar_title" />
+
+    <item
+        android:id="@+id/item_change_password"
+        android:title="@string/str_menu_fra_profile_password_title" />
+
+</menu>

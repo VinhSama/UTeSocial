@@ -4,9 +4,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="mainViewModel"
-            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
+            name="user"
+            type="com.utesocial.android.core.domain.model.User" />
+
+        <variable
+            name="isVisit"
+            type="Boolean" />
 
     </data>
 
@@ -25,7 +31,7 @@
             android:textAppearance="?attr/textAppearanceHeadlineSmall"
             android:textStyle="bold"
             android:transitionName="@string/tra_settings_profile_name"
-            app:username="@{mainViewModel.authorizedUser}" />
+            app:username="@{user}" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_change_username"
@@ -34,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:padding="8dp"
+            android:visibility="@{isVisit ? View.GONE : View.VISIBLE}"
             app:icon="@drawable/ico_pen_circle_solid"
             app:iconGravity="textStart"
             app:iconSize="25dp"

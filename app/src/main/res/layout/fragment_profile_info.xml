@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -38,14 +39,14 @@
                 android:id="@+id/linear_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_view_name"
                     android:layout_width="24dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="3dp"
                     android:src="@drawable/ico_user_solid" />
 
@@ -71,10 +72,10 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_view_role"
                     android:layout_width="24dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="3dp"
-                    android:src="@drawable/ico_id_card_clip_solid" />
+                    android:src="@drawable/ico_briefcase_solid" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/text_view_role"
@@ -82,9 +83,9 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{user.email}"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:role="@{user}" />
 
             </LinearLayout>
 
@@ -98,8 +99,8 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_view_email"
                     android:layout_width="24dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="3dp"
                     android:src="@drawable/ico_envelope_solid" />
 
@@ -120,7 +121,7 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:insetTop="0dp"

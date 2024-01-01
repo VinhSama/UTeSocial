@@ -8,6 +8,7 @@ import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_notification.domain.use_case.NotificationUseCase
 import com.utesocial.android.feature_register.domain.use_case.RegisterUseCase
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
+import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
 import com.utesocial.android.feature_settings.domain.use_case.SettingsUseCase
 
 interface AppModule {
@@ -21,4 +22,5 @@ interface AppModule {
     val settingsUseCase: SettingsUseCase
     val changeAvatarUseCase: ChangeAvatarUseCase
     val changePasswordUseCase: ChangePasswordUseCase
+    val profileUseCase: ProfileUseCase
 }

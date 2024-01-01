@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="mainViewModel"
+            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +31,8 @@
 
                 <include
                     android:id="@+id/info"
-                    layout="@layout/fragment_create_post_info" />
+                    layout="@layout/fragment_create_post_info"
+                    app:mainViewModel="@{mainViewModel}" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_content"

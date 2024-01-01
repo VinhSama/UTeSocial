@@ -218,11 +218,12 @@
     <string name="str_change_avatar_permission_forward_neutral">HỦY</string>
     <string name="str_change_avatar_permission_denied">Không thể truy cập thư viện hình ảnh</string>
 
-    <string name="str_fra_profile_info_tv_title">Thông tin chi tiết</string>
+    <string name="str_fra_profile_info_tv_title">Thông tin cá nhân</string>
     <string name="str_fra_profile_info_tv_name">%1$s %2$s</string>
+    <string name="str_fra_profile_info_tv_role_college_student">Sinh viên</string>
+    <string name="str_fra_profile_info_tv_role_lecturer">Giảng viên</string>
+    <string name="str_fra_profile_info_tv_role_candidate">Thí sinh</string>
     <string name="str_fra_profile_info_more">--- Xem thêm thông tin ---</string>
-    <string name="str_fra_profile_friend_tv_title">Bạn bè của tôi (%1$d)</string>
-    <string name="str_fra_profile_friend_tv_empty">Không có danh sách bạn bè</string>
 
     <string name="str_accept_request">Chấp nhận</string>
     <string name="str_remove_request">Xóa</string>
@@ -231,4 +232,40 @@
     <string name="str_search_hint_friend_request">Tìm kiếm yêu cầu</string>
     <string name="str_search_hint_friend_list">Tìm kiếm bạn bè</string>
     <string name="str_total_friend_count">%s bạn bè</string>
+    <string name="str_fra_profile_friend_tv_title">Danh sách bạn bè (%1$d)</string>
+    <string name="str_fra_profile_friend_tv_empty">Không tìm thấy danh sách bạn bè</string>
+    <string name="str_fra_profile_post_tv_title">Bài viết đã đăng</string>
+    <string name="str_fra_profile_post_tv_empty">Không có bài viết nào</string>
+
+    <string name="str_fra_detail_tb_title">Thông tin chi tiết</string>
+    <string name="str_fra_detail_tv_title_basic">Thông tin cơ bản</string>
+    <string name="str_fra_detail_tv_name">%1$s %2$s</string>
+    <string name="str_fra_detail_tv_title_contact">Thông tin liên hệ</string>
+    <string name="str_fra_detail_tv_identity_code">ID: %1$s</string>
+    <string name="str_fra_detail_tv_title_other">Thông tin khác</string>
+    <string name="str_fra_detail_candidate_tv_role">Vai trò: Thí sinh</string>
+    <string name="str_fra_detail_candidate_tv_major">Ngành đăng ký: %1$s</string>
+    <string name="str_fra_detail_candidate_tv_school">Trường đang học: %1$s</string>
+    <string name="str_fra_detail_lecturer_tv_role">Vai trò: Giảng viên</string>
+    <string name="str_fra_detail_lecturer_tv_faculty">Khoa: %1$s</string>
+    <string name="str_fra_detail_student_tv_role">Vai trò: Sinh viên</string>
+    <string name="str_fra_detail_student_tv_role_graduated">Vai trò: Cựu sinh viên</string>
+    <string name="str_fra_detail_student_tv_faculty">Khoa: %1$s</string>
+    <string name="str_fra_detail_student_tv_major">Ngành: %1$s</string>
+    <string name="str_fra_detail_student_tv_class_code">Mã lớp: %1$s</string>
+    <string name="str_fra_detail_student_tv_enrollment_year">Khóa học: %1$s</string>
+
+    <string name="str_menu_fra_profile_username_title">Đổi Username</string>
+    <string name="str_menu_fra_profile_avatar_title">Đổi ảnh đại diện</string>
+    <string name="str_menu_fra_profile_password_title">Đổi mật khẩu</string>
+
+    <string name="str_fra_profile_add_friend">Kết bạn</string>
+
+    <string name="str_dialog_change_username_title">Đổi Username</string>
+    <string name="str_dialog_change_username_hint">Nhập Username</string>
+    <string name="str_dialog_change_username_save">Lưu</string>
+    <string name="str_dialog_change_username_cancel">Hủy</string>
+    <string name="str_dialog_change_username_error_min">Username tối thiểu 3 ký tự</string>
+    <string name="str_dialog_change_username_success">Đã cập nhật Username</string>
+    <string name="str_dialog_change_username_fail">Không thể cập nhật Username. Vui lòng thử lại sau</string>
 </resources>

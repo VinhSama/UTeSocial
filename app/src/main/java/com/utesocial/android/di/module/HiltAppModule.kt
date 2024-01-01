@@ -30,6 +30,8 @@ import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_post.data.datasource.database.PostDatabase
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
+import com.utesocial.android.feature_profile.data.network.ProfileApi
+import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
 import com.utesocial.android.feature_settings.data.network.SettingsApi
 import dagger.Module
 import dagger.Provides
@@ -78,6 +80,12 @@ class HiltAppModule {
 
     @Singleton
     @Provides
+    fun provideProfileApi(retrofit: Retrofit) : ProfileApi {
+        return retrofit.create(ProfileApi::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideChangeAvatarApi(retrofit: Retrofit) : ChangeAvatarApi {
         return retrofit.create(ChangeAvatarApi::class.java)
     }
@@ -95,11 +103,12 @@ class HiltAppModule {
     }
     @Singleton
     @Provides
-    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi) : AppApi {
+    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, profileApi: ProfileApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi) : AppApi {
         return AppApiImpl(
             loginApi = loginApi,
             postApi = postApi,
             communityApi = communityApi,
+            profileApi = profileApi,
             changeAvatarApi = changeAvatarApi,
             changePasswordApi = changePasswordApi
         )
@@ -121,6 +130,12 @@ class HiltAppModule {
     @Provides
     fun providePostUseCase(appModule: AppModule) : PostUseCase{
         return appModule.postUseCase
+    }
+
+    @Singleton
+    @Provides
+    fun provideProfileUseCase(appModule: AppModule): ProfileUseCase {
+        return appModule.profileUseCase
     }
 
     @Singleton

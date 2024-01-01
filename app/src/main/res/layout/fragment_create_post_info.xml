@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="mainViewModel"
+            type="com.utesocial.android.core.presentation.main.state_holder.MainViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,6 +92,8 @@
                 android:id="@+id/image_view_avatar"
                 android:layout_width="@dimen/fra_post_info_iv_avatar_width"
                 android:layout_height="@dimen/fra_post_info_iv_avatar_height"
+                android:scaleType="centerCrop"
+                app:avatar="@{mainViewModel.authorizedUser.avatar.url}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toStartOf="@id/linear_layout_info"
@@ -115,7 +121,8 @@
                     android:maxLines="2"
                     android:textColor="?attr/colorOnSurface"
                     android:textSize="@dimen/fra_post_info_tv_name"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:username="@{mainViewModel.authorizedUser}" />
 
             </LinearLayout>
 
