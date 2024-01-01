@@ -95,7 +95,7 @@
                 android:id="@+id/image_view_avatar"
                 android:layout_width="@dimen/fra_post_info_iv_avatar_width"
                 android:layout_height="@dimen/fra_post_info_iv_avatar_height"
-                app:avatar="@{postModel.userAuthor.avatar.url}"
+                app:avatar="@{postModel.userAuthor.avatar}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toStartOf="@id/linear_layout_info"

@@ -1,19 +1,26 @@
 package com.utesocial.android.feature_post.domain.model
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.Date
-
+@Entity(indices = [Index(value = ["id"], unique = true)])
 class PostModel(
     @SerializedName("_id")
+    @PrimaryKey(autoGenerate = false)
     val id : String,
+    @Embedded(prefix = "userAuthor_")
     val userAuthor: UserAuthor?,
+    @Embedded(prefix = "pageAuthor_")
     val userPageAuthor: PageAuthor?,
     val group : String?,
     val content : String?,
     val postResources: List<PostResource> = emptyList(),
     val likeCounts : Int,
-    val likes : List<Like>,
+    val likes : List<LikesPostHeader> = emptyList(),
     val sharedPost : String?,
     val privacyMode : Int,
     val tags : List<String>,

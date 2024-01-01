@@ -3,6 +3,8 @@ package com.utesocial.android.core.presentation.util
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.utesocial.android.feature_post.domain.model.LikesPostHeader
+import com.utesocial.android.feature_post.domain.model.PostResource
 import java.util.Date
 
 object Converters {
@@ -40,4 +42,25 @@ object Converters {
         val typeToken = object : TypeToken<HashMap<String, String>>() {}.type
         return Gson().fromJson(json, typeToken)
     }
+    @TypeConverter
+    fun fromJsonToPostResourceList(json: String) : List<PostResource> {
+        val typeToken = object : TypeToken<ArrayList<PostResource>>() {}.type
+        return Gson().fromJson(json, typeToken)
+    }
+    @TypeConverter
+    fun fromPostResourceListToString(list: List<PostResource>) : String {
+        return Gson().toJson(list)
+    }
+
+    @TypeConverter
+    fun fromJsonToLikesPostHeaderList(json: String) : List<LikesPostHeader> {
+        val typeToken = object : TypeToken<ArrayList<LikesPostHeader>>() {}.type
+        return Gson().fromJson(json, typeToken)
+    }
+    @TypeConverter
+    fun fromLikesPostHeaderListToString(list: List<LikesPostHeader>) : String {
+        return Gson().toJson(list)
+    }
+
+
 }

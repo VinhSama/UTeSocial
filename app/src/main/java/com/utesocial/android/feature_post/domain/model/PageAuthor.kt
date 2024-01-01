@@ -8,5 +8,5 @@ data class PageAuthor(
     @SerializedName("_id")
     val id : String?,
     val pageName : String?,
-    val avatar: Avatar?
+    val avatar: String = ""
 ) : Serializable

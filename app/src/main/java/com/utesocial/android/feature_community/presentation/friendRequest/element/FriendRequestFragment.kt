@@ -15,6 +15,7 @@ import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.util.ResponseException
 import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.databinding.FragmentFriendRequestBinding
+import com.utesocial.android.feature_community.domain.model.FriendRequest
 import com.utesocial.android.feature_community.presentation.adapter.FriendRequestsLoadStateAdapter
 import com.utesocial.android.feature_community.presentation.adapter.FriendRequestsPagedAdapter
 import com.utesocial.android.feature_community.presentation.state_holder.CommunityViewModel
@@ -35,7 +36,30 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
     }
 
     private val pagedAdapter : FriendRequestsPagedAdapter by lazy {
-        FriendRequestsPagedAdapter()
+        FriendRequestsPagedAdapter(object : FriendRequestsPagedAdapter.RequestItemOnActions {
+            override fun onAcceptClick(request: FriendRequest) {
+                viewModel.onAcceptRequest(request)
+                    .observe(viewLifecycleOwner) { response ->
+                        if(response.isFailure()) {
+                            showError(response)
+                        }
+                    }
+            }
+
+            override fun onDenyClick(request: FriendRequest) {
+                viewModel.onDenyRequest(request)
+                    .observe(viewLifecycleOwner) { response ->
+                        if(response.isFailure()) {
+                            showError(response)
+                        }
+                    }
+            }
+
+            override fun onProfileClick(request: FriendRequest) {
+                viewModel.onProfileClick(request)
+            }
+
+        })
     }
 
 

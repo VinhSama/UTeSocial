@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
+import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.util.ResponseException
@@ -23,6 +24,8 @@ import com.utesocial.android.feature_community.presentation.adapter.FriendsListP
 import com.utesocial.android.feature_community.presentation.adapter.FriendsLoadStateAdapter
 import com.utesocial.android.feature_community.presentation.state_holder.CommunityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -49,11 +52,23 @@ class FriendsListFragment : BaseFragment<FragmentFriendListBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         binding.apply {
+            txvTotalFriendCount.isVisible = viewModel.listenFriendCountChanged.value != 0
             swipeRefreshLayout.setOnRefreshListener {
                 refreshData()
             }
             friendsSearchBar.isSubmitButtonEnabled = false
             viewModel.apply {
+                disposable.add(
+                    listenFriendCountChanged
+                        .distinctUntilChanged()
+                        .observeOn(Schedulers.io())
+                        .subscribe {
+                            Handler(Looper.getMainLooper()).post {
+                                txvTotalFriendCount.text = String.format(getString(R.string.str_total_friend_count), it)
+                                txvTotalFriendCount.isVisible = it != 0
+                            }
+                        }
+                )
                 disposable.add(
                     searchFriendsList
                         .distinctUntilChanged()

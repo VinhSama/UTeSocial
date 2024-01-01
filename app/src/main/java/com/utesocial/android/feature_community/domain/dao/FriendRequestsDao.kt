@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.utesocial.android.feature_community.domain.model.FriendRequest
 
 @Dao
@@ -17,4 +18,8 @@ interface FriendRequestsDao {
 
     @Query("Delete from FriendRequest")
     suspend fun clearAll()
+
+    @Update
+    suspend fun updateRequestAfterResponse(friendRequest: FriendRequest)
+
 }

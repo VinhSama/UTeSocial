@@ -12,6 +12,8 @@ interface FriendsListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(friendsList: List<User>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOne(user: User)
     @Upsert
     suspend fun upsertAll(friendsList: List<User>)
 

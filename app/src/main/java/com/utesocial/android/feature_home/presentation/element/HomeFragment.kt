@@ -16,6 +16,8 @@ import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.core.presentation.base.BaseFragment
+import com.utesocial.android.core.presentation.util.ResponseException
+import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.feature_post.presentation.adapter.PostAdapter
 import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
 import com.utesocial.android.databinding.FragmentHomeBinding
@@ -33,8 +35,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override lateinit var binding: FragmentHomeBinding
     override val viewModel: HomeViewModel by viewModels()
-
-    private val data: ArrayList<Post> by lazy { ArrayList() }
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -54,10 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             refreshData()
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            Debug.log("HomeFragment", "Start Refresh Data")
-            refreshData()
-        }
+        refreshData()
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            Debug.log("HomeFragment", "Start Refresh Data")
+//            refreshData()
+//        }
     }
 
     private val pagedAdapter : PostPagedAdapter by lazy {
@@ -77,54 +78,68 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //            }
 //
 //        })
-        binding.recyclerViewPost.setHasFixedSize(true)
         val postLoadStateAdapter = PostLoadStateAdapter() {
             pagedAdapter.retry()
         }
         binding.recyclerViewPost.adapter = pagedAdapter.withLoadStateFooter(postLoadStateAdapter)
         pagedAdapter.addLoadStateListener { loadState ->
-            val loadingState = loadState.source.refresh is LoadState.Loading
-            val firstFailed = loadState.source.refresh is LoadState.Error
-            if(loadState.refresh is LoadState.Error) {
-                val errorState = loadState.refresh as LoadState.Error
-                val errorMessage = errorState.error.localizedMessage
-                if (errorMessage != null) {
-                    getBaseActivity().showSnackbar(message = errorMessage)
+            loadState.mediator?.let {
+                val loadingState = it.refresh is LoadState.Loading
+                val firstFailed = it.refresh is LoadState.Error
+                val firstEmptyLoaded = it.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0
+                val appendFailed = it.append is LoadState.Error
+                if(appendFailed) {
+                    (loadState.append as LoadState.Error).error.let {ex ->
+                        (ex as ResponseException).error?.let { error ->
+                            showError(error)
+                        }
+                    }
+                }
+                binding.shimmerFrameLayout.isVisible = loadingState
+                binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
+                binding.loadStateViewGroup.isVisible = firstEmptyLoaded || firstFailed
+                binding.lottieEmptyView.isVisible = firstEmptyLoaded
+                binding.txvErrorMessage.isVisible = firstFailed
+
+                if(loadState.refresh is LoadState.Error) {
+                    val errorState = loadState.refresh as LoadState.Error
+                    val errorResponse = errorState.error as ResponseException
+                    errorResponse.error?.let { error ->
+                        if(error.undefinedMessage.isNullOrEmpty()) {
+                            binding.txvErrorMessage.text = getString(error.errorType.stringResId)
+                        } else {
+                            binding.txvErrorMessage.text = error.undefinedMessage
+                        }
+                    }
                 }
             }
-            binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
-            Debug.log("HomeFragment", "recyclerViewPost - visible: " + binding.recyclerViewPost.isVisible)
-            Debug.log("HomeFragment", "loadingState: $loadingState")
-            Debug.log("HomeFragment", "firstFailed: $firstFailed")
-
-            binding.shimmerFrameLayout.isVisible = loadingState
-            binding.textViewEmpty.isVisible = firstFailed || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
+//            val loadingState = loadState.source.refresh is LoadState.Loading
+//            val firstFailed = loadState.source.refresh is LoadState.Error
+//            if(loadState.refresh is LoadState.Error) {
+//                val errorState = loadState.refresh as LoadState.Error
+//                val errorMessage = errorState.error.localizedMessage
+//                if (errorMessage != null) {
+//                    getBaseActivity().showSnackbar(message = errorMessage)
+//                }
+//            }
+//            binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
+//            Debug.log("HomeFragment", "recyclerViewPost - visible: " + binding.recyclerViewPost.isVisible)
+//            Debug.log("HomeFragment", "loadingState: $loadingState")
+//            Debug.log("HomeFragment", "firstFailed: $firstFailed")
+//
+//            binding.shimmerFrameLayout.isVisible = loadingState
+//            binding.textViewEmpty.isVisible = firstFailed || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
         }
     }
 
 
     private fun refreshData() {
         binding.swipeRefreshLayout.isRefreshing = false
-        viewModel.getFeedPosts(10)
+        viewModel.getFeedPosts()
             .observe(viewLifecycleOwner) { pagingData ->
                 pagedAdapter.submitData(lifecycle, pagingData)
                 binding.swipeRefreshLayout.isRefreshing = false
             }
     }
 
-    private fun observer() = lifecycleScope.launch {
-        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.homeState.collect {
-                if (!it.isLoading) {
-                    data.clear()
-
-                    if (it.posts.isNotEmpty()) {
-                        data.addAll(it.posts)
-                    } else if (it.error.isNotEmpty()) {
-                        getBaseActivity().showSnackbar(message = it.error)
-                    }
-                }
-            }
-        }
-    }
 }

@@ -4,5 +4,6 @@ data class CommunityUseCase(
     val getCommunityInfoUseCase: GetCommunityInfoUseCase,
     val searchUserUseCase: SearchUserUseCase,
     val getFriendsListUseCase: GetFriendsListUseCase,
-    val getFriendRequestsUseCase: GetFriendRequestsUseCase
+    val getFriendRequestsUseCase: GetFriendRequestsUseCase,
+    val answerFriendRequestUseCase: AnswerFriendRequestUseCase
 )
