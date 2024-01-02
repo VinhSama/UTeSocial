@@ -22,26 +22,16 @@
     </fragment>
 
     <fragment
-        android:id="@+id/item_fra_community"
-        android:name="com.utesocial.android.feature_community.presentation.element.CommunityFragment"
-        android:label="CommunityFragment"
-        tools:layout="@layout/fragment_community">
-
-        <action
-            android:id="@+id/action_community_post"
-            app:destination="@id/item_fra_post"
-            app:enterAnim="@anim/anim_slide_up"
-            app:exitAnim="@anim/anim_slide_down"
-            app:popEnterAnim="@anim/anim_slide_up"
-            app:popExitAnim="@anim/anim_slide_down" />
-
-    </fragment>
+        android:id="@+id/item_fra_friends_list"
+        android:name="com.utesocial.android.feature_community.presentation.friendList.element.FriendsListFragment"
+        android:label="FriendsListFragment"
+        tools:layout="@layout/fragment_friend_list" />
 
     <fragment
-        android:id="@+id/item_fra_notification"
-        android:name="com.utesocial.android.feature_notification.presentation.notification.element.NotificationFragment"
-        android:label="NotificationFragment"
-        tools:layout="@layout/fragment_notification" />
+        android:id="@+id/item_fra_friend_request"
+        android:name="com.utesocial.android.feature_community.presentation.friendRequest.element.FriendRequestFragment"
+        android:label="FriendRequestFragment"
+        tools:layout="@layout/fragment_friend_request" />
 
     <fragment
         android:id="@+id/item_fra_settings"

@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/item_fra_community"
+        android:id="@+id/item_fra_friends_list"
         android:icon="@drawable/ico_user_group_selected"
         android:title="@string/str_act_main_bottom_bnv_item"
         app:showAsAction="ifRoom" />
@@ -19,7 +19,7 @@
         android:title="" />
 
     <item
-        android:id="@+id/item_fra_notification"
+        android:id="@+id/item_fra_friend_request"
         android:icon="@drawable/ico_bell_selected"
         android:title="@string/str_act_main_bottom_bnv_item"
         app:showAsAction="ifRoom" />

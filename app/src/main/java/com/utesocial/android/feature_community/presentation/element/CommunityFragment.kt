@@ -70,18 +70,6 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
         }.attach()
     }
 
-    private fun setupRecyclerView() {
-        communityAdapter = CommunityAdapter(this@CommunityFragment, groups, posts, object : PostListener {
-
-            override fun onShowDetail(postModel: PostModel) {
-//                val action = CommunityFragmentDirections.actionCommunityPost(post)
-//                getBaseActivity().navController()?.navigate(action)
-//                getBaseActivity().handleBar(false)
-            }
-        })
-//        binding.recyclerViewCommunity.adapter = communityAdapter
-    }
-
 //    private fun setupListener() = binding.swipeRefreshLayout.setOnRefreshListener {
 //        binding.swipeRefreshLayout.isRefreshing = false
 //        viewModel.getCommunityInfo()
