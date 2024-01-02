@@ -13,38 +13,201 @@
             type="com.utesocial.android.feature_post.domain.model.PostModel" />
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
         android:id="@+id/linear_layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/ite_post_ll_margin"
-        android:background="@drawable/bac_cl_post"
+        app:strokeWidth="0dp"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/ite_post_ll_padding_horizontal"
-        android:paddingTop="@dimen/ite_post_ll_padding_top"
-        android:paddingBottom="@dimen/ite_post_ll_padding_bottom">
-
-        <include
-            android:id="@+id/info"
-            layout="@layout/item_post_info"
-            app:postModel="@{postModel}" />
-
-        <include
-            android:id="@+id/body"
-            layout="@layout/item_post_body"
-            app:postModel="@{postModel}" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
+        app:cardCornerRadius="@dimen/_14sdp"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="@dimen/_5sdp"
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:dividerColor="?attr/colorOutlineVariant" />
+            android:layout_margin="@dimen/ite_post_ll_margin"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            >
+            <include
+                android:id="@+id/info"
+                layout="@layout/item_post_info"
+                app:postModel="@{postModel}" />
 
-        <include
-            android:id="@+id/interact"
-            layout="@layout/item_post_interact"
-            app:postModel="@{postModel}" />
+            <include
+                android:id="@+id/body"
+                layout="@layout/item_post_body"
+                app:postModel="@{postModel}" />
 
-    </LinearLayout>
+
+            <!--        <HorizontalScrollView-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="@dimen/_25sdp"-->
+            <!--            android:scrollbars="none"-->
+            <!--            >-->
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                >-->
+            <!--                <com.google.android.material.imageview.ShapeableImageView-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="0dp"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    android:src="@drawable/ico_heart_checked"-->
+            <!--                    app:layout_constraintDimensionRatio="1:1"-->
+            <!--                    app:layout_constraintWidth_percent="0.01"-->
+            <!--                    />-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--        </HorizontalScrollView>-->
+            <!--        <com.google.android.material.divider.MaterialDivider-->
+            <!--            android:id="@+id/divider"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            app:dividerColor="?attr/colorOutlineVariant" />-->
+
+<!--            <include-->
+<!--                android:id="@+id/interact"-->
+<!--                layout="@layout/item_post_interact"-->
+<!--                app:postModel="@{postModel}" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_interact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ite_post_interact_cl_margin_top">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_like_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/divider"
+                    app:cardCornerRadius="0dp"
+                    app:strokeWidth="0dp"
+                    android:clickable="true"
+                    >
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imv_like_shape"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintTop_toTopOf="@+id/txv_like_info_header"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@+id/txv_like_info_header"
+                            app:layout_constraintEnd_toStartOf="@+id/txv_like_info_header"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintWidth_percent="0.05"
+                            android:src="@drawable/ico_heart_solid"
+                            app:tint="?attr/colorSecondary"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txv_like_info_header"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@id/imv_like_shape"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_like_header"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorOutlineVariant" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/view_group_like_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.5"
+                    >
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/btn_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:buttonIconTint="@color/color_ite_post_interact_checked"
+                        android:button="@drawable/ico_heart_checked"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:buttonTint="@color/color_ite_post_interact_checked"
+                        android:contentDescription="@string/des_ite_post_interact_btn_like"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:textColor="@color/color_ite_post_interact_checked"
+                        android:text="@{@string/str_ite_post_interact_btn_like(postModel.likeCounts)}"
+                        android:paddingEnd="@dimen/_8sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+<!--                    <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                        android:id="@+id/btn_like"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_centerInParent="true"-->
+<!--                        android:background="@android:color/transparent"-->
+<!--                        android:button="@null"-->
+<!--                        android:contentDescription="@string/des_ite_post_interact_btn_like"-->
+<!--                        android:drawableStart="@drawable/ico_heart_checked"-->
+<!--                        android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"-->
+<!--                        android:drawableTint="@color/color_ite_post_interact_checked"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="@{@string/str_ite_post_interact_btn_like(postModel.likeCounts)}"-->
+<!--                        android:textColor="@color/color_ite_post_interact_checked"-->
+<!--                        android:textSize="@dimen/ite_post_interact_rb"-->
+<!--                        android:visibility="gone"/>-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/view_group_comment_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.5"
+                    >
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/btn_comment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/ico_comment_checked"
+                        android:contentDescription="@string/des_ite_post_interact_btn_like"
+                        app:buttonIconTint="@color/color_ite_post_interact_checked"
+                        android:text="Bình luận"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:textColor="@color/color_ite_post_interact_checked" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

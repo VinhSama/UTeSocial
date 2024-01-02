@@ -6,7 +6,7 @@ import java.io.Serializable
 
 data class PageAuthor(
     @SerializedName("_id")
-    val id : String?,
-    val pageName : String?,
+    val id : String = "",
+    val pageName : String = "",
     val avatar: String = ""
 ) : Serializable

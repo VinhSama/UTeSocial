@@ -28,4 +28,12 @@ class PostRepositoryImpl(private val postApi: PostApi) : PostRepository {
     override fun createPost(createPostRequest: CreatePostRequest): SimpleCall<AppResponse<PostModel>> {
         return postApi.createPost(createPostRequest)
     }
+
+    override fun likePost(postId: String): SimpleCall<AppResponse<Int>> {
+        return postApi.likePost(postId)
+    }
+
+    override fun unlikePost(postId: String): SimpleCall<AppResponse<Int>> {
+        return postApi.unlikePost(postId)
+    }
 }

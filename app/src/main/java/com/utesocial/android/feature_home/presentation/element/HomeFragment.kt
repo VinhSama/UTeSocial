@@ -55,10 +55,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             refreshData()
         }
         refreshData()
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            Debug.log("HomeFragment", "Start Refresh Data")
-//            refreshData()
-//        }
     }
 
     private val pagedAdapter : PostPagedAdapter by lazy {
@@ -68,16 +64,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 getBaseActivity().navController()?.navigate(action)
                 getBaseActivity().handleBar(false)
             }
+        }, viewModel.getCurrentUserId(), object : PostPagedAdapter.OnItemActionsListener {
+            override fun onLikeChanged(isChecked: Boolean, postModel: PostModel) {
+                if(isChecked) {
+                    Toast.makeText(context, "Liked", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Unliked", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         })
     }
 
     private fun setupRecyclerView() {
-//        val pagedAdapter = PostPagedAdapter(viewLifecycleOwner, object : PostModelBodyImageAdapter.PostBodyImageListener {
-//            override fun onClick(postResource: PostResource) {
-//                Toast.makeText(requireActivity(), "OnClick", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        })
+
         val postLoadStateAdapter = PostLoadStateAdapter() {
             pagedAdapter.retry()
         }
@@ -113,22 +113,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
             }
-//            val loadingState = loadState.source.refresh is LoadState.Loading
-//            val firstFailed = loadState.source.refresh is LoadState.Error
-//            if(loadState.refresh is LoadState.Error) {
-//                val errorState = loadState.refresh as LoadState.Error
-//                val errorMessage = errorState.error.localizedMessage
-//                if (errorMessage != null) {
-//                    getBaseActivity().showSnackbar(message = errorMessage)
-//                }
-//            }
-//            binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
-//            Debug.log("HomeFragment", "recyclerViewPost - visible: " + binding.recyclerViewPost.isVisible)
-//            Debug.log("HomeFragment", "loadingState: $loadingState")
-//            Debug.log("HomeFragment", "firstFailed: $firstFailed")
-//
-//            binding.shimmerFrameLayout.isVisible = loadingState
-//            binding.textViewEmpty.isVisible = firstFailed || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
         }
     }
 

@@ -5,9 +5,9 @@ import java.io.Serializable
 
 data class LikesPostHeader(
     @SerializedName("_id")
-    val likeId: String,
+    val likeId: String = "",
     val fullName: String = "",
-    val userId: String,
+    val userId: String = "",
     val isFriend: Boolean
 ) : Serializable {
 

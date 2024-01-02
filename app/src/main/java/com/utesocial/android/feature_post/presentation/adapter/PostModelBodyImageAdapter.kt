@@ -151,6 +151,7 @@ class PostModelBodyImageAdapter(
                     })
                     .into(imageViewContent)
                 imageViewContent.setOnClickListener {
+                    Debug.log("posss", postModel.toString())
                     listener.onClick(postModel)
                 }
             }

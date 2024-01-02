@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.Date
 @Entity(indices = [Index(value = ["id"], unique = true)])
-class PostModel(
+data class PostModel(
     @SerializedName("_id")
     @PrimaryKey(autoGenerate = false)
     val id : String,
@@ -67,4 +67,10 @@ class PostModel(
         result = 31 * result + updatedAt.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "PostModel(id='$id', userAuthor=$userAuthor, userPageAuthor=$userPageAuthor, group=$group, content=$content, postResources=$postResources, likeCounts=$likeCounts, likes=$likes, sharedPost=$sharedPost, privacyMode=$privacyMode, tags=$tags, shares=$shares, createdAt=$createdAt, updatedAt=$updatedAt)"
+    }
+
+
 }

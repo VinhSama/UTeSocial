@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.material.radiobutton.MaterialRadioButton
 import com.utesocial.android.R
 import com.utesocial.android.databinding.ItemPostBinding
 import com.utesocial.android.feature_post.domain.model.PostModel
@@ -14,7 +15,9 @@ import com.utesocial.android.feature_post.presentation.element.partial.PostBody
 
 class PostPagedAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val listener: PostModelBodyImageAdapter.PostBodyImageListener
+    private val listener: PostModelBodyImageAdapter.PostBodyImageListener,
+    private val currentUserId : String?,
+    private val onItemActionsListener: OnItemActionsListener
 ) : PagingDataAdapter<PostModel, ViewHolder>(PostModelListDiffCallback()) {
 
     class PostModelListDiffCallback : DiffUtil.ItemCallback<PostModel>() {
@@ -41,6 +44,51 @@ class PostPagedAdapter(
 
         fun bind(post: PostModel) {
             binding.postModel = post
+            binding.txvLikeInfoHeader.text = post.likeCounts.toString()
+            var textLikeHeader = "${post.likeCounts}"
+            var liked = false
+            var friendName = ""
+            currentUserId?.let {
+                post.likes.forEachIndexed { index, likesPostHeader ->
+                    if(!likesPostHeader.isFriend ) {
+                        (likesPostHeader.userId == currentUserId).run {
+                            liked = true
+                        }
+                    } else {
+                        friendName = likesPostHeader.fullName
+                    }
+                }
+            }
+            if(friendName.isNotEmpty()) {
+                textLikeHeader = if(post.likeCounts > 1) {
+                    "$friendName và ${post.likeCounts - 1} người khác}"
+                } else {
+                    friendName
+                }
+                if(liked) {
+                    textLikeHeader = "Bạn, $textLikeHeader"
+                }
+            } else {
+                if(liked) {
+                    textLikeHeader = if(post.likeCounts > 1) {
+                        "Bạn và ${post.likeCounts - 1} người khác}"
+                    } else {
+                        "Bạn"
+                    }
+                }
+            }
+            binding.txvLikeInfoHeader.text = textLikeHeader
+            binding.btnLike.isChecked = liked
+//            binding.btnLike.setOnClickListener {
+//                (it as MaterialRadioButton).apply {
+//                    isChecked = !isChecked
+//
+//                }
+//            }
+
+            binding.btnLike.setOnCheckedChangeListener { _, isChecked ->
+                onItemActionsListener.onLikeChanged(isChecked, post)
+            }
             bodyBinding.setupImages(lifecycleOwner, post, listener = listener)
         }
     }
@@ -77,5 +125,9 @@ class PostPagedAdapter(
                 false
             )
         )
+    }
+
+    interface OnItemActionsListener {
+        fun onLikeChanged(isChecked: Boolean, postModel: PostModel)
     }
 }
