@@ -29,6 +29,9 @@ class PostRepositoryImpl(private val postApi: PostApi) : PostRepository {
         return postApi.createPost(createPostRequest)
     }
 
+    override fun deletePost(postId: String): SimpleCall<AppResponse<Void>> =
+        postApi.deletePost(postId)
+
     override fun likePost(postId: String): SimpleCall<AppResponse<Int>> {
         return postApi.likePost(postId)
     }

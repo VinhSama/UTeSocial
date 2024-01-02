@@ -19,10 +19,14 @@ interface PostApi {
 
     @GET("posts/new-feeds")
     fun getFeedPosts(@Query("page") page: Int, @Query("limit") limit : Int, @Query("userType") userType: Like.UserType) : SimpleCall<AppResponse<PostBody>>
+
     @POST("posts/uploads")
     fun uploadPostResources(@Body attachments: RequestBody) : SimpleCall<AppResponse<PostResourcesBody>>
+
     @POST("posts")
     fun createPost(@Body createPostRequest: CreatePostRequest) : SimpleCall<AppResponse<PostModel>>
+    @DELETE("posts/{postId}")
+    fun deletePost(@Path("postId") postId: String): SimpleCall<AppResponse<Void>>
     @POST("posts/{postId}/likes")
     fun likePost(@Path("postId") postId: String) : SimpleCall<AppResponse<Int>>
     @DELETE("posts/{postId}/likes")

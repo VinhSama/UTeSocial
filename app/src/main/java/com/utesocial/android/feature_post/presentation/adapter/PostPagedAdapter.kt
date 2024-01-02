@@ -11,11 +11,13 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import com.utesocial.android.R
 import com.utesocial.android.databinding.ItemPostBinding
 import com.utesocial.android.feature_post.domain.model.PostModel
+import com.utesocial.android.feature_post.presentation.element.partial.InfoItemPost
 import com.utesocial.android.feature_post.presentation.element.partial.PostBody
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 
 class PostPagedAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val listener: PostModelBodyImageAdapter.PostBodyImageListener,
+    private val listener: PostListener,
     private val currentUserId : String?,
     private val onItemActionsListener: OnItemActionsListener
 ) : PagingDataAdapter<PostModel, ViewHolder>(PostModelListDiffCallback()) {
@@ -40,9 +42,21 @@ class PostPagedAdapter(
     }
 
     inner class PostViewHolder(private val binding: ItemPostBinding) : ViewHolder(binding.root) {
+
+        private val infoBinding by lazy { InfoItemPost(binding.info) }
         private val bodyBinding by lazy { PostBody(binding.body) }
 
         fun bind(post: PostModel) {
+            val userAuthorId = post.userAuthor?.id ?: ""
+            if (currentUserId != userAuthorId) {
+                infoBinding.hideButtonMenu()
+            } else {
+                infoBinding.setupListener(
+                    listener = listener,
+                    postId = post.id
+                )
+            }
+
             binding.postModel = post
             binding.txvLikeInfoHeader.text = post.likeCounts.toString()
             var textLikeHeader = "${post.likeCounts}"

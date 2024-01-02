@@ -42,8 +42,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     lateinit var preferenceManager: PreferenceManager
     private val bottomBinding by lazy { MainActivityBottom(this@MainActivity, binding.bottomBar) }
     private val screenBinding by lazy { MainActivityScreen(this@MainActivity, binding.screen) }
-    private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
-    private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
+//    private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
+//    private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -83,8 +83,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         finish()
                     }
                 } else {
-                    disableDragActionBar(topBinding.appBarLayout())
-                    setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
+//                    disableDragActionBar(topBinding.appBarLayout())
+//                    setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
                     setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
 
                     val navController = screenBinding.navController()
@@ -103,11 +103,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         animatorExit = R.animator.animator_act_main_bnv_exit,
                         animatorPopEnter = R.animator.animator_act_main_bnv_enter,
                         animatorPopExit = R.animator.animator_act_main_bnv_exit,
-                        R.id.item_fra_notification, R.id.item_fra_settings,
-                        R.id.item_fra_community
+                        R.id.item_fra_friend_request, R.id.item_fra_settings,
+                        R.id.item_fra_friends_list
                     )
 
-                    topBinding.setup()
+//                    topBinding.setup()
                     bottomBinding.setup()
 
                     splashScreen.setKeepOnScreenCondition { false }
@@ -121,7 +121,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             screenBinding.navController().navigate(R.id.item_fra_create_post)
             handleBar(false)
         }
-        topBinding.setListener(searchBinding.searchView())
+//        topBinding.setListener(searchBinding.searchView())
     }
 
     private fun setupFloatingActionButton() {

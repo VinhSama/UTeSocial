@@ -293,11 +293,10 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
             }
             .request { allGranted, _, _ ->
                 if (allGranted) {
-                    /*chooseSingleMediaLauncher.launch(
+                    chooseSingleMediaLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )*/
-                    Log.d("VVVVV", "Uri: $photoCaptureUri")
-                    openCameraLauncher.launch(photoCaptureUri)
+                    )
+//                    openCameraLauncher.launch(photoCaptureUri)
                 } else {
                     getBaseActivity().showSnackbar(getString(R.string.str_change_avatar_permission_denied))
                 }
@@ -330,7 +329,10 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
     }
 
     private fun deleteOldPhoto() {
-
+        val photo = File(photoCaptureUri.path.toString())
+        Log.d("VVVVV", "Path: ${photoCaptureUri.path}")
+        Log.d("VVVVV", "Photo: ${photo.delete()}")
+        photoCaptureUri = createPhotoUri()
     }
 
     private val openCameraLauncher =
@@ -341,6 +343,8 @@ class ChangeAvatarFragment : BaseFragment<FragmentChangeAvatarBinding>() {
 
                 Glide.with(this@ChangeAvatarFragment).load(photoCaptureUri).apply(requestOptions)
                     .into(binding.imageViewAvatar)
+
+                deleteOldPhoto()
             } else {
                 getBaseActivity().showSnackbar(getString(R.string.str_fra_change_avatar_take_photo_error))
             }

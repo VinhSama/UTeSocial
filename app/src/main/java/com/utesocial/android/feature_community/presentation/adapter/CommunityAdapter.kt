@@ -13,13 +13,13 @@ import com.utesocial.android.feature_group.domain.model.Group
 import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.feature_post.presentation.element.partial.InfoItemPost
 import com.utesocial.android.feature_post.presentation.element.partial.PostBody
-import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 
 class CommunityAdapter(
     private val lifecycleOwner: LifecycleOwner,
     private val dataGroup: List<Group>,
     private val dataPost: List<Post>,
-    private val listener: PostBodyImageListener
+    private val listener: PostListener
 ) : Adapter<ViewHolder>() {
 
     companion object {

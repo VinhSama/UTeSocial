@@ -39,16 +39,16 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
     private val animatorDuration by lazy { resources.getInteger(R.integer.duration_200).toLong() }
 
-    private lateinit var topBar: View
+//    private lateinit var topBar: View
     private lateinit var bottomBar: BottomAppBarCustom
 
-    private lateinit var vaShowTopBar: ValueAnimator
-    private lateinit var vaHideTopBar: ValueAnimator
+//    private lateinit var vaShowTopBar: ValueAnimator
+//    private lateinit var vaHideTopBar: ValueAnimator
 
     private lateinit var vaShowBottomBar: ValueAnimator
     private lateinit var vaHideBottomBar: ValueAnimator
 
-    private lateinit var obpTopBar: OnBackPressedCallback
+//    private lateinit var obpTopBar: OnBackPressedCallback
     private lateinit var obpBottomBar: OnBackPressedCallback
 
     private var navController: NavController? = null
@@ -89,7 +89,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
         }
     }
 
-    protected fun setupActionBar(
+    /*protected fun setupActionBar(
         relativeLayout: View,
         screen: View
     ) {
@@ -109,9 +109,9 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
 
                 when (navController()?.currentDestination?.id) {
-                    R.id.item_fra_notification,
+                    R.id.item_fra_friend_request,
                     R.id.item_fra_settings,
-                    R.id.item_fra_community,
+                    R.id.item_fra_friends_list,
                     R.id.item_fra_profile -> handleActionBar(false)
                 }
             }
@@ -174,7 +174,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
         if (vaHideTopBar.isRunning) {
             vaHideTopBar.cancel()
         }
-    }
+    }*/
 
     protected fun setupBottomBar(
         bottomAppBarCustom: BottomAppBarCustom,
@@ -250,7 +250,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
         }
     }
 
-    fun handleActionBar(isShow: Boolean) {
+    /*fun handleActionBar(isShow: Boolean) {
         cancelAnimatorActionBar()
         if (isShow) {
             if (topBar.visibility == GONE) {
@@ -261,7 +261,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
                 vaHideTopBar.start()
             }
         }
-    }
+    }*/
 
     fun handleBottomBar(isShow: Boolean) {
         cancelAnimatorBottomBar()
@@ -277,7 +277,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
     }
 
     fun handleBar(isShow: Boolean) {
-        handleActionBar(isShow)
+//        handleActionBar(isShow)
         handleBottomBar(isShow)
     }
 

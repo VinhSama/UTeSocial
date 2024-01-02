@@ -114,11 +114,11 @@ object NavigationUICustom {
         val navOptions = navOptionsBuilder.build()
         return try {
             navController.navigate(item.itemId, null, navOptions)
-            if (!itemHideActionBar.contains(item.itemId)) {
+            /*if (!itemHideActionBar.contains(item.itemId)) {
                 activity.handleActionBar(true)
             } else {
                 activity.handleActionBar(false)
-            }
+            }*/
 
             navController.currentDestination?.matchDestination(item.itemId) == true
         } catch (e: IllegalArgumentException) {

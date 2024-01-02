@@ -18,7 +18,4 @@ class ProfileRepositoryImpl(private val profileApi: ProfileApi) : ProfileReposit
         page: Int,
         limit: Int
     ): SimpleCall<AppResponse<PostBody>> = profileApi.getMyPosts(userId, page, limit)
-
-    override fun deleteMyPost(postId: String): SimpleCall<AppResponse<Void>> =
-        profileApi.deleteMyPost(postId)
 }

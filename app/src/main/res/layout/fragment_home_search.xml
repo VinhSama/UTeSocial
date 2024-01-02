@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/str_act_main_top_tv_hint"
+        app:autoShowKeyboard="false"
+        app:layout_anchor="@id/search_bar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linear_layout_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/circular_progress_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:text="@string/str_act_main_search_tv_loading"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="4dp"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_search" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/str_act_main_search_tv_empty"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_not_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/str_act_main_search_tv_not_found"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.search.SearchView>
+
+</layout>

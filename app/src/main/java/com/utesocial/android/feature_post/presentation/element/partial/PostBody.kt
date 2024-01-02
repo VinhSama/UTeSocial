@@ -8,10 +8,9 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.utesocial.android.R
 import com.utesocial.android.feature_post.domain.model.Post
 import com.utesocial.android.feature_post.presentation.adapter.PostBodyImageAdapter
-import com.utesocial.android.feature_post.presentation.listener.PostBodyImageListener
+import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.databinding.ItemPostBodyBinding
 import com.utesocial.android.feature_post.domain.model.PostModel
-import com.utesocial.android.feature_post.domain.model.PostResource
 import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
 
 class PostBody(val binding: ItemPostBodyBinding) {
@@ -62,7 +61,7 @@ class PostBody(val binding: ItemPostBodyBinding) {
     fun setupImages(
         lifecycleOwner: LifecycleOwner,
         post: Post,
-        listener: PostBodyImageListener
+        listener: PostListener
     ) {
         binding.textViewQuantity.text = "0/0"
 
@@ -73,7 +72,8 @@ class PostBody(val binding: ItemPostBodyBinding) {
     fun setupImages(
         lifecycleOwner: LifecycleOwner,
         postModel: PostModel,
-        listener: PostModelBodyImageAdapter.PostBodyImageListener
+        listener: PostListener
+//        listener: PostModelBodyImageAdapter.PostBodyImageListener
     ) {
         binding.textViewQuantity.text = "0/0"
 

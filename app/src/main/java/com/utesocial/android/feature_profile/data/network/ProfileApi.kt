@@ -23,7 +23,4 @@ interface ProfileApi {
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): SimpleCall<AppResponse<PostBody>>
-
-    @DELETE("posts/{postId}")
-    fun deleteMyPost(@Path("postId") postId: String): SimpleCall<AppResponse<Void>>
 }

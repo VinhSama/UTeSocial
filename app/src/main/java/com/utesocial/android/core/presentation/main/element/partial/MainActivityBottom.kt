@@ -16,8 +16,8 @@ class MainActivityBottom(
     fun setup() = binding.bottomNavigationView.menu.forEach {
         when (it.itemId) {
             R.id.item_fra_home -> it.tooltipText = "Trang chủ"
-            R.id.item_fra_community -> it.tooltipText = "Cộng đồng"
-            R.id.item_fra_notification -> it.tooltipText = "Thông báo"
+            R.id.item_fra_friends_list -> it.tooltipText = "Bạn bè"
+            R.id.item_fra_friend_request -> it.tooltipText = "Yêu cầu"
             R.id.item_fra_settings -> it.tooltipText = "Cài đặt"
         }
     }
