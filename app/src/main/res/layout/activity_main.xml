@@ -13,13 +13,13 @@
         android:layout_height="match_parent"
         tools:context=".core.presentation.main.element.MainActivity">
 
-        <!--<include
+        <include
             android:id="@+id/top_bar"
-            layout="@layout/activity_main_top" />-->
+            layout="@layout/activity_main_top" />
 
-        <!--<include
+        <include
             android:id="@+id/search"
-            layout="@layout/activity_main_search" />-->
+            layout="@layout/activity_main_search" />
 
         <include
             android:id="@+id/screen"

@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/item_fra_friend_request"
-        android:icon="@drawable/ico_bell_selected"
+        android:icon="@drawable/ico_handshake_selected"
         android:title="@string/str_act_main_bottom_bnv_item"
         app:showAsAction="ifRoom" />
 
