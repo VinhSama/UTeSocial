@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/item_edit"
+        android:icon="@drawable/ico_pen_to_square_solid"
+        android:title="@string/str_fra_post_btn_menu_edit" />
+
+    <item
         android:id="@+id/item_remove"
         android:icon="@drawable/ico_trash_solid"
         android:title="@string/str_fra_post_btn_menu_remove" />
-
-    <!--<item
-        android:id="@+id/item_report"
-        android:icon="@drawable/ico_flag_solid"
-        android:title="@string/str_fra_post_btn_menu_report" />-->
 
 </menu>

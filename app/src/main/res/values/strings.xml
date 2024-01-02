@@ -279,4 +279,12 @@
     <string name="str_dialog_confirm_delete_post_fail">Không thể xóa bài viết. Vui lòng thử lại sau</string>
 
     <string name="str_fra_create_post_success">Đăng bài viết thành công!!!</string>
+
+    <string name="str_dialog_scope_title">Chỉnh sửa bài viết</string>
+    <string name="str_dialog_scope_content">Những ai có thể thấy bài viết của bạn:</string>
+    <string name="str_dialog_scope_public">Công khai (bất kì ai)</string>
+    <string name="str_dialog_scope_friend">Chỉ bạn bè của tôi</string>
+    <string name="str_dialog_scope_private">Riêng tư (chỉ mình tôi)</string>
+
+    <string name="str_fra_post_btn_menu_edit">Chỉnh sửa phạm vi</string>
 </resources>

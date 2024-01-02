@@ -9,14 +9,10 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.utesocial.android.R
-import com.utesocial.android.core.data.util.Constants
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.auth.element.AuthActivity
@@ -42,8 +38,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     lateinit var preferenceManager: PreferenceManager
     private val bottomBinding by lazy { MainActivityBottom(this@MainActivity, binding.bottomBar) }
     private val screenBinding by lazy { MainActivityScreen(this@MainActivity, binding.screen) }
-//    private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
-//    private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
+    private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
+    private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -83,8 +79,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         finish()
                     }
                 } else {
-//                    disableDragActionBar(topBinding.appBarLayout())
-//                    setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
+                    disableDragActionBar(topBinding.appBarLayout())
+                    setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
                     setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
 
                     val navController = screenBinding.navController()
@@ -107,7 +103,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         R.id.item_fra_friends_list
                     )
 
-//                    topBinding.setup()
+                    topBinding.setup()
                     bottomBinding.setup()
 
                     splashScreen.setKeepOnScreenCondition { false }
@@ -121,7 +117,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             screenBinding.navController().navigate(R.id.item_fra_create_post)
             handleBar(false)
         }
-//        topBinding.setListener(searchBinding.searchView())
+        topBinding.setListener(searchBinding.searchView())
     }
 
     private fun setupFloatingActionButton() {
