@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.utesocial.android.feature_post.domain.model.PostModel
 
 @Dao
@@ -17,4 +18,6 @@ interface PostDao {
     fun getFeedPosts() : PagingSource<Int, PostModel>
     @Query("Delete from PostModel")
     suspend fun clearAll()
+    @Update
+    suspend fun update(postModel: PostModel)
 }

@@ -1,7 +1,6 @@
 package com.utesocial.android.feature_home.presentation.element
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.utesocial.android.R
+import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.ResponseException
@@ -106,6 +106,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             dialogDelete.show()
         }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            Debug.log("HomeFragment", "Start Refresh Data")
+//            refreshData()
+//        }
     }
 
     private lateinit var pagedAdapter: PostPagedAdapter /*by lazy {
@@ -133,7 +137,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         pagedAdapter = PostPagedAdapter(
             viewLifecycleOwner,
             postListener,
-            mainViewModel.authorizedUser.value?.userId ?: ""
+            mainViewModel.authorizedUser.value?.userId ?: "",
+            object : PostPagedAdapter.OnItemActionsListener {
+                override fun onLikeChanged(isChecked: Boolean, postModel: PostModel) {
+                    TODO("Not yet implemented")
+                }
+
+            }
         )
         val postLoadStateAdapter = PostLoadStateAdapter { pagedAdapter.retry() }
 
@@ -158,11 +168,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 binding.lottieEmptyView.isVisible = firstEmptyLoaded
                 binding.txvErrorMessage.isVisible = firstFailed
 
-                if (loadState.refresh is LoadState.Error) {
+                if(loadState.refresh is LoadState.Error) {
                     val errorState = loadState.refresh as LoadState.Error
                     val errorResponse = errorState.error as ResponseException
                     errorResponse.error?.let { error ->
-                        if (error.undefinedMessage.isNullOrEmpty()) {
+                        if(error.undefinedMessage.isNullOrEmpty()) {
                             binding.txvErrorMessage.text = getString(error.errorType.stringResId)
                         } else {
                             binding.txvErrorMessage.text = error.undefinedMessage
@@ -170,22 +180,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
             }
-//            val loadingState = loadState.source.refresh is LoadState.Loading
-//            val firstFailed = loadState.source.refresh is LoadState.Error
-//            if(loadState.refresh is LoadState.Error) {
-//                val errorState = loadState.refresh as LoadState.Error
-//                val errorMessage = errorState.error.localizedMessage
-//                if (errorMessage != null) {
-//                    getBaseActivity().showSnackbar(message = errorMessage)
-//                }
-//            }
-//            binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
-//            Debug.log("HomeFragment", "recyclerViewPost - visible: " + binding.recyclerViewPost.isVisible)
-//            Debug.log("HomeFragment", "loadingState: $loadingState")
-//            Debug.log("HomeFragment", "firstFailed: $firstFailed")
-//
-//            binding.shimmerFrameLayout.isVisible = loadingState
-//            binding.textViewEmpty.isVisible = firstFailed || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
         }
     }
 
@@ -198,15 +192,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun observer() = mainViewModel.authorizedUser.observe(viewLifecycleOwner) {
-        if (it != null) {
-            setupRecyclerView()
+        it?.let {
+            (it != User.EMPTY).run {
+                setupRecyclerView()
 
-            refreshData()
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            Debug.log("HomeFragment", "Start Refresh Data")
-//            refreshData()
-//        }
+                refreshData()
+            }
         }
+//        if (it != null) {
+//            setupRecyclerView()
+//
+//            refreshData()
+////        viewLifecycleOwner.lifecycleScope.launch {
+////            Debug.log("HomeFragment", "Start Refresh Data")
+////            refreshData()
+////        }
+//        }
     }
 
     private fun refreshData() {

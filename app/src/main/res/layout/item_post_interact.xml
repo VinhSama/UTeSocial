@@ -17,18 +17,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ite_post_interact_cl_margin_top">
-
-        <RelativeLayout
-            android:id="@+id/relative_layout_like"
-            android:layout_width="@dimen/ite_post_interact_rl_width"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_like_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/relative_layout_comment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:cardCornerRadius="0dp"
+            app:strokeWidth="0dp"
+            android:clickable="true"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imv_like_shape"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toTopOf="@+id/txv_like_info_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/txv_like_info_header"
+                    app:layout_constraintEnd_toStartOf="@+id/txv_like_info_header"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.05"
+                    android:src="@drawable/ico_heart_solid"
+                    app:tint="?attr/colorSecondary"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txv_like_info_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/imv_like_shape"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Bạn và 583 người khác"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_like_header"
+            android:layout_height="wrap_content"
+            app:dividerColor="?attr/colorOutlineVariant" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_group_like_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.5"
+            >
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/radio_button_like"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -43,35 +95,37 @@
                 android:textColor="@color/color_ite_post_interact_checked"
                 android:textSize="@dimen/ite_post_interact_rb" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
-            android:id="@+id/relative_layout_comment"
-            android:layout_width="@dimen/ite_post_interact_rl_width"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_group_comment_btn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/relative_layout_like"
-            app:layout_constraintTop_toTopOf="parent">
-
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.5"
+            >
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/radio_button_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@android:color/transparent"
                 android:button="@null"
-                android:contentDescription="@string/des_ite_post_interact_btn_comment"
+                android:contentDescription="@string/des_ite_post_interact_btn_like"
                 android:drawableStart="@drawable/ico_comment_checked"
                 android:drawablePadding="@dimen/ite_post_interact_rb_drawable_padding"
                 android:drawableTint="@color/color_ite_post_interact_checked"
                 android:gravity="center"
                 android:text="@{@string/str_ite_post_interact_btn_comment(0)}"
                 android:textColor="@color/color_ite_post_interact_checked"
-                android:textSize="@dimen/ite_post_interact_rb" />
+                android:textSize="@dimen/ite_post_interact_rb"  />
 
-        </RelativeLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -11,8 +11,6 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -27,7 +25,11 @@ interface PostApi {
 
     @POST("posts")
     fun createPost(@Body createPostRequest: CreatePostRequest) : SimpleCall<AppResponse<PostModel>>
-
     @DELETE("posts/{postId}")
     fun deletePost(@Path("postId") postId: String): SimpleCall<AppResponse<Void>>
+    @POST("posts/{postId}/likes")
+    fun likePost(@Path("postId") postId: String) : SimpleCall<AppResponse<Int>>
+    @DELETE("posts/{postId}/likes")
+    fun unlikePost(@Path("postId") postId: String) : SimpleCall<AppResponse<Int>>
+
 }

@@ -27,7 +27,9 @@ import com.utesocial.android.feature_register.domain.use_case.GetMajorsByNumberI
 import com.utesocial.android.feature_register.domain.use_case.RegisterUseCase
 import com.utesocial.android.feature_register.domain.use_case.RegisterUserUseCase
 import com.utesocial.android.feature_post.domain.use_case.GetFeedPostsUseCase
+import com.utesocial.android.feature_post.domain.use_case.LikePostUseCase
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
+import com.utesocial.android.feature_post.domain.use_case.UnlikePostUseCase
 import com.utesocial.android.feature_settings.domain.use_case.LogoutUseCase
 import com.utesocial.android.feature_settings.domain.use_case.SettingsUseCase
 import com.utesocial.android.feature_post.domain.use_case.UploadPostResourcesUseCase
@@ -71,6 +73,8 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
         getFeedPostsUseCase = GetFeedPostsUseCase(appRepository.postRepository),
         uploadPostResourcesUseCase = UploadPostResourcesUseCase(appRepository.postRepository),
         createPostUseCase = CreatePostUseCase(appRepository.postRepository),
+        likePostUseCase = LikePostUseCase(appRepository.postRepository),
+        unlikePostUseCase = UnlikePostUseCase(appRepository.postRepository),
         deletePostUseCase = DeletePostUseCase(appRepository.postRepository)
     )}
 

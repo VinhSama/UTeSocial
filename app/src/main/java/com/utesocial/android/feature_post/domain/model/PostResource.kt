@@ -5,8 +5,8 @@ import java.io.Serializable
 
 data class PostResource (
     @SerializedName("_id")
-    val id : String?,
-    val url: String?,
+    val id : String = "",
+    val url: String = "",
     val resourceType: ResourceType?
 ) : Serializable {
     enum class ResourceType() {
