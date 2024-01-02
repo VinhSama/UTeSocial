@@ -4,7 +4,7 @@ data class PostUseCase (
     val getFeedPostsUseCase: GetFeedPostsUseCase,
     val uploadPostResourcesUseCase: UploadPostResourcesUseCase,
     val createPostUseCase: CreatePostUseCase,
-    val deletePostUseCase: DeletePostUseCase
+    val deletePostUseCase: DeletePostUseCase,
     val likePostUseCase: LikePostUseCase,
     val unlikePostUseCase: UnlikePostUseCase
 )
