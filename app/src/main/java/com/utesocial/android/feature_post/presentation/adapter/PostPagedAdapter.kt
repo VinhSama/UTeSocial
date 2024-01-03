@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.utesocial.android.R
 import com.utesocial.android.databinding.ItemPostBinding
@@ -74,18 +75,24 @@ class PostPagedAdapter(
                 }
             }
             if(friendName.isNotEmpty()) {
-                textLikeHeader = if(post.likeCounts > 1) {
-                    "$friendName và ${post.likeCounts - 1} người khác}"
-                } else {
-                    friendName
-                }
                 if(liked) {
-                    textLikeHeader = "Bạn, $textLikeHeader"
+                    val count = post.likeCounts - 2
+                    textLikeHeader = "Bạn, $friendName"
+                    if(count > 0) {
+                        textLikeHeader = "$textLikeHeader và $count người khác"
+                    }
+                } else {
+                    val count = post.likeCounts - 1
+                    textLikeHeader = friendName
+
+                    if(count > 0) {
+                        textLikeHeader = "$textLikeHeader và $count người khác"
+                    }
                 }
             } else {
                 if(liked) {
-                    textLikeHeader = if(post.likeCounts > 1) {
-                        "Bạn và ${post.likeCounts - 1} người khác}"
+                    textLikeHeader = if(post.likeCounts - 1 > 0) {
+                        "Bạn và ${post.likeCounts - 1} người khác"
                     } else {
                         "Bạn"
                     }
@@ -99,10 +106,18 @@ class PostPagedAdapter(
 //
 //                }
 //            }
-
-            binding.btnLike.setOnCheckedChangeListener { _, isChecked ->
-                onItemActionsListener.onLikeChanged(isChecked, post)
+            binding.btnLike.setOnCheckedChangeListener(null)
+            binding.btnLike.setOnClickListener {
+                val isChecked = (it as MaterialCheckBox).isChecked
+                if(!onItemActionsListener.onLikeChanged(isChecked, post)) {
+                    it.isChecked = !isChecked
+                }
+//                onItemActionsListener.onLikeChanged(binding.btnLike.isChecked, post)
             }
+
+//            binding.btnLike.setOnCheckedChangeListener { _, isChecked ->
+//                onItemActionsListener.onLikeChanged(isChecked, post)
+//            }
             bodyBinding.setupImages(lifecycleOwner, post, listener = listener)
         }
     }
@@ -142,6 +157,6 @@ class PostPagedAdapter(
     }
 
     interface OnItemActionsListener {
-        fun onLikeChanged(isChecked: Boolean, postModel: PostModel)
+        fun onLikeChanged(isChecked: Boolean, postModel: PostModel) : Boolean
     }
 }

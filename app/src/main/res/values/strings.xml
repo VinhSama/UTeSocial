@@ -286,5 +286,5 @@
     <string name="str_dialog_scope_friend">Chỉ bạn bè của tôi</string>
     <string name="str_dialog_scope_private">Riêng tư (chỉ mình tôi)</string>
 
-    <string name="str_fra_post_btn_menu_edit">Chỉnh sửa phạm vi</string>
+    <string name="str_fra_post_btn_menu_edit">Chỉnh sửa quyền riêng tư</string>
 </resources>
