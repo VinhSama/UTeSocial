@@ -33,8 +33,7 @@ import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 import com.utesocial.android.feature_profile.data.network.ProfileApi
 import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
-import com.utesocial.android.feature_search.data.data_source.database.SearchUserDatabase
-import com.utesocial.android.feature_search.data.network.SearchUserApi
+import com.utesocial.android.feature_search.data.network.SearchApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,9 +44,11 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import retrofit2.Retrofit
 import java.util.Date
 import javax.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 class HiltAppModule {
+
     @Singleton
     @Provides
     fun provideGson() : Gson {
@@ -63,17 +64,20 @@ class HiltAppModule {
     fun preferenceManager(@ApplicationContext context: Context) : PreferenceManager {
         return PreferenceManager(context)
     }
+
     @Singleton
     @Provides
     fun provideLoginApi(retrofit: Retrofit) : LoginApi {
         Debug.log("provideLoginApi", "retrofit:baseUrl:${retrofit.baseUrl()}")
         return retrofit.create(LoginApi::class.java)
     }
+
     @Singleton
     @Provides
     fun providePostApi(retrofit: Retrofit) : PostApi {
         return retrofit.create(PostApi::class.java)
     }
+
     @Singleton
     @Provides
     fun provideCommunityApi(retrofit: Retrofit) : CommunityApi {
@@ -100,8 +104,8 @@ class HiltAppModule {
 
     @Singleton
     @Provides
-    fun provideSearchUserApi(retrofit: Retrofit): SearchUserApi {
-        return retrofit.create(SearchUserApi::class.java)
+    fun provideSearchUserApi(retrofit: Retrofit): SearchApi {
+        return retrofit.create(SearchApi::class.java)
     }
 
     @Singleton
@@ -109,9 +113,10 @@ class HiltAppModule {
     fun provideGlobalDisposable() : CompositeDisposable {
         return CompositeDisposable()
     }
+
     @Singleton
     @Provides
-    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, profileApi: ProfileApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi, searchUserApi: SearchUserApi) : AppApi {
+    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, profileApi: ProfileApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi, searchApi: SearchApi) : AppApi {
         return AppApiImpl(
             loginApi = loginApi,
             postApi = postApi,
@@ -119,7 +124,7 @@ class HiltAppModule {
             profileApi = profileApi,
             changeAvatarApi = changeAvatarApi,
             changePasswordApi = changePasswordApi,
-            searchUserApi = searchUserApi
+            searchApi = searchApi
         )
     }
 
@@ -129,6 +134,7 @@ class HiltAppModule {
         val appRepository : AppRepository = AppRepositoryImpl(appApi)
         return AppModuleImpl(appRepository)
     }
+
     @Singleton
     @Provides
     fun provideLoginUseCase(appModule: AppModule) : LoginUseCase{
@@ -191,6 +197,7 @@ class HiltAppModule {
     fun provideUnauthorizedEventBroadcast() : MutableLiveData<Boolean> {
         return MutableLiveData<Boolean>(false)
     }
+
     @Singleton
     @Provides
     fun provideFriendsDatabase(@ApplicationContext context: Context) : CommunityDatabase {
@@ -222,18 +229,6 @@ class HiltAppModule {
 
     @Singleton
     @Provides
-    fun provideSearchUserDatabase(@ApplicationContext context: Context): SearchUserDatabase {
-        return Room.databaseBuilder(context, SearchUserDatabase::class.java, "searchUsersCaching")
-            .fallbackToDestructiveMigration()
-            .addCallback(object : RoomDatabase.Callback() {
-
-                override fun onCreate(db: SupportSQLiteDatabase) =
-                    Debug.log("SearchUserDatabase", "onCreate")
-            }).build()
-    }
-
-    @Singleton
-    @Provides
     fun provideFriendsListDao(communityDatabase: CommunityDatabase) : FriendsListDao =
         communityDatabase.getFriendsListDao()
 
@@ -241,5 +236,4 @@ class HiltAppModule {
     @Provides
     fun provideFriendsRemoteKeyDao(communityDatabase: CommunityDatabase) : FriendsRemoteKeysDao =
         communityDatabase.getRemoteKeysDao()
-
 }

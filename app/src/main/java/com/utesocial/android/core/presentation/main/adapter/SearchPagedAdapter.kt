@@ -14,7 +14,7 @@ import com.utesocial.android.core.presentation.main.listener.MainListener
 import com.utesocial.android.databinding.ItemSearchBinding
 import com.utesocial.android.feature_search.domain.model.SearchUser
 
-class SearchUsersPagedAdapter(
+class SearchPagedAdapter(
     private val lifecycleOwner: LifecycleOwner,
     val mainListener: MainListener
 ) : PagingDataAdapter<SearchUser, ViewHolder>(SearchUserDiffCallback()) {
