@@ -44,51 +44,51 @@ class HomeViewModel @Inject constructor(
 
     val disposable = CompositeDisposable()
     val onLikeStateChanged : PublishProcessor<PostInteraction> = PublishProcessor.create()
-
+    val onLikeResponseState : MutableLiveData<SimpleResponse<AppResponse<Int>?>> = MutableLiveData()
+    val likeStateInProcessing = HashSet<String>()
     init {
         disposable
             .add(
                 onLikeStateChanged
-                    .groupBy { it.postId }
+                    .groupBy { it.postModel.id }
                     .flatMap { group ->
                         group.debounce(300, TimeUnit.MILLISECONDS)
                     }
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .subscribe { interaction ->
-                        if (interaction.javaClass == PostInteraction.Like::class.java) {
-
-                        } else {
-
+                        when(interaction.javaClass) {
+                            PostInteraction.Like::class.java -> likePost(interaction.postModel)
+                            PostInteraction.Unlike::class.java -> unlikePost(interaction.postModel)
                         }
                     }
             )
     }
 
-    fun List<LikesPostHeader>.like(currentUserId: String, postId: String, fullName: String): List<LikesPostHeader> {
+    private fun List<LikesPostHeader>.updateLikes(currentUserId: String, isLiked: Boolean, fullName: String = ""): List<LikesPostHeader> {
         val updatedLikes = toMutableList()
-        val existingLike = updatedLikes.find { it.userId == currentUserId }
-
-        if (existingLike != null) {
+        val existingLike = updatedLikes.find { it.userId == currentUserId && !it.isFriend }
+        if(existingLike != null) {
             updatedLikes.remove(existingLike)
         }
-
-        val newLike = LikesPostHeader(userId = currentUserId, isFriend = false, fullName = fullName )
-        updatedLikes.add(0, newLike)
+        if(isLiked) {
+            val newLike = LikesPostHeader(userId = currentUserId, isFriend = false, fullName = fullName)
+            updatedLikes.add(0, newLike)
+        }
         return updatedLikes
     }
-    fun likePost(postId: String, postModel: PostModel) {
+
+    private fun unlikePost(postModel: PostModel) {
+        likeStateInProcessing.add(postModel.id)
         val likes = authorizedUser.value?.let {
-            postModel.likes.like(
+            postModel.likes.updateLikes(
                 it.userId,
-                postId,
-                it.firstName + " " + it.lastName
+                isLiked = false
             )
         }
-
-        var postModelUpdate = likes?.let { postModel.copy(likes = it) }
-        postUseCase.likePostUseCase
-            .invoke(postId)
+        var postModelUpdate = likes?.let { postModel.copy(likes = it, likeCounts = postModel.likeCounts - 1) }
+        postUseCase.unlikePostUseCase
+            .invoke(postModel.id)
             .process(
                 disposable,
                 onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Int>?> {
@@ -100,6 +100,7 @@ class HomeViewModel @Inject constructor(
                             }
                         }
                         if(response.isSuccessful()) {
+                            likeStateInProcessing.remove(postModel.id)
                             response.getResponseBody()?.data?.let {
                                 postModelUpdate = postModel.copy(likes = likes!!, likeCounts = it)
                                 viewModelScope.launch {
@@ -107,6 +108,62 @@ class HomeViewModel @Inject constructor(
                                         .update(postModelUpdate!!)
                                 }
                             }
+                        }
+                        if(response.isFailure()) {
+                            likeStateInProcessing.remove(postModel.id)
+                            viewModelScope.launch {
+                                database.getPostDao()
+                                    .update(postModel)
+                            }
+                            onLikeResponseState.postValue(response)
+                        }
+
+                    }
+
+                }
+            )
+
+    }
+    private fun likePost(postModel: PostModel) {
+        likeStateInProcessing.add(postModel.id)
+        val likes = authorizedUser.value?.let {
+            postModel.likes.updateLikes(
+                it.userId,
+                isLiked = true,
+                it.firstName + " " + it.lastName
+            )
+        }
+
+        var postModelUpdate = likes?.let { postModel.copy(likes = it, likeCounts = postModel.likeCounts + 1) }
+        postUseCase.likePostUseCase
+            .invoke(postModel.id)
+            .process(
+                disposable,
+                onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Int>?> {
+                    override fun onChanged(response: SimpleResponse<AppResponse<Int>?>) {
+                        if(response.isRunning()) {
+                            viewModelScope.launch {
+                                database.getPostDao()
+                                    .update(postModelUpdate!!)
+                            }
+                        }
+                        if(response.isSuccessful()) {
+                            likeStateInProcessing.remove(postModel.id)
+                            response.getResponseBody()?.data?.let {
+                                postModelUpdate = postModel.copy(likes = likes!!, likeCounts = it)
+                                viewModelScope.launch {
+                                    database.getPostDao()
+                                        .update(postModelUpdate!!)
+                                }
+                            }
+                        }
+                        if(response.isFailure()) {
+                            likeStateInProcessing.remove(postModel.id)
+                            viewModelScope.launch {
+                                database.getPostDao()
+                                    .update(postModel)
+                            }
+                            onLikeResponseState.postValue(response)
                         }
                     }
 
@@ -177,8 +234,8 @@ class HomeViewModel @Inject constructor(
         super.onCleared()
     }
 
-    sealed class PostInteraction(open val postId: String) {
-        data class Like(override val postId : String) : PostInteraction(postId)
-        data class Unlike(override val postId: String) : PostInteraction(postId)
+    sealed class PostInteraction(open val postModel: PostModel) {
+        data class Like(override val postModel: PostModel) : PostInteraction(postModel)
+        data class Unlike(override val postModel: PostModel) : PostInteraction(postModel)
     }
 }

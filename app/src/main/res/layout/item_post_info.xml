@@ -97,7 +97,7 @@
                 android:maxLines="1"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/ite_post_info_tv_date"
-                app:textTime="@{postModel.updatedAt}" />
+                app:textTime="@{postModel.createdAt}" />
 
         </LinearLayout>
 

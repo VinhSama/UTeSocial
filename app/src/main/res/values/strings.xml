@@ -286,7 +286,7 @@
     <string name="str_dialog_scope_friend">Bạn bè của tôi</string>
     <string name="str_dialog_scope_private">Chỉ mình tôi (riêng tư)</string>
 
-    <string name="str_fra_post_btn_menu_edit">Chỉnh sửa người xem</string>
     <string name="str_dialog_scope_success">Đã cập nhật bài viết</string>
     <string name="str_dialog_scope_fail">Không thể cập nhật bài viết. Vui lòng thử lại sau</string>
+    <string name="str_fra_post_btn_menu_edit">Chỉnh sửa quyền riêng tư</string>
 </resources>

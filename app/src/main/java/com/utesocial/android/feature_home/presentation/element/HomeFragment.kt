@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -165,8 +166,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             postListener,
             mainViewModel.authorizedUser.value?.userId ?: "",
             object : PostPagedAdapter.OnItemActionsListener {
-                override fun onLikeChanged(isChecked: Boolean, postModel: PostModel) {
-                    TODO("Not yet implemented")
+                override fun onLikeChanged(isChecked: Boolean, postModel: PostModel) : Boolean {
+                    when(isChecked) {
+                        true -> {
+                            if(!viewModel.likeStateInProcessing.contains(postModel.id)) {
+                                viewModel.onLikeStateChanged.onNext(
+                                    HomeViewModel.PostInteraction.Like(
+                                        postModel.copy()
+                                    )
+                                )
+                                return true
+                            }
+                            return false
+                        }
+                        false -> {
+                            return if(!viewModel.likeStateInProcessing.contains(postModel.id)) {
+                                viewModel.onLikeStateChanged.onNext(
+                                    HomeViewModel.PostInteraction.Unlike(
+                                        postModel.copy()
+                                    )
+                                )
+                                true
+                            } else {
+                                false
+                            }
+
+                        }
+                    }
                 }
 
             }
@@ -191,7 +217,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 binding.shimmerFrameLayout.isVisible = loadingState
                 binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
                 binding.loadStateViewGroup.isVisible = firstEmptyLoaded || firstFailed
-                binding.lottieEmptyView.isVisible = firstEmptyLoaded
+                binding.lottieEmptyView.isVisible = true
                 binding.txvErrorMessage.isVisible = firstFailed
 
                 if(loadState.refresh is LoadState.Error) {
@@ -221,6 +247,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 setupRecyclerView()
 
                 refreshData()
+                viewModel.onLikeResponseState.observe(viewLifecycleOwner) { errorResponse ->
+                    showError(errorResponse)
+                }
             }
         }
 //        if (it != null) {
