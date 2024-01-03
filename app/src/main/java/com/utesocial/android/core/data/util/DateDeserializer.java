@@ -36,6 +36,7 @@ public class DateDeserializer implements JsonDeserializer<Date> {
             }
         }
         if(result == null) {
+            Log.i(TAG, "deserialize:" + "result == null");
             try {
                 long timeInMillis = json.getAsLong();
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
