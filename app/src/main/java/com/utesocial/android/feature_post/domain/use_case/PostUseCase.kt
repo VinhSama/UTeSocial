@@ -6,5 +6,6 @@ data class PostUseCase (
     val createPostUseCase: CreatePostUseCase,
     val deletePostUseCase: DeletePostUseCase,
     val likePostUseCase: LikePostUseCase,
-    val unlikePostUseCase: UnlikePostUseCase
+    val unlikePostUseCase: UnlikePostUseCase,
+    val changePrivacyUseCase: ChangePrivacyUseCase
 )

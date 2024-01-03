@@ -4,7 +4,9 @@ import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.data.network.dto.PostBody
 import com.utesocial.android.feature_post.data.network.dto.PostResourcesBody
+import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
 import com.utesocial.android.feature_post.data.network.request.CreatePostRequest
+import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_post.domain.model.Like
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.domain.repository.PostRepository
@@ -39,4 +41,9 @@ class PostRepositoryImpl(private val postApi: PostApi) : PostRepository {
     override fun unlikePost(postId: String): SimpleCall<AppResponse<Int>> {
         return postApi.unlikePost(postId)
     }
+
+    override fun changePrivacy(
+        postId: String,
+        privacyRequest: PrivacyRequest
+    ): SimpleCall<AppResponse<PrivacyResponse>> = postApi.changePrivacy(postId, privacyRequest)
 }

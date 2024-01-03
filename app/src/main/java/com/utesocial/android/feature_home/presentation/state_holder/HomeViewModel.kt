@@ -15,6 +15,8 @@ import com.utesocial.android.feature_home.presentation.state_holder.state.HomeSt
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_post.data.datasource.database.PostDatabase
 import com.utesocial.android.feature_post.data.datasource.paging.PostPageKeyedDataSource
+import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
+import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_post.data.repository.FeedPostsRemoteMediator
 import com.utesocial.android.feature_post.domain.model.Like
 import com.utesocial.android.feature_post.domain.model.LikesPostHeader
@@ -189,6 +191,26 @@ class HomeViewModel @Inject constructor(
             )
         ).liveData.cachedIn(viewModelScope)
 
+
+    fun changePrivacy(
+        postId: String,
+        changePrivacyRequest: PrivacyRequest
+    ): LiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> {
+        val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> = MutableLiveData()
+        postUseCase.changePrivacyUseCase(postId, changePrivacyRequest).process(
+            disposable,
+            onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<PrivacyResponse>?> {
+
+                override fun onChanged(response: SimpleResponse<AppResponse<PrivacyResponse>?>) {
+                    if (response.isSuccessful()) {
+                        response.getResponseBody()?.data?.let { Debug.log("changePrivacySuccess", it.toString()) }
+                    }
+                    mutableLiveData.postValue(response)
+                }
+            }
+        )
+        return mutableLiveData
+    }
 
     fun deleteMyPost(postId: String): LiveData<SimpleResponse<AppResponse<Void>?>> {
         val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<Void>?>> = MutableLiveData()

@@ -43,6 +43,8 @@ class ProfilePagedAdapter(
         private val bodyBinding by lazy { PostBody(binding.body) }
 
         fun bind(postModel: PostModel) {
+            infoBinding.setPrivacy(postModel.privacyMode)
+
             val userAuthorId = postModel.userAuthor?.id ?: ""
             if (userId != userAuthorId) {
                 infoBinding.hideButtonMenu()

@@ -6,5 +6,7 @@ interface PostListener {
 
     fun onShowDetail(postModel: PostModel)
 
+    fun onChangePrivacy(postId: String, privacyMode: Int)
+
     fun onDeletePost(postId: String)
 }

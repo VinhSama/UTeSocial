@@ -29,6 +29,11 @@
         <item name="android:windowExitAnimation">@anim/anim_enter_dialog_username_hide</item>
     </style>
 
+    <style name="DialogChooseScope">
+        <item name="android:windowEnterAnimation">@anim/anim_right_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_right_exit</item>
+    </style>
+
     <style name="DialogConfirmDelete">
         <item name="android:windowEnterAnimation">@anim/anim_left_enter</item>
         <item name="android:windowExitAnimation">@anim/anim_left_exit</item>

@@ -299,5 +299,4 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
         setText(message)
         show()
     }
-
 }

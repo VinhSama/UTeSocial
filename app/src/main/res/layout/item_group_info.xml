@@ -73,18 +73,41 @@
                 android:textSize="@dimen/ite_group_info_tv_group"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_name"
+            <LinearLayout
+                android:id="@+id/linear_layout_info_privacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/ite_group_info_tv_name_margin_top"
                 android:layout_marginBottom="@dimen/ite_group_info_tv_name_margin_bottom"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@{group.ownerName}"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="@dimen/ite_group_info_tv_name"
-                android:textStyle="bold|italic" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{group.ownerName}"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:textSize="@dimen/_10ssp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:text="@string/str_act_main_bottom_bnv_item"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:textSize="@dimen/_10ssp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view_privacy"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    app:srcCompat="@drawable/ico_privacy_public" />
+
+            </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_view_date"

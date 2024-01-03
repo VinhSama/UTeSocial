@@ -3,7 +3,9 @@ package com.utesocial.android.feature_post.data.network
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_post.data.network.dto.PostBody
 import com.utesocial.android.feature_post.data.network.dto.PostResourcesBody
+import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
 import com.utesocial.android.feature_post.data.network.request.CreatePostRequest
+import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_post.domain.model.Like
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
@@ -12,6 +14,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -32,4 +35,9 @@ interface PostApi {
     @DELETE("posts/{postId}/likes")
     fun unlikePost(@Path("postId") postId: String) : SimpleCall<AppResponse<Int>>
 
+    @PUT("posts/privacy/{postId}")
+    fun changePrivacy(
+        @Path("postId") postId: String,
+        @Body privacyRequest: PrivacyRequest
+    ): SimpleCall<AppResponse<PrivacyResponse>>
 }
