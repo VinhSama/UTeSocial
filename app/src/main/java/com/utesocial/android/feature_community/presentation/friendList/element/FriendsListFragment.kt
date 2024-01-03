@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.map
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Debug

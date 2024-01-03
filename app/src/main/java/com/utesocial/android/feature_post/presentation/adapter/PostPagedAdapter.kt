@@ -109,12 +109,18 @@ class PostPagedAdapter(
 //                }
 //            }
             binding.btnLike.setOnCheckedChangeListener(null)
+            binding.btnComment.setOnCheckedChangeListener(null)
             binding.btnLike.setOnClickListener {
                 val isChecked = (it as MaterialCheckBox).isChecked
                 if(!onItemActionsListener.onLikeChanged(isChecked, post)) {
                     it.isChecked = !isChecked
                 }
 //                onItemActionsListener.onLikeChanged(binding.btnLike.isChecked, post)
+            }
+            binding.btnComment.setOnClickListener {
+                val isChecked = (it as MaterialCheckBox).isChecked
+                it.isChecked = !isChecked
+                onItemActionsListener.onCommentClicked(post)
             }
 
 //            binding.btnLike.setOnCheckedChangeListener { _, isChecked ->
@@ -160,5 +166,6 @@ class PostPagedAdapter(
 
     interface OnItemActionsListener {
         fun onLikeChanged(isChecked: Boolean, postModel: PostModel) : Boolean
+        fun onCommentClicked(postModel: PostModel)
     }
 }

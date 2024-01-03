@@ -28,6 +28,7 @@ import com.utesocial.android.feature_post.presentation.adapter.PostLoadStateAdap
 import com.utesocial.android.feature_post.presentation.adapter.PostPagedAdapter
 import com.utesocial.android.feature_post.presentation.dialog.ChangePrivacyDialog
 import com.utesocial.android.feature_post.presentation.dialog.DeletePostDialog
+import com.utesocial.android.feature_post.presentation.element.CommentBottomDialogFragment
 import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.remote.networkState.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -187,6 +188,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                         }
                     }
+                }
+
+                override fun onCommentClicked(postModel: PostModel) {
+                    CommentBottomDialogFragment().show(childFragmentManager, CommentBottomDialogFragment.TAG)
                 }
 
             }

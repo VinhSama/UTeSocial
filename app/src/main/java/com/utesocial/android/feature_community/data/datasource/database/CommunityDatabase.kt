@@ -15,7 +15,7 @@ import com.utesocial.android.feature_community.domain.model.FriendsListRemoteKey
 
 @Database(
     entities = [User::class, FriendsListRemoteKeys::class, FriendRequest::class, FriendRequestRemoteKeys::class],
-    version = 2
+    version = 4
 )
 @TypeConverters(Converters::class)
 abstract class CommunityDatabase : RoomDatabase() {
