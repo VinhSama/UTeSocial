@@ -1,7 +1,5 @@
 package com.utesocial.android.di.network
 
-import com.utesocial.android.BuildConfig
-import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.di.util.Constants.BASE_URL
 import com.utesocial.android.feature_change_avatar.data.network.ChangeAvatarApi
 import com.utesocial.android.feature_change_password.data.network.ChangePasswordApi
@@ -14,8 +12,6 @@ import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_profile.data.network.ProfileApi
 import com.utesocial.android.feature_search.data.network.SearchUserApi
 import com.utesocial.android.feature_settings.data.network.SettingsApi
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -53,18 +49,6 @@ class AppApiImpl(
     override val settingsApi: SettingsApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build().create(SettingsApi::class.java) }
-
-    private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val loggingInterceptor = HttpLoggingInterceptor { message ->
-            Debug.log("OkHttp", message)
-        }
-        loggingInterceptor.level = if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor.Level.BODY
-        } else {
-            HttpLoggingInterceptor.Level.NONE
-        }
-        return loggingInterceptor
-    }
 
     override val changeAvatarApi: ChangeAvatarApi by lazy { changeAvatarApi }
 

@@ -16,6 +16,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -85,6 +86,14 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     private val mediaItemsHashSet: LinkedHashSet<MediaItem> by lazy { LinkedHashSet() }
     private val chooseMediaAdapter by lazy { ChooseMediaAdapter(this@CreatePostFragment, data) }
     private val mediaAdapter by lazy { MediaAdapter(viewLifecycleOwner) }
+
+    private val emojiBackPressedCallback = object : OnBackPressedCallback(false) {
+
+        override fun handleOnBackPressed() {
+            binding.btnEmojiSelector.isChecked = false
+            isEnabled = false
+        }
+    }
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -190,6 +199,12 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                 imm.hideSoftInputFromWindow(edtContent.windowToken, 0)
                             }
                             emojiPickerView.isVisible = true
+
+                            emojiBackPressedCallback.isEnabled = true
+                            getBaseActivity().onBackPressedDispatcher.addCallback(
+                                getBaseActivity(),
+                                emojiBackPressedCallback
+                            )
                         }
 
                         InputSelectorEvent.LocationSelector -> functionNotAvailable()
@@ -216,6 +231,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     when (checkedId) {
                         R.id.btn_emoji_selector -> {
                             if (!isChecked) {
+                                emojiBackPressedCallback.isEnabled = false
                                 emojiPickerView.isVisible = false
                                 edtContent.requestFocus()
                                 context?.apply {

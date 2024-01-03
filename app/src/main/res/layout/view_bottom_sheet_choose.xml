@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.utesocial.android.feature_change_avatar.presentation.element.ChangeAvatarFragment" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/constraint_layout_bs"
+        style="@style/Widget.Material3.BottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bs_notify_cl_margin_top"
+        android:orientation="vertical"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/bottom_sheet_drag_handle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_camera"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="4dp"
+            app:cornerRadius="0dp"
+            android:onClick="@{() -> fragment.chooseCamera()}"
+            android:paddingHorizontal="@dimen/bs_notify_btn_padding_horizontal"
+            android:text="@string/str_bs_choose_btn_camera"
+            android:textAlignment="textStart"
+            android:textColor="@color/color_bs_notify_btn_text_enabled"
+            android:textSize="@dimen/bs_notify_btn"
+            app:icon="@drawable/ico_camera_solid"
+            app:iconPadding="@dimen/bs_notify_btn_icon_padding"
+            app:iconSize="20dp"
+            app:iconTint="@color/color_bs_notify_btn_icon_enabled" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_gallery"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{() -> fragment.chooseGallery()}"
+            android:paddingHorizontal="@dimen/bs_notify_btn_padding_horizontal"
+            android:text="@string/str_bs_choose_btn_gallery"
+            android:textAlignment="textStart"
+            android:textColor="@color/color_bs_notify_btn_text_enabled"
+            android:textSize="@dimen/bs_notify_btn"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ico_images_solid"
+            app:iconPadding="@dimen/bs_notify_btn_icon_padding"
+            app:iconSize="20dp"
+            app:iconTint="@color/color_bs_notify_btn_icon_enabled" />
+
+    </LinearLayout>
+
+</layout>

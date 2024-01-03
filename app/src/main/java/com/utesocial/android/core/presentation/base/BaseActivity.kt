@@ -197,6 +197,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
                 when (navController()?.currentDestination?.id) {
                     R.id.item_fra_profile -> handleBottomBar(false)
+                    else -> vaShowBottomBar.start()
                 }
             }
         }

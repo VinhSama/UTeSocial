@@ -133,6 +133,16 @@
                     app:iconSize="@dimen/_24sdp"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.LargeComponent" />
 
+                <!--<com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_camera_selector"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ico_camera_solid"
+                    app:iconGravity="textStart"
+                    app:iconSize="@dimen/_24sdp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.LargeComponent" />-->
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_tag_selector"
                     style="@style/Widget.Material3.Button.IconButton"

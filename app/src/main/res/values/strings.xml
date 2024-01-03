@@ -294,4 +294,7 @@
     <string name="str_ite_search_btn_interact">Kết bạn</string>
 
     <string name="str_send_friend_request_success">Đã gửi lời mời kết bạn</string>
+
+    <string name="str_bs_choose_btn_camera">Chụp ảnh với Camera</string>
+    <string name="str_bs_choose_btn_gallery">Chọn ảnh từ thư viện</string>
 </resources>
