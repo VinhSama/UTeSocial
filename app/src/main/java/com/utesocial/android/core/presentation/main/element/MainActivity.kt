@@ -3,6 +3,11 @@ package com.utesocial.android.core.presentation.main.element
 import android.animation.AnimatorInflater
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
@@ -12,20 +17,32 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding4.widget.textChanges
+import com.utesocial.android.NavActMainDirections
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseActivity
+import com.utesocial.android.core.presentation.main.adapter.SearchUsersPagedAdapter
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityBottom
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityScreen
 import com.utesocial.android.core.presentation.main.element.partial.MainActivitySearch
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityTop
+import com.utesocial.android.core.presentation.main.listener.MainListener
 import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.NavigationUICustom
+import com.utesocial.android.core.presentation.util.dismissLoadingDialog
+import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.core.presentation.util.showUnauthorizedDialog
 import com.utesocial.android.databinding.ActivityMainBinding
+import com.utesocial.android.feature_search.domain.model.SearchUser
+import com.utesocial.android.remote.networkState.Status
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,14 +58,62 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
     private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
 
+    private val pagedAdapter by lazy { SearchUsersPagedAdapter(
+        this@MainActivity,
+        object : MainListener {
+
+            override fun onSendFriendRequest(receiverId: String) =
+                viewModel.sendFriendRequest(receiverId).observe(this@MainActivity) { response ->
+                    when (response.getNetworkState().getStatus()) {
+                        Status.RUNNING -> showLoadingDialog()
+
+                        Status.SUCCESS -> {
+                            dismissLoadingDialog()
+                            showSnackbar(getString(R.string.str_send_friend_request_success))
+                        }
+
+                        Status.FAILED -> {
+                            dismissLoadingDialog()
+                            response.getError()?.let { error ->
+                                if (error.undefinedMessage.isNullOrEmpty()) {
+                                    Snackbar.make(
+                                        binding.root,
+                                        error.errorType.stringResId,
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Snackbar.make(
+                                        binding.root,
+                                        error.undefinedMessage.toString(),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+
+                        else -> return@observe
+                    }
+                }
+
+            override fun onProfileClick(searchUser: SearchUser) {
+                searchBinding.searchView().hide()
+                val action = NavActMainDirections.actionMainProfile(searchUser)
+                screenBinding.navController().navigate(action)
+                handleBar(false)
+            }
+        }
+    ) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
         setSplashScreenExit(splashScreen)
         setup(splashScreen)
+        setupRecyclerView()
         setupListener()
         setupFloatingActionButton()
+
         viewModel.apply {
             unauthorizedEventBroadcast.observe(this@MainActivity) {
                 if(it) {
@@ -58,6 +123,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             }
+
+            disposable.add(searchUserRequest.distinctUntilChanged().debounce(500, TimeUnit.MILLISECONDS).subscribe {
+                if (it.isNotEmpty()) {
+                    Handler(Looper.getMainLooper()).post { refreshData() }
+                }
+            })
+
+            disposable.add(binding.search.searchView.editText.textChanges().skipInitialValue().subscribe { charSequence ->
+                if (charSequence.toString().trim().isEmpty()) {
+                    searchBinding.isClear()
+                    searchUserRequest.onNext("")
+                    viewModel.clearAllData()
+                } else {
+                    searchBinding.isTyping()
+                    searchUserRequest.onNext(charSequence.toString())
+                }
+            })
         }
     }
 
@@ -112,12 +194,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    private fun setupRecyclerView() { searchBinding.setupRecyclerView(pagedAdapter) }
+
     private fun setupListener() {
         binding.floatingActionButtonCreate.setOnClickListener {
-            screenBinding.navController().navigate(R.id.item_fra_create_post)
+            val action = NavActMainDirections.actionMainCreatePost()
+            screenBinding.navController().navigate(action)
             handleBar(false)
         }
         topBinding.setListener(searchBinding.searchView())
+    }
+
+    private fun refreshData() = viewModel.searchUsers().observe(this) { paging ->
+        pagedAdapter.submitData(lifecycle, paging)
     }
 
     private fun setupFloatingActionButton() {
@@ -125,12 +214,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val listener = NavController.OnDestinationChangedListener {_, destination, _ ->
             fab.isVisible = destination.id == R.id.item_fra_home
         }
+
         screenBinding.navController().addOnDestinationChangedListener(listener)
         lifecycle.addObserver(LifecycleEventObserver {_ , event ->
             if(event == Lifecycle.Event.ON_DESTROY) {
                 screenBinding.navController().removeOnDestinationChangedListener(listener)
             }
         })
-
     }
 }

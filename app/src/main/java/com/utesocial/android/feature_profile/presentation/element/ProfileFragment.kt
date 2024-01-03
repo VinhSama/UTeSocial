@@ -49,7 +49,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private val args: ProfileFragmentArgs by navArgs()
 
     private val mainViewModel: MainViewModel by viewModels(ownerProducer = { getBaseActivity() })
-    private val user by lazy { args.user }
+    private val searchUser by lazy { args.searchUser }
 
     private lateinit var bindingDialogUsername: ViewDialogInputBinding
     private lateinit var dialogUsername: AlertDialog
@@ -181,8 +181,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun setupBinding() {
-        binding.user = user
-        binding.isVisit = user.userId != (mainViewModel.authorizedUser.value?.userId ?: "")
+        binding.user = searchUser.user
+        binding.isVisit = searchUser.userId != (mainViewModel.authorizedUser.value?.userId ?: "")
         bindingDialogUsername.fragment = this@ProfileFragment
     }
 
@@ -286,18 +286,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         binding.info.cardViewInfo.setOnClickListener {
             navigation(
-                ProfileFragmentDirections.actionProfileDetail(user)
+                ProfileFragmentDirections.actionProfileDetail(searchUser.user)
             )
         }
         binding.info.buttonMore.setOnClickListener {
             navigation(
-                ProfileFragmentDirections.actionProfileDetail(user)
+                ProfileFragmentDirections.actionProfileDetail(searchUser.user)
             )
         }
     }
 
     private fun refreshData() {
-        val userId = user.userId
+        val userId = searchUser.userId
         viewModel.getMyPosts(userId, 10).observe(viewLifecycleOwner) { pagingData ->
             pagedAdapter.submitData(lifecycle, pagingData)
         }

@@ -1,5 +1,6 @@
 package com.utesocial.android.di.module
 
+import com.utesocial.android.core.domain.use_case.MainUseCase
 import com.utesocial.android.di.repository.AppRepository
 import com.utesocial.android.feature_change_avatar.domain.use_case.ChangeAvatarUseCase
 import com.utesocial.android.feature_change_avatar.domain.use_case.DeleteAvatarUseCase
@@ -11,6 +12,7 @@ import com.utesocial.android.feature_community.domain.use_case.GetCommunityInfoU
 import com.utesocial.android.feature_community.domain.use_case.GetFriendRequestsUseCase
 import com.utesocial.android.feature_community.domain.use_case.GetFriendsListUseCase
 import com.utesocial.android.feature_community.domain.use_case.SearchUserUseCase
+import com.utesocial.android.feature_community.domain.use_case.SendFriendRequestUseCase
 import com.utesocial.android.feature_home.domain.use_case.GetSuggestPostsUseCase
 import com.utesocial.android.feature_home.domain.use_case.HomeUseCase
 import com.utesocial.android.feature_login.domain.use_case.GetLoginUseCase
@@ -98,5 +100,10 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
         getMyPostsUseCase = GetMyPostsUseCase(appRepository.profileRepository),
         deletePostUseCase = DeletePostUseCase(appRepository.postRepository),
         changePrivacyUseCase = ChangePrivacyUseCase(appRepository.postRepository)
+    ) }
+
+    override val mainUseCase: MainUseCase by lazy { MainUseCase(
+        searchUserUseCase = com.utesocial.android.feature_search.domain.use_case.SearchUserUseCase(appRepository.searchUserRepository),
+        sendFriendRequestUseCase = SendFriendRequestUseCase(appRepository.communityRepository)
     ) }
 }

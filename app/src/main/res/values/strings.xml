@@ -289,4 +289,9 @@
     <string name="str_dialog_scope_success">Đã cập nhật bài viết</string>
     <string name="str_dialog_scope_fail">Không thể cập nhật bài viết. Vui lòng thử lại sau</string>
     <string name="str_fra_post_btn_menu_edit">Chỉnh sửa quyền riêng tư</string>
+
+    <string name="str_ite_search_tv_placeholder">&#45;</string>
+    <string name="str_ite_search_btn_interact">Kết bạn</string>
+
+    <string name="str_send_friend_request_success">Đã gửi lời mời kết bạn</string>
 </resources>

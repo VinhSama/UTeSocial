@@ -12,6 +12,7 @@ import com.utesocial.android.feature_notification.data.network.NotificationApi
 import com.utesocial.android.feature_register.data.network.RegisterApi
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_profile.data.network.ProfileApi
+import com.utesocial.android.feature_search.data.network.SearchUserApi
 import com.utesocial.android.feature_settings.data.network.SettingsApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +25,8 @@ class AppApiImpl(
     communityApi: CommunityApi,
     profileApi: ProfileApi,
     changeAvatarApi: ChangeAvatarApi,
-    changePasswordApi: ChangePasswordApi
+    changePasswordApi: ChangePasswordApi,
+    searchUserApi: SearchUserApi
 ) : AppApi {
 
     override val registerApi: RegisterApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
@@ -67,4 +69,6 @@ class AppApiImpl(
     override val changeAvatarApi: ChangeAvatarApi by lazy { changeAvatarApi }
 
     override val changePasswordApi: ChangePasswordApi by lazy { changePasswordApi }
+
+    override val searchUserApi: SearchUserApi by lazy { searchUserApi }
 }

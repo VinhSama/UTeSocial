@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/str_act_main_top_tv_hint"
-        app:autoShowKeyboard="false"
         app:layout_anchor="@id/search_bar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,13 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/linear_layout_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/circular_progress_indicator"
@@ -39,10 +38,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:text="@string/str_act_main_search_tv_loading"/>
+                    android:text="@string/str_act_main_search_tv_loading"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
 
-            </LinearLayout>
+            </LinearLayout>-->
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_frame_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <include layout="@layout/activity_main_search_placeholder" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <RelativeLayout
                 android:id="@+id/relative_layout_result"
@@ -53,8 +62,8 @@
                     android:id="@+id/recycler_view_search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="4dp"
                     android:layout_centerInParent="true"
+                    android:layout_marginVertical="4dp"
                     android:orientation="vertical"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -63,27 +72,41 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/text_view_empty"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="250dp"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:text="@string/str_act_main_search_tv_empty"
                     android:textColor="?attr/colorOnBackground"
-                    android:textSize="18sp" />
+                    android:textSize="17sp" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="false"
+                    app:lottie_rawRes="@raw/lottie_not_found"
+                    app:tint="?attr/colorSecondary" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_view_not_found"
+                    android:id="@+id/text_view_error"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="250dp"
                     android:gravity="center"
-                    android:visibility="gone"
                     android:paddingHorizontal="16dp"
-                    android:text="@string/str_act_main_search_tv_not_found"
-                    android:textColor="?attr/colorOnBackground"
-                    android:textSize="18sp" />
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 

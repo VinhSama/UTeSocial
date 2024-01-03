@@ -25,6 +25,7 @@ import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentSettingsBinding
+import com.utesocial.android.feature_search.domain.model.SearchUser
 import com.utesocial.android.feature_settings.presentation.state_holder.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -63,12 +64,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.constraintLayoutProfile.setOnClickListener {
             val transitionAvatar = resources.getString(R.string.tra_settings_profile_avatar)
             val transitionName = resources.getString(R.string.tra_settings_profile_name)
-
             val extras = FragmentNavigatorExtras(
                 binding.imageViewAvatar to transitionAvatar,
                 binding.textViewUsername to transitionName
             )
-            val action = SettingsFragmentDirections.actionSettingsProfile(mainViewModel.authorizedUser.value!!)
+
+            val searchUser = SearchUser(
+                userId = mainViewModel.authorizedUser.value?.userId ?: "",
+                user = mainViewModel.authorizedUser.value!!,
+                friendState = "Myself"
+            )
+
+            val action = SettingsFragmentDirections.actionSettingsProfile(searchUser)
 
             getBaseActivity().navController()?.navigate(action, extras)
             getBaseActivity().handleBar(false)

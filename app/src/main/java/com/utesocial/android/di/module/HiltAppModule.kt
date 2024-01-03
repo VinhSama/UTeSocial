@@ -12,6 +12,7 @@ import com.utesocial.android.core.data.util.DateDeserializer
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
+import com.utesocial.android.core.domain.use_case.MainUseCase
 import com.utesocial.android.di.network.AppApi
 import com.utesocial.android.di.network.AppApiImpl
 import com.utesocial.android.di.repository.AppRepository
@@ -32,7 +33,8 @@ import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 import com.utesocial.android.feature_profile.data.network.ProfileApi
 import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
-import com.utesocial.android.feature_settings.data.network.SettingsApi
+import com.utesocial.android.feature_search.data.data_source.database.SearchUserDatabase
+import com.utesocial.android.feature_search.data.network.SearchUserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -98,19 +100,26 @@ class HiltAppModule {
 
     @Singleton
     @Provides
+    fun provideSearchUserApi(retrofit: Retrofit): SearchUserApi {
+        return retrofit.create(SearchUserApi::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideGlobalDisposable() : CompositeDisposable {
         return CompositeDisposable()
     }
     @Singleton
     @Provides
-    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, profileApi: ProfileApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi) : AppApi {
+    fun provideAppApi(loginApi: LoginApi, postApi: PostApi, communityApi: CommunityApi, profileApi: ProfileApi, changeAvatarApi: ChangeAvatarApi, changePasswordApi: ChangePasswordApi, searchUserApi: SearchUserApi) : AppApi {
         return AppApiImpl(
             loginApi = loginApi,
             postApi = postApi,
             communityApi = communityApi,
             profileApi = profileApi,
             changeAvatarApi = changeAvatarApi,
-            changePasswordApi = changePasswordApi
+            changePasswordApi = changePasswordApi,
+            searchUserApi = searchUserApi
         )
     }
 
@@ -154,6 +163,12 @@ class HiltAppModule {
     @Provides
     fun provideCommunityUseCase(appModule: AppModule) : CommunityUseCase {
         return appModule.communityUseCase
+    }
+
+    @Singleton
+    @Provides
+    fun provideMainUseCase(appModule: AppModule): MainUseCase {
+        return appModule.mainUseCase
     }
 
     @Singleton
@@ -203,6 +218,18 @@ class HiltAppModule {
                 }
             })
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchUserDatabase(@ApplicationContext context: Context): SearchUserDatabase {
+        return Room.databaseBuilder(context, SearchUserDatabase::class.java, "searchUsersCaching")
+            .fallbackToDestructiveMigration()
+            .addCallback(object : RoomDatabase.Callback() {
+
+                override fun onCreate(db: SupportSQLiteDatabase) =
+                    Debug.log("SearchUserDatabase", "onCreate")
+            }).build()
     }
 
     @Singleton

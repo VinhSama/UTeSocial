@@ -5,6 +5,22 @@
     android:id="@+id/nav_act_main"
     app:startDestination="@id/item_fra_home">
 
+    <action
+        android:id="@+id/action_main_create_post"
+        app:destination="@id/item_fra_create_post"
+        app:enterAnim="@anim/anim_slide_up"
+        app:exitAnim="@anim/anim_slide_down"
+        app:popEnterAnim="@anim/anim_slide_up"
+        app:popExitAnim="@anim/anim_slide_down" />
+
+    <action
+        android:id="@+id/action_main_profile"
+        app:destination="@id/item_fra_profile"
+        app:enterAnim="@anim/anim_slide_up"
+        app:exitAnim="@anim/anim_slide_down"
+        app:popEnterAnim="@anim/anim_slide_up"
+        app:popExitAnim="@anim/anim_slide_down" />
+
     <fragment
         android:id="@+id/item_fra_home"
         android:name="com.utesocial.android.feature_home.presentation.element.HomeFragment"
@@ -126,8 +142,8 @@
             app:popExitAnim="@anim/anim_slide_down" />
 
         <argument
-            android:name="user"
-            app:argType="com.utesocial.android.core.domain.model.User" />
+            android:name="searchUser"
+            app:argType="com.utesocial.android.feature_search.domain.model.SearchUser" />
 
     </fragment>
 

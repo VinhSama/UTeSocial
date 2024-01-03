@@ -16,4 +16,6 @@ interface CommunityRepository {
     fun getFriendsList(page: Int, limit: Int, search: String): SimpleCall<AppResponse<FriendsListResponse>>
     fun getFriendRequest(page: Int, limit: Int, search: String): SimpleCall<AppResponse<FriendRequestsResponse>>
     fun answerFriendRequest(answerFriendRequest: AnswerFriendRequest): SimpleCall<AppResponse<Int>>
+
+    fun sendFriendRequest(receiverId: String): SimpleCall<AppResponse<Void>>
 }

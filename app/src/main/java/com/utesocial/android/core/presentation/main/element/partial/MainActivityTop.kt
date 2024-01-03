@@ -10,6 +10,7 @@ import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.main.element.MainActivity

@@ -248,6 +248,28 @@ fun AppCompatActivity.showError(
     }
 }
 
+fun AppCompatActivity.showError(
+    error: Error?
+) {
+    (this as BaseActivity<*>).binding.apply {
+        error?.apply {
+            if(undefinedMessage.isNullOrEmpty()) {
+                Snackbar.make(
+                    root,
+                    errorType.stringResId,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            } else {
+                Snackbar.make(
+                    root,
+                    undefinedMessage.toString(),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+}
+
 fun BaseFragment<*>.showError(
     error: Error?
 ) {

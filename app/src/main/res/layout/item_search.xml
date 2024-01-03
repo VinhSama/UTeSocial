@@ -4,33 +4,43 @@
 
     <data>
 
+        <variable
+            name="searchUser"
+            type="com.utesocial.android.feature_search.domain.model.SearchUser" />
+
+        <variable
+            name="listener"
+            type="com.utesocial.android.core.presentation.main.listener.MainListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_item"
         android:layout_width="match_parent"
-        android:background="@drawable/bac_it_search"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="4dp"
-        android:padding="16dp"
-        android:layout_height="wrap_content">
+        android:background="@drawable/bac_it_search"
+        android:onClick="@{() -> listener.onProfileClick(searchUser)}"
+        android:padding="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_view_avatar"
             android:layout_width="@dimen/ite_fra_request_iv_avatar_width"
             android:layout_height="90dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toStartOf="@id/linear_layout_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ico_default_profile" />
+            app:avatar="@{searchUser.user.avatar.url}"/>
 
         <LinearLayout
             android:id="@+id/linear_layout_content"
             android:layout_width="@dimen/ite_fra_request_ll_content_width"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ite_fra_request_ll_content_margin_start"
+            android:layout_marginStart="20dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,46 +49,84 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_name"
+                android:id="@+id/text_view_full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Họ và tên"
+                android:text="@{@string/str_fra_detail_tv_name(searchUser.user.firstName, searchUser.user.lastName)}"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
                 android:textColor="?attr/colorOnBackground"
-                android:textSize="@dimen/ite_fra_request_tv_name"
+                android:textSize="@dimen/_13sdp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_role"
+                android:id="@+id/text_view_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:layout_marginVertical="6dp"
-                android:maxLines="1"
-                android:text="Vai trò"
-                android:textColor="?attr/colorOnBackground"
-                android:textSize="16sp" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:layout_marginBottom="6dp"
-                android:text="Khoa"
+                app:username="@{searchUser.user}"
+                android:textAppearance="?attr/textAppearanceCaption"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="15sp" />
+                android:textSize="@dimen/_10ssp" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_view_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:role="@{searchUser.user}"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="@dimen/ite_post_info_tv_date" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_view_placeholder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:text="@string/str_ite_search_tv_placeholder"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="@dimen/ite_post_info_tv_date" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_view_faculty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="@dimen/ite_post_info_tv_date" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_interact"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cornerRadius="10dp"
+                android:layout_height="45dp"
+                android:text="@string/str_ite_search_btn_interact"
                 android:textAllCaps="true"
-                android:text="Kết bạn"
-                android:textSize="@dimen/ite_fra_request_tv_date" />
+                android:textSize="@dimen/ite_fra_request_tv_date"
+                app:cornerRadius="10dp"
+                android:onClick="@{() -> listener.onSendFriendRequest(searchUser.userId)}"/>
 
         </LinearLayout>
 

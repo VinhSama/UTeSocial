@@ -9,6 +9,7 @@ import com.utesocial.android.feature_notification.data.network.NotificationApi
 import com.utesocial.android.feature_register.data.network.RegisterApi
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_profile.data.network.ProfileApi
+import com.utesocial.android.feature_search.data.network.SearchUserApi
 import com.utesocial.android.feature_settings.data.network.SettingsApi
 
 interface AppApi {
@@ -23,4 +24,5 @@ interface AppApi {
     val profileApi: ProfileApi
     val changeAvatarApi: ChangeAvatarApi
     val changePasswordApi: ChangePasswordApi
+    val searchUserApi: SearchUserApi
 }

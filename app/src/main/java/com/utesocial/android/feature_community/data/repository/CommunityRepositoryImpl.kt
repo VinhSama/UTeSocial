@@ -40,4 +40,7 @@ class CommunityRepositoryImpl(private val communityApi: CommunityApi) : Communit
     override fun answerFriendRequest(answerFriendRequest: AnswerFriendRequest): SimpleCall<AppResponse<Int>> {
         return communityApi.answerFriendRequest(answerFriendRequest)
     }
+
+    override fun sendFriendRequest(receiverId: String): SimpleCall<AppResponse<Void>> =
+        communityApi.sendFriendRequest(receiverId)
 }
