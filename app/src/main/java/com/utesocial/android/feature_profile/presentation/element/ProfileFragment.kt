@@ -28,11 +28,10 @@ import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentProfileBinding
-import com.utesocial.android.databinding.ViewDialogConfirmBinding
 import com.utesocial.android.databinding.ViewDialogInputBinding
-import com.utesocial.android.databinding.ViewDialogScopeBinding
 import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_post.domain.model.PostModel
+import com.utesocial.android.feature_post.presentation.dialog.ChangePrivacyDialog
 import com.utesocial.android.feature_post.presentation.dialog.DeletePostDialog
 import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.feature_profile.presentation.adapter.ProfileLoadStateAdapter
@@ -55,9 +54,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private lateinit var bindingDialogUsername: ViewDialogInputBinding
     private lateinit var dialogUsername: AlertDialog
 
-    private lateinit var bindingDialogScope: ViewDialogScopeBinding
-    private lateinit var dialogScope: AlertDialog
-
+    private lateinit var changePrivacyDialog: ChangePrivacyDialog
     private lateinit var deletePostDialog: DeletePostDialog
 
     private lateinit var popupMenu: PopupMenu
@@ -70,50 +67,51 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         override fun onChangePrivacy(postId: String, privacyMode: Int) {
-            bindingDialogScope.buttonPositive.setOnClickListener {
-                dialogScope.dismiss()
+            changePrivacyDialog.setDefaultChecked(privacyMode)
+            changePrivacyDialog.showDialog {
+                viewModel.changePrivacy(postId, PrivacyRequest(changePrivacyDialog.getPrivacySelected()))
+                    .observe(viewLifecycleOwner) { responseState ->
+                        when (responseState.getNetworkState().getStatus()) {
+                            Status.RUNNING -> showLoadingDialog()
 
-                val privacySelect = if (bindingDialogScope.radioButtonPrivate.isChecked) {
-                    0
-                } else if (bindingDialogScope.radioButtonPublic.isChecked) {
-                    1
-                } else {
-                    2
-                }
+                            Status.SUCCESS -> {
+                                dismissLoadingDialog()
+                                getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_success))
+                                refreshData()
+                            }
 
-                viewModel.changePrivacy(postId, PrivacyRequest(privacySelect)).observe(viewLifecycleOwner) { responseState ->
+                            Status.FAILED -> {
+                                dismissLoadingDialog()
+                                getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_fail))
+                            }
+
+                            else -> return@observe
+                        }
+                    }
+            }
+        }
+
+        override fun onDeletePost(postId: String) {
+            deletePostDialog.showDialog {
+                viewModel.deleteMyPost(postId).observe(viewLifecycleOwner) { responseState ->
                     when (responseState.getNetworkState().getStatus()) {
                         Status.RUNNING -> showLoadingDialog()
+
                         Status.SUCCESS -> {
                             dismissLoadingDialog()
-                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_success))
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_success))
                             refreshData()
                         }
 
                         Status.FAILED -> {
                             dismissLoadingDialog()
-                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_fail))
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_fail))
                         }
 
                         else -> return@observe
                     }
                 }
             }
-
-            when (privacyMode) {
-                0 -> bindingDialogScope.radioButtonPrivate.isChecked = true
-                1 -> bindingDialogScope.radioButtonPublic.isChecked = true
-                2 -> bindingDialogScope.radioButtonFriend.isChecked = true
-            }
-
-            dialogScope.show()
-        }
-
-        override fun onDeletePost(postId: String) {
-            deletePostDialog.showDialog(
-                this@ProfileFragment,
-                viewModel.deleteMyPost(postId)
-            ) { refreshData() }
         }
     }
     private val pagedAdapter: ProfilePagedAdapter by lazy {
@@ -148,13 +146,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         dialogUsername = materialAlertDialogBuilderUsername.create()
         dialogUsername.window?.attributes?.windowAnimations = R.style.DialogInputUsername
 
-        bindingDialogScope =
-            DataBindingUtil.inflate(inflater, R.layout.view_dialog_scope,container, false)
-        val materialAlertDialogBuilderScope = MaterialAlertDialogBuilder(bindingDialogScope.root.context)
-        materialAlertDialogBuilderScope.setView(bindingDialogScope.root)
-        dialogScope = materialAlertDialogBuilderScope.create()
-        dialogScope.window?.attributes?.windowAnimations = R.style.DialogChooseScope
-
+        changePrivacyDialog = ChangePrivacyDialog(inflater, container)
         deletePostDialog = DeletePostDialog(inflater, container)
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -286,8 +278,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }
         }
         bindingDialogUsername.buttonNeutral.setOnClickListener { dialogUsername.dismiss() }
-
-        bindingDialogScope.buttonNeutral.setOnClickListener { dialogScope.dismiss() }
 
         binding.buttonBack.setOnClickListener { getBaseActivity().onBackPressedDispatcher.onBackPressed() }
         binding.buttonMenu.setOnClickListener { popupMenu.show() }
