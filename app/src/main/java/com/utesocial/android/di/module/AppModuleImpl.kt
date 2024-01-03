@@ -19,6 +19,7 @@ import com.utesocial.android.feature_login.domain.use_case.LoginUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetNotifiesUseCase
 import com.utesocial.android.feature_notification.domain.use_case.GetRequestsUseCase
 import com.utesocial.android.feature_notification.domain.use_case.NotificationUseCase
+import com.utesocial.android.feature_post.domain.use_case.ChangePrivacyUseCase
 import com.utesocial.android.feature_post.domain.use_case.CreatePostUseCase
 import com.utesocial.android.feature_register.domain.use_case.GetEnrollmentYearsUseCase
 import com.utesocial.android.feature_register.domain.use_case.GetFacultiesUseCase
@@ -75,7 +76,8 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
         createPostUseCase = CreatePostUseCase(appRepository.postRepository),
         likePostUseCase = LikePostUseCase(appRepository.postRepository),
         unlikePostUseCase = UnlikePostUseCase(appRepository.postRepository),
-        deletePostUseCase = DeletePostUseCase(appRepository.postRepository)
+        deletePostUseCase = DeletePostUseCase(appRepository.postRepository),
+        changePrivacyUseCase = ChangePrivacyUseCase(appRepository.postRepository)
     )}
 
     override val settingsUseCase: SettingsUseCase by lazy { SettingsUseCase(
@@ -94,6 +96,7 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
     override val profileUseCase: ProfileUseCase by lazy { ProfileUseCase(
         updateUsernameUseCase = UpdateUsernameUseCase(appRepository.profileRepository),
         getMyPostsUseCase = GetMyPostsUseCase(appRepository.profileRepository),
-        deletePostUseCase = DeletePostUseCase(appRepository.postRepository)
+        deletePostUseCase = DeletePostUseCase(appRepository.postRepository),
+        changePrivacyUseCase = ChangePrivacyUseCase(appRepository.postRepository)
     ) }
 }

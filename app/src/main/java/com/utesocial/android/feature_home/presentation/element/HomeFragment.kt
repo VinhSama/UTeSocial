@@ -19,11 +19,13 @@ import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentHomeBinding
-import com.utesocial.android.databinding.ViewDialogConfirmBinding
+import com.utesocial.android.databinding.ViewDialogScopeBinding
 import com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel
+import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.presentation.adapter.PostLoadStateAdapter
 import com.utesocial.android.feature_post.presentation.adapter.PostPagedAdapter
+import com.utesocial.android.feature_post.presentation.dialog.DeletePostDialog
 import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.remote.networkState.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,8 +38,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val mainViewModel: MainViewModel by viewModels(ownerProducer = { getBaseActivity() })
 
-    private lateinit var bindingDialogDelete: ViewDialogConfirmBinding
-    private lateinit var dialogDelete: AlertDialog
+    private lateinit var bindingDialogScope: ViewDialogScopeBinding
+    private lateinit var dialogScope: AlertDialog
+
+    private lateinit var deletePostDialog: DeletePostDialog
 
     override fun initDataBinding(
         inflater: LayoutInflater,
@@ -53,13 +57,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindingDialogDelete =
-            DataBindingUtil.inflate(inflater, R.layout.view_dialog_confirm, container, false)
-        val materialAlertDialogBuilderDelete =
-            MaterialAlertDialogBuilder(bindingDialogDelete.root.context)
-        materialAlertDialogBuilderDelete.setView(bindingDialogDelete.root)
-        dialogDelete = materialAlertDialogBuilderDelete.create()
-        dialogDelete.window?.attributes?.windowAnimations = R.style.DialogConfirmDelete
+        bindingDialogScope =
+            DataBindingUtil.inflate(inflater, R.layout.view_dialog_scope,container, false)
+        val materialAlertDialogBuilderScope = MaterialAlertDialogBuilder(bindingDialogScope.root.context)
+        materialAlertDialogBuilderScope.setView(bindingDialogScope.root)
+        dialogScope = materialAlertDialogBuilderScope.create()
+        dialogScope.window?.attributes?.windowAnimations = R.style.DialogChooseScope
+
+        deletePostDialog = DeletePostDialog(inflater, container)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -81,22 +86,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             getBaseActivity().handleBar(false)
         }
 
-        override fun onDeletePost(postId: String) {
-            bindingDialogDelete.buttonPositive.setOnClickListener {
-                dialogDelete.dismiss()
+        override fun onChangePrivacy(postId: String, privacyMode: Int) {
+            bindingDialogScope.buttonPositive.setOnClickListener {
+                dialogScope.dismiss()
 
-                viewModel.deleteMyPost(postId).observe(viewLifecycleOwner) { responseState ->
+                val privacySelect = if (bindingDialogScope.radioButtonPrivate.isChecked) {
+                    0
+                } else if (bindingDialogScope.radioButtonPublic.isChecked) {
+                    1
+                } else {
+                    2
+                }
+
+                viewModel.changePrivacy(postId, PrivacyRequest(privacySelect)).observe(viewLifecycleOwner) { responseState ->
                     when (responseState.getNetworkState().getStatus()) {
                         Status.RUNNING -> showLoadingDialog()
                         Status.SUCCESS -> {
                             dismissLoadingDialog()
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_success))
                             refreshData()
-                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_success))
                         }
 
                         Status.FAILED -> {
                             dismissLoadingDialog()
-                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_fail))
+                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_fail))
                         }
 
                         else -> return@observe
@@ -104,7 +117,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
 
-            dialogDelete.show()
+            when (privacyMode) {
+                0 -> bindingDialogScope.radioButtonPrivate.isChecked = true
+                1 -> bindingDialogScope.radioButtonPublic.isChecked = true
+                2 -> bindingDialogScope.radioButtonFriend.isChecked = true
+            }
+
+            dialogScope.show()
+        }
+
+        override fun onDeletePost(postId: String) {
+            deletePostDialog.showDialog(
+                this@HomeFragment,
+                viewModel.deleteMyPost(postId)
+            ) { refreshData() }
         }
 //        viewLifecycleOwner.lifecycleScope.launch {
 //            Debug.log("HomeFragment", "Start Refresh Data")
@@ -184,8 +210,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupListener() {
-        bindingDialogDelete.buttonNeutral.setOnClickListener { dialogDelete.dismiss() }
-
         binding.swipeRefreshLayout.setOnRefreshListener {
             refreshData()
         }

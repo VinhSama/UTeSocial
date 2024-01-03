@@ -7,13 +7,18 @@ import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.imageview.ShapeableImageView
 import com.utesocial.android.R
 import com.utesocial.android.feature_post.presentation.listener.PostListener
 
 @SuppressLint("RestrictedApi")
-abstract class InfoPartial(private val buttonMenu: MaterialButton) {
+abstract class InfoPartial(
+    private val imagePrivacy: ShapeableImageView,
+    private val buttonMenu: MaterialButton
+) {
 
     private val popupMenu: PopupMenu = PopupMenu(buttonMenu.context, buttonMenu)
+    private var privacyMode: Int = 1
 
     init {
         popupMenu.menuInflater.inflate(R.menu.menu_ite_post_btn, popupMenu.menu)
@@ -39,9 +44,16 @@ abstract class InfoPartial(private val buttonMenu: MaterialButton) {
         }
     }
 
-    fun hideButtonMenu() {
-        buttonMenu.visibility = View.GONE
+    fun setPrivacy(privacyMode: Int) {
+        this.privacyMode = privacyMode
+        when (privacyMode) {
+            0 -> imagePrivacy.setImageResource(R.drawable.ico_privacy_private)
+            1 -> imagePrivacy.setImageResource(R.drawable.ico_privacy_public)
+            2 -> imagePrivacy.setImageResource(R.drawable.ico_privacy_friend)
+        }
     }
+
+    fun hideButtonMenu() { buttonMenu.visibility = View.GONE }
 
     fun setupListener(
         listener: PostListener,
@@ -53,6 +65,11 @@ abstract class InfoPartial(private val buttonMenu: MaterialButton) {
             when (it.itemId) {
                 R.id.item_remove -> {
                     listener.onDeletePost(postId)
+                    true
+                }
+
+                R.id.item_edit -> {
+                    listener.onChangePrivacy(postId, privacyMode)
                     true
                 }
 

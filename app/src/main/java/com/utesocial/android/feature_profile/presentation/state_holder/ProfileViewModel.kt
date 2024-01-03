@@ -13,6 +13,8 @@ import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
+import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
+import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_profile.data.data_source.paging.MyPostPageKeyedDataSource
 import com.utesocial.android.feature_profile.domain.model.UsernameReq
 import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
@@ -64,6 +66,26 @@ class ProfileViewModel @Inject constructor(
         ),
         pagingSourceFactory = { MyPostPageKeyedDataSource(profileUseCase, userId, disposable) }
     ).liveData.cachedIn(viewModelScope)
+
+    fun changePrivacy(
+        postId: String,
+        changePrivacyRequest: PrivacyRequest
+    ): LiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> {
+        val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> = MutableLiveData()
+        profileUseCase.changePrivacyUseCase(postId, changePrivacyRequest).process(
+            disposable,
+            onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<PrivacyResponse>?> {
+
+                override fun onChanged(response: SimpleResponse<AppResponse<PrivacyResponse>?>) {
+                    if (response.isSuccessful()) {
+                        response.getResponseBody()?.data?.let { Debug.log("changePrivacySuccess", it.toString()) }
+                    }
+                    mutableLiveData.postValue(response)
+                }
+            }
+        )
+        return mutableLiveData
+    }
 
     fun deleteMyPost(postId: String): LiveData<SimpleResponse<AppResponse<Void>?>> {
         val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<Void>?>> = MutableLiveData()
