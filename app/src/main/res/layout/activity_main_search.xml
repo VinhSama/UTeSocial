@@ -19,30 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--<LinearLayout
-                android:id="@+id/linear_layout_loading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/circular_progress_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_view_loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/str_act_main_search_tv_loading"
-                    android:textAppearance="?attr/textAppearanceTitleMedium" />
-
-            </LinearLayout>-->
-
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_frame_layout"
                 android:layout_width="match_parent"
@@ -69,18 +45,34 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_search" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_view_empty"
+                <LinearLayout
+                    android:id="@+id/linear_layout_empty"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="300dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="250dp"
-                    android:gravity="center"
-                    android:paddingHorizontal="16dp"
-                    android:text="@string/str_act_main_search_tv_empty"
-                    android:textColor="?attr/colorOnBackground"
-                    android:textSize="17sp" />
+                    android:layout_marginTop="55dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottie_animation_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/lottie_search" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_view_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/str_act_main_search_tv_empty"
+                        android:textColor="?attr/colorOnBackground"
+                        android:textSize="17sp" />
+
+                </LinearLayout>
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_empty_view"

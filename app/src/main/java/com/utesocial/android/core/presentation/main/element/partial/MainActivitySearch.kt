@@ -56,7 +56,8 @@ class MainActivitySearch(
     fun searchView(): SearchView = binding.searchView
 
     fun isClear() {
-        binding.textViewEmpty.visibility = VISIBLE
+        binding.linearLayoutEmpty.visibility = VISIBLE
+
         binding.shimmerFrameLayout.visibility = GONE
         binding.recyclerViewSearch.visibility = GONE
         binding.lottieEmptyView.visibility = GONE
@@ -64,8 +65,8 @@ class MainActivitySearch(
     }
 
     fun isTyping() {
-        if (binding.textViewEmpty.isVisible) {
-            binding.textViewEmpty.visibility = GONE
+        if (binding.linearLayoutEmpty.isVisible) {
+            binding.linearLayoutEmpty.visibility = GONE
         }
 
         if (binding.recyclerViewSearch.isVisible) {
