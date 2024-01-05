@@ -13,12 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.utesocial.android.R
 import com.utesocial.android.core.presentation.base.BaseActivity
 import com.utesocial.android.core.presentation.base.BaseFragment
 import com.utesocial.android.core.presentation.main.element.MainActivity
+import com.utesocial.android.feature_post.presentation.element.CommentBottomDialogFragment
 import com.utesocial.android.remote.networkState.Error
 import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 
@@ -252,6 +254,28 @@ fun AppCompatActivity.showError(
     error: Error?
 ) {
     (this as BaseActivity<*>).binding.apply {
+        error?.apply {
+            if(undefinedMessage.isNullOrEmpty()) {
+                Snackbar.make(
+                    root,
+                    errorType.stringResId,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            } else {
+                Snackbar.make(
+                    root,
+                    undefinedMessage.toString(),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+}
+
+fun CommentBottomDialogFragment.showError(
+    error: Error?
+) {
+    binding?.apply {
         error?.apply {
             if(undefinedMessage.isNullOrEmpty()) {
                 Snackbar.make(

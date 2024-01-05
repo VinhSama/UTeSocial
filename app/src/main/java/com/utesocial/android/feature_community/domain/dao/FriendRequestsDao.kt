@@ -6,20 +6,20 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.utesocial.android.feature_community.domain.model.FriendRequest
+import com.utesocial.android.feature_community.domain.model.FriendRequestEntity
 
 @Dao
 interface FriendRequestsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(friendRequests: List<FriendRequest>)
+    suspend fun insertAll(friendRequests: List<FriendRequestEntity>)
 
-    @Query("Select * from FriendRequest")
-    fun getRequestsList() : PagingSource<Int, FriendRequest>
+    @Query("Select * from FriendRequestEntity")
+    fun getRequestsList() : PagingSource<Int, FriendRequestEntity>
 
-    @Query("Delete from FriendRequest")
+    @Query("Delete from FriendRequestEntity")
     suspend fun clearAll()
 
     @Update
-    suspend fun updateRequestAfterResponse(friendRequest: FriendRequest)
+    suspend fun updateRequestAfterResponse(friendRequest: FriendRequestEntity)
 
 }

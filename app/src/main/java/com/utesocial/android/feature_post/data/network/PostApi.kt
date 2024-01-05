@@ -42,6 +42,6 @@ interface PostApi {
         @Body privacyRequest: PrivacyRequest
     ): SimpleCall<AppResponse<PrivacyResponse>>
     @GET("posts/{postId}/comments")
-    fun getCommentsByPostId(@Path("postId") postId: String) : SimpleCall<AppResponse<CommentsResponse>>
+    fun getCommentsByPostId(@Path("postId") postId: String, @Query("page") page: Int, @Query("limit") limit : Int) : SimpleCall<AppResponse<CommentsResponse>>
 
 }

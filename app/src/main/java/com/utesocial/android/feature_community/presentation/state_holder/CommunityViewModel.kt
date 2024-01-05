@@ -10,24 +10,19 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.liveData
 import com.utesocial.android.core.data.util.Debug
-import com.utesocial.android.core.domain.util.Resource
 import com.utesocial.android.feature_community.data.datasource.database.CommunityDatabase
 import com.utesocial.android.feature_community.data.network.request.AnswerFriendRequest
 import com.utesocial.android.feature_community.domain.model.FriendRequest
+import com.utesocial.android.feature_community.domain.model.FriendRequestEntity
 import com.utesocial.android.feature_community.domain.repository.FriendRequestsRemoteMediator
 import com.utesocial.android.feature_community.domain.repository.FriendsListRemoteMediator
 import com.utesocial.android.feature_community.domain.use_case.CommunityUseCase
-import com.utesocial.android.feature_community.presentation.state_holder.state.CommunityState
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
 import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -78,7 +73,7 @@ class CommunityViewModel @Inject constructor(
             )
         ).liveData.cachedIn(viewModelScope)
 
-    fun onAcceptRequest(friendRequest: FriendRequest) : LiveData<SimpleResponse<AppResponse<Int>?>> {
+    fun onAcceptRequest(friendRequest: FriendRequestEntity) : LiveData<SimpleResponse<AppResponse<Int>?>> {
         val responseState = MutableLiveData<SimpleResponse<AppResponse<Int>?>>()
         var updateRequest = friendRequest.copy(status = FriendRequest.FriendState.ACCEPTED)
 
@@ -95,10 +90,6 @@ class CommunityViewModel @Inject constructor(
                             }
                         }
                         if(response.isSuccessful()) {
-                            viewModelScope.launch {
-                                database.getFriendsListDao()
-                                    .insertOne(updateRequest.sender)
-                            }
                             response.getResponseBody()?.data.let {
                                 listenFriendCountChanged.onNext(it)
                             }
@@ -120,7 +111,7 @@ class CommunityViewModel @Inject constructor(
         return responseState
     }
 
-    fun onDenyRequest(friendRequest: FriendRequest) : LiveData<SimpleResponse<AppResponse<Int>?>> {
+    fun onDenyRequest(friendRequest: FriendRequestEntity) : LiveData<SimpleResponse<AppResponse<Int>?>> {
         val responseState = MutableLiveData<SimpleResponse<AppResponse<Int>?>>()
         var updateRequest = friendRequest.copy(status = FriendRequest.FriendState.REJECTED)
         communityUseCase.answerFriendRequestUseCase
@@ -150,7 +141,7 @@ class CommunityViewModel @Inject constructor(
         return responseState
     }
 
-    fun onProfileClick(friendRequest: FriendRequest) {
+    fun onProfileClick(friendRequest: FriendRequestEntity) {
 
     }
     override fun onCleared() {

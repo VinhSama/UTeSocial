@@ -191,7 +191,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
 
                 override fun onCommentClicked(postModel: PostModel) {
-                    CommentBottomDialogFragment().show(childFragmentManager, CommentBottomDialogFragment.TAG)
+                    CommentBottomDialogFragment.newInstance(postId = postModel.id).show(childFragmentManager, CommentBottomDialogFragment.TAG)
+//                    CommentBottomDialogFragment().show(childFragmentManager, CommentBottomDialogFragment.TAG)
                 }
 
             }

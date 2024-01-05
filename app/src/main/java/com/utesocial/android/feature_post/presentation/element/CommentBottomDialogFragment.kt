@@ -14,15 +14,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jakewharton.rxbinding4.view.focusChanges
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.utesocial.android.R
+import com.utesocial.android.core.presentation.util.ResponseException
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showDialog
+import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.databinding.FragmentCommentBottomSheetBinding
 import com.utesocial.android.feature_create_post.presentation.state_holder.state.InputSelectorEvent
+import com.utesocial.android.feature_post.presentation.adapter.CommentLoadStateAdapter
+import com.utesocial.android.feature_post.presentation.adapter.CommentPagedAdapter
 import com.utesocial.android.feature_post.presentation.state_holder.CommentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -31,12 +36,22 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 @AndroidEntryPoint
 class CommentBottomDialogFragment : BottomSheetDialogFragment() {
-    private var binding: FragmentCommentBottomSheetBinding? = null
+    var binding: FragmentCommentBottomSheetBinding? = null
     private val viewModel : CommentViewModel by viewModels()
     companion object {
+        val ARG_POST_ID = "postId"
 
         const val TAG = "CommentBottomDialogFragment"
+        fun newInstance(postId: String) : CommentBottomDialogFragment {
+            val args = Bundle()
+            args.putString(ARG_POST_ID, postId)
+            val fragment = CommentBottomDialogFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
+    private var postId: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,17 +72,25 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
         )
     }
 
+    private val pagedAdapter : CommentPagedAdapter by lazy {
+        CommentPagedAdapter()
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        postId = arguments?.getString(ARG_POST_ID)
         val behavior = BottomSheetBehavior.from(view.parent as View)
         val params = (view.parent as View).layoutParams
         if(params != null) {
             params.height = WindowManager.LayoutParams.MATCH_PARENT
         }
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        setupRecyclerView()
         binding?.apply {
+            swipeRefreshLayout.setOnRefreshListener {
+                refreshComment()
+            }
             emojiPickerView.setOnEmojiPickedListener {
                 edtComment.append(it.emoji)
             }
@@ -147,6 +170,46 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
 
         }
     }
+    private fun setupRecyclerView() {
+        val commentLoadStateAdapter = CommentLoadStateAdapter() {
+            pagedAdapter.retry()
+        }
+        binding?.rcvComments?.adapter = pagedAdapter.withLoadStateFooter(commentLoadStateAdapter)
+        pagedAdapter.addLoadStateListener {loadState ->
+            loadState.mediator?.let {
+                val loadingState = it.refresh is LoadState.Loading
+                val firstFailed = it.refresh is LoadState.Error
+                val firstEmptyLoaded = it.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0
+                val appendFailed = it.append is LoadState.Error
+                if(appendFailed) {
+                    (loadState.append as LoadState.Error).error.let { ex ->
+                        (ex as ResponseException).error?.let { error ->
+                            showError(error)
+                        }
+                    }
+                }
+                binding?.apply {
+                    shimmerLayout.isVisible = loadingState
+                    rcvComments.isVisible = !loadingState && !firstFailed
+                    emptyView.isVisible = firstEmptyLoaded
+                    txvErrorMessage.isVisible = firstFailed
+
+                }
+                if(loadState.refresh is LoadState.Error) {
+                    val errorState = loadState.refresh as LoadState.Error
+                    val errorResponse = errorState.error as ResponseException
+                    errorResponse.error?.let { error ->
+                        if(error.undefinedMessage.isNullOrEmpty()) {
+                            binding?.txvErrorMessage?.text = getString(error.errorType.stringResId)
+                        } else {
+                            binding?.txvErrorMessage?.text = error.undefinedMessage
+                        }
+                    }
+                }
+            }
+
+        }
+    }
 
     private fun getWindowHeight(): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -158,6 +221,18 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
             val displayMetrics = DisplayMetrics()
             requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
             displayMetrics.widthPixels
+
+        }
+    }
+    private fun refreshComment() {
+        binding?.apply {
+            postId?.let {
+                swipeRefreshLayout.isRefreshing = false
+                viewModel.getCommentsInPost(it)
+                    .observe(viewLifecycleOwner) { paging ->
+
+                    }
+            }
 
         }
     }

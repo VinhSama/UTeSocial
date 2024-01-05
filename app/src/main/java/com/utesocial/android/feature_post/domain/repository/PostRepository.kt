@@ -1,6 +1,7 @@
 package com.utesocial.android.feature_post.domain.repository
 
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
+import com.utesocial.android.feature_post.data.network.dto.CommentsResponse
 import com.utesocial.android.feature_post.data.network.dto.PostBody
 import com.utesocial.android.feature_post.data.network.dto.PostResourcesBody
 import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
@@ -28,4 +29,7 @@ interface PostRepository {
         postId: String,
         privacyRequest: PrivacyRequest
     ): SimpleCall<AppResponse<PrivacyResponse>>
+    fun getCommentsByPostId(
+        postId: String, page: Int, limit: Int
+    ): SimpleCall<AppResponse<CommentsResponse>>
 }
