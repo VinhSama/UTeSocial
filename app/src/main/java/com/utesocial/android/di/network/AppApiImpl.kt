@@ -10,7 +10,7 @@ import com.utesocial.android.feature_notification.data.network.NotificationApi
 import com.utesocial.android.feature_register.data.network.RegisterApi
 import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_profile.data.network.ProfileApi
-import com.utesocial.android.feature_search.data.network.SearchUserApi
+import com.utesocial.android.feature_search.data.network.SearchApi
 import com.utesocial.android.feature_settings.data.network.SettingsApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,7 +22,7 @@ class AppApiImpl(
     profileApi: ProfileApi,
     changeAvatarApi: ChangeAvatarApi,
     changePasswordApi: ChangePasswordApi,
-    searchUserApi: SearchUserApi
+    searchApi: SearchApi
 ) : AppApi {
 
     override val registerApi: RegisterApi by lazy { Retrofit.Builder().baseUrl(BASE_URL)
@@ -54,5 +54,5 @@ class AppApiImpl(
 
     override val changePasswordApi: ChangePasswordApi by lazy { changePasswordApi }
 
-    override val searchUserApi: SearchUserApi by lazy { searchUserApi }
+    override val searchApi: SearchApi by lazy { searchApi }
 }

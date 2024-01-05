@@ -5,9 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
@@ -17,17 +14,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.utesocial.android.NavActMainDirections
 import com.utesocial.android.R
-import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.data.util.PreferenceManager
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.auth.element.AuthActivity
 import com.utesocial.android.core.presentation.base.BaseActivity
-import com.utesocial.android.core.presentation.main.adapter.SearchUsersPagedAdapter
+import com.utesocial.android.core.presentation.main.adapter.SearchPagedAdapter
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityBottom
 import com.utesocial.android.core.presentation.main.element.partial.MainActivityScreen
 import com.utesocial.android.core.presentation.main.element.partial.MainActivitySearch
@@ -58,7 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
     private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
 
-    private val pagedAdapter by lazy { SearchUsersPagedAdapter(
+    private val pagedAdapter by lazy { SearchPagedAdapter(
         this@MainActivity,
         object : MainListener {
 
@@ -125,8 +120,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
 
             disposable.add(searchUserRequest.distinctUntilChanged().debounce(500, TimeUnit.MILLISECONDS).subscribe {
-                if (it.isNotEmpty()) {
-                    Handler(Looper.getMainLooper()).post { refreshData() }
+                if (!it.isNullOrEmpty()) {
+                    Handler(Looper.getMainLooper()).post { refreshData(it) }
                 }
             })
 
@@ -134,7 +129,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (charSequence.toString().trim().isEmpty()) {
                     searchBinding.isClear()
                     searchUserRequest.onNext("")
-                    viewModel.clearAllData()
                 } else {
                     searchBinding.isTyping()
                     searchUserRequest.onNext(charSequence.toString())
@@ -205,7 +199,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         topBinding.setListener(searchBinding.searchView())
     }
 
-    private fun refreshData() = viewModel.searchUsers().observe(this) { paging ->
+    private fun refreshData(search: String) = viewModel.searchUsers(
+        search = search,
+        limit = 10
+    ).observe(this) { paging ->
         pagedAdapter.submitData(lifecycle, paging)
     }
 

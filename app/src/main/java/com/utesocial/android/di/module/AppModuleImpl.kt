@@ -107,7 +107,7 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
     ) }
 
     override val mainUseCase: MainUseCase by lazy { MainUseCase(
-        searchUserUseCase = com.utesocial.android.feature_search.domain.use_case.SearchUserUseCase(appRepository.searchUserRepository),
+        searchUseCase = com.utesocial.android.feature_search.domain.use_case.SearchUseCase(appRepository.searchRepository),
         sendFriendRequestUseCase = SendFriendRequestUseCase(appRepository.communityRepository)
     ) }
 }

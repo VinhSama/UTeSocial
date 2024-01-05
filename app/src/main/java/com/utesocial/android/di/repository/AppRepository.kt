@@ -9,7 +9,7 @@ import com.utesocial.android.feature_notification.domain.repository.Notification
 import com.utesocial.android.feature_register.domain.repository.RegisterRepository
 import com.utesocial.android.feature_post.domain.repository.PostRepository
 import com.utesocial.android.feature_profile.domain.repository.ProfileRepository
-import com.utesocial.android.feature_search.domain.repository.SearchUserRepository
+import com.utesocial.android.feature_search.domain.repository.SearchRepository
 import com.utesocial.android.feature_settings.domain.repository.SettingsRepository
 
 interface AppRepository {
@@ -24,5 +24,5 @@ interface AppRepository {
     val profileRepository: ProfileRepository
     val changeAvatarRepository: ChangeAvatarRepository
     val changePasswordRepository: ChangePasswordRepository
-    val searchUserRepository: SearchUserRepository
+    val searchRepository: SearchRepository
 }
