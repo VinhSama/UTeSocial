@@ -20,12 +20,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jakewharton.rxbinding4.view.focusChanges
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.presentation.util.ResponseException
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showDialog
 import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.databinding.FragmentCommentBottomSheetBinding
 import com.utesocial.android.feature_create_post.presentation.state_holder.state.InputSelectorEvent
+import com.utesocial.android.feature_post.data.network.request.SendCommentRequest
 import com.utesocial.android.feature_post.presentation.adapter.CommentLoadStateAdapter
 import com.utesocial.android.feature_post.presentation.adapter.CommentPagedAdapter
 import com.utesocial.android.feature_post.presentation.state_holder.CommentViewModel
@@ -39,7 +41,7 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
     var binding: FragmentCommentBottomSheetBinding? = null
     private val viewModel : CommentViewModel by viewModels()
     companion object {
-        val ARG_POST_ID = "postId"
+        const val ARG_POST_ID = "postId"
 
         const val TAG = "CommentBottomDialogFragment"
         fun newInstance(postId: String) : CommentBottomDialogFragment {
@@ -163,12 +165,21 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
                     }
                 }
                 btnSendComment.setOnClickListener {
-                    Toast.makeText(requireActivity(), "Send success", Toast.LENGTH_SHORT).show()
+                    postId?.let {
+                        val request = SendCommentRequest(text = edtComment.text.toString().trim())
+                        commentQueue.onNext(Pair(it, request))
+                        edtComment.text?.clear()
+                    } ?: run {
+                        Toast.makeText(requireActivity(), getString(R.string.has_error), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                onCommentResponseState.observe(viewLifecycleOwner) { error ->
+                    showError(error)
                 }
             }
 
-
         }
+        refreshComment()
     }
     private fun setupRecyclerView() {
         val commentLoadStateAdapter = CommentLoadStateAdapter() {
@@ -180,6 +191,7 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
                 val loadingState = it.refresh is LoadState.Loading
                 val firstFailed = it.refresh is LoadState.Error
                 val firstEmptyLoaded = it.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0
+                Debug.log("AdapterSize", pagedAdapter.itemCount.toString())
                 val appendFailed = it.append is LoadState.Error
                 if(appendFailed) {
                     (loadState.append as LoadState.Error).error.let { ex ->
@@ -230,7 +242,8 @@ class CommentBottomDialogFragment : BottomSheetDialogFragment() {
                 swipeRefreshLayout.isRefreshing = false
                 viewModel.getCommentsInPost(it)
                     .observe(viewLifecycleOwner) { paging ->
-
+                        pagedAdapter.submitData(viewLifecycleOwner.lifecycle, paging)
+                        swipeRefreshLayout.isRefreshing = false
                     }
             }
 

@@ -15,7 +15,7 @@ import com.utesocial.android.feature_post.domain.model.PostRemoteKeys
 
 @Database(
     entities = [PostModel::class, PostRemoteKeys::class, Comment::class, CommentRemoteKeys::class],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class PostDatabase : RoomDatabase() {

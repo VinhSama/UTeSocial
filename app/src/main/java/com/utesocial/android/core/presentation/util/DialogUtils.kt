@@ -294,6 +294,30 @@ fun CommentBottomDialogFragment.showError(
     }
 }
 
+fun CommentBottomDialogFragment.showError(
+    response : SimpleResponse<*>
+) {
+    binding?.apply {
+        if(response.isFailure()) {
+            response.getError()?.let { error ->
+                if(error.undefinedMessage.isNullOrEmpty()) {
+                    Snackbar.make(
+                        root,
+                        error.errorType.stringResId,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } else {
+                    Snackbar.make(
+                        root,
+                        error.undefinedMessage.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+}
+
 fun BaseFragment<*>.showError(
     error: Error?
 ) {

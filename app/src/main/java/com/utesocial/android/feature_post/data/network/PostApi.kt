@@ -5,8 +5,10 @@ import com.utesocial.android.feature_post.data.network.dto.CommentsResponse
 import com.utesocial.android.feature_post.data.network.dto.PostBody
 import com.utesocial.android.feature_post.data.network.dto.PostResourcesBody
 import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
+import com.utesocial.android.feature_post.data.network.dto.SendCommentResponse
 import com.utesocial.android.feature_post.data.network.request.CreatePostRequest
 import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
+import com.utesocial.android.feature_post.data.network.request.SendCommentRequest
 import com.utesocial.android.feature_post.domain.model.Like
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
@@ -43,5 +45,7 @@ interface PostApi {
     ): SimpleCall<AppResponse<PrivacyResponse>>
     @GET("posts/{postId}/comments")
     fun getCommentsByPostId(@Path("postId") postId: String, @Query("page") page: Int, @Query("limit") limit : Int) : SimpleCall<AppResponse<CommentsResponse>>
+    @POST("posts/{postId}/comments")
+    fun sendComment(@Path("postId") postId: String, @Body sendCommentRequest: SendCommentRequest) : SimpleCall<AppResponse<SendCommentResponse>>
 
 }

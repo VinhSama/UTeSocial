@@ -12,11 +12,11 @@ data class Comment(
     @PrimaryKey(autoGenerate = false)
     val commentId: String = "",
     val text: String = "",
-    val image: List<PostResource> = emptyList(),
+    val images: List<PostResource> = emptyList(),
     val createdAt: Date,
     val fullName: String = "",
     val username: String = "",
-    val avatar: String = "",
+    val avatar: String? = "",
     val userId: String = "",
     val post: String = ""
 ) : Serializable {
@@ -29,23 +29,27 @@ data class Comment(
 
         if (commentId != other.commentId) return false
         if (text != other.text) return false
-        if (image != other.image) return false
+        if (images != other.images) return false
         if (createdAt != other.createdAt) return false
         if (fullName != other.fullName) return false
         if (username != other.username) return false
         if (avatar != other.avatar) return false
-        return userId == other.userId
+        if (userId != other.userId) return false
+        if (post != other.post) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
         var result = commentId.hashCode()
         result = 31 * result + text.hashCode()
-        result = 31 * result + image.hashCode()
+        result = 31 * result + images.hashCode()
         result = 31 * result + createdAt.hashCode()
         result = 31 * result + fullName.hashCode()
         result = 31 * result + username.hashCode()
-        result = 31 * result + avatar.hashCode()
+        result = 31 * result + (avatar?.hashCode() ?: 0)
         result = 31 * result + userId.hashCode()
+        result = 31 * result + post.hashCode()
         return result
     }
 }

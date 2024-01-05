@@ -6,8 +6,10 @@ import com.utesocial.android.feature_post.data.network.dto.CommentsResponse
 import com.utesocial.android.feature_post.data.network.dto.PostBody
 import com.utesocial.android.feature_post.data.network.dto.PostResourcesBody
 import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
+import com.utesocial.android.feature_post.data.network.dto.SendCommentResponse
 import com.utesocial.android.feature_post.data.network.request.CreatePostRequest
 import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
+import com.utesocial.android.feature_post.data.network.request.SendCommentRequest
 import com.utesocial.android.feature_post.domain.model.Like
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.domain.repository.PostRepository
@@ -54,6 +56,13 @@ class PostRepositoryImpl(private val postApi: PostApi) : PostRepository {
         limit: Int
     ): SimpleCall<AppResponse<CommentsResponse>> {
         return postApi.getCommentsByPostId(postId, page, limit)
+    }
+
+    override fun sendComment(
+        postId: String,
+        sendCommentRequest: SendCommentRequest
+    ): SimpleCall<AppResponse<SendCommentResponse>> {
+        return postApi.sendComment(postId, sendCommentRequest)
     }
 
 }

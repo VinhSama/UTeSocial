@@ -2,6 +2,7 @@ package com.utesocial.android.feature_post.domain.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,4 +18,6 @@ interface CommentDao {
     fun getCommentsByPostId(postId: String) : PagingSource<Int, Comment>
     @Query("Delete from Comment")
     suspend fun clearAll()
+    @Delete
+    suspend fun deleteOne(comment: Comment)
 }
