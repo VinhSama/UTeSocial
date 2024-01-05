@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.utesocial.android.R
 import com.utesocial.android.core.domain.model.User
 import com.utesocial.android.core.presentation.base.BaseFragment
@@ -20,9 +17,9 @@ import com.utesocial.android.core.presentation.util.dismissLoadingDialog
 import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentHomeBinding
-import com.utesocial.android.databinding.ViewDialogScopeBinding
 import com.utesocial.android.feature_home.presentation.state_holder.HomeViewModel
 import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
+import com.utesocial.android.feature_post.domain.model.PostInteraction
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.presentation.adapter.PostLoadStateAdapter
 import com.utesocial.android.feature_post.presentation.adapter.PostPagedAdapter
@@ -106,56 +103,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
+        override fun onChangePrivacy(postModel: PostModel, privacyMode: Int) {
+            changePrivacyDialog.setDefaultChecked(privacyMode)
+            changePrivacyDialog.showDialog {
+                viewModel.changePrivacy(postModel, PrivacyRequest(changePrivacyDialog.getPrivacySelected()))
+            }
+
+        }
+
         override fun onDeletePost(postId: String) {
+        }
+
+        override fun onDeletePost(postModel: PostModel) {
             deletePostDialog.showDialog {
-                viewModel.deleteMyPost(postId).observe(viewLifecycleOwner) { responseState ->
-                    when (responseState.getNetworkState().getStatus()) {
-                        Status.RUNNING -> showLoadingDialog()
-
-                        Status.SUCCESS -> {
-                            dismissLoadingDialog()
+                viewModel.deleteMyPost(postModel)
+                    .observe(viewLifecycleOwner) { responseState ->
+                        if(responseState.isSuccessful()) {
                             getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_success))
-                            refreshData()
                         }
-
-                        Status.FAILED -> {
-                            dismissLoadingDialog()
-                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_fail))
+                        if(responseState.isFailure()) {
+                            showError(responseState)
                         }
-
-                        else -> return@observe
-                    }
                 }
             }
         }
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            Debug.log("HomeFragment", "Start Refresh Data")
-//            refreshData()
-//        }
     }
 
-    private lateinit var pagedAdapter: PostPagedAdapter /*by lazy {
-        *//*PostPagedAdapter(viewLifecycleOwner, object : PostModelBodyImageAdapter.PostBodyImageListener {
-            override fun onClick(postModel: PostModel) {
-                val action = HomeFragmentDirections.actionHomePost(postModel)
-                getBaseActivity().navController()?.navigate(action)
-                getBaseActivity().handleBar(false)
-            }
-        })*//*
-        PostPagedAdapter(
-            viewLifecycleOwner,
-            postListener,
-            mainViewModel.authorizedUser.value?.userId ?: ""
-        )
-    }*/
+    private lateinit var pagedAdapter: PostPagedAdapter
 
     private fun setupRecyclerView() {
-//        val pagedAdapter = PostPagedAdapter(viewLifecycleOwner, object : PostModelBodyImageAdapter.PostListener {
-//            override fun onClick(postResource: PostResource) {
-//                Toast.makeText(requireActivity(), "OnClick", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        })
         pagedAdapter = PostPagedAdapter(
             viewLifecycleOwner,
             postListener,
@@ -166,7 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         true -> {
                             if(!viewModel.likeStateInProcessing.contains(postModel.id)) {
                                 viewModel.onLikeStateChanged.onNext(
-                                    HomeViewModel.PostInteraction.Like(
+                                    PostInteraction.Like(
                                         postModel.copy()
                                     )
                                 )
@@ -177,7 +153,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         false -> {
                             return if(!viewModel.likeStateInProcessing.contains(postModel.id)) {
                                 viewModel.onLikeStateChanged.onNext(
-                                    HomeViewModel.PostInteraction.Unlike(
+                                    PostInteraction.Unlike(
                                         postModel.copy()
                                     )
                                 )
@@ -192,7 +168,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 override fun onCommentClicked(postModel: PostModel) {
                     CommentBottomDialogFragment.newInstance(postId = postModel.id).show(childFragmentManager, CommentBottomDialogFragment.TAG)
-//                    CommentBottomDialogFragment().show(childFragmentManager, CommentBottomDialogFragment.TAG)
                 }
 
             }
@@ -247,20 +222,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 setupRecyclerView()
 
                 refreshData()
-                viewModel.onLikeResponseState.observe(viewLifecycleOwner) { errorResponse ->
+                viewModel.onErrorResponseState.observe(viewLifecycleOwner) { errorResponse ->
                     showError(errorResponse)
                 }
             }
         }
-//        if (it != null) {
-//            setupRecyclerView()
-//
-//            refreshData()
-////        viewLifecycleOwner.lifecycleScope.launch {
-////            Debug.log("HomeFragment", "Start Refresh Data")
-////            refreshData()
-////        }
-//        }
     }
 
     private fun refreshData() {

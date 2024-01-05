@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.utesocial.android.R
+import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.databinding.ItemPostBinding
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.presentation.adapter.PostModelBodyImageAdapter
@@ -51,7 +52,7 @@ class ProfilePagedAdapter(
             } else {
                 infoBinding.setupListener(
                     listener = listener,
-                    postId = postModel.id
+                    postModel
                 )
             }
 
@@ -68,6 +69,7 @@ class ProfilePagedAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        Debug.log("onBindViewHolder", "abs")
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {

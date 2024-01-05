@@ -260,6 +260,8 @@
     <string name="str_menu_fra_profile_password_title">Đổi mật khẩu</string>
 
     <string name="str_fra_profile_add_friend">Kết bạn</string>
+    <string name="str_fra_profile_be_friend">Bạn bè</string>
+    <string name="str_fra_profile_sent_friend_request">Đã gửi lời mời</string>
 
     <string name="str_dialog_change_username_title">Đổi Username</string>
     <string name="str_dialog_change_username_hint">Nhập Username</string>

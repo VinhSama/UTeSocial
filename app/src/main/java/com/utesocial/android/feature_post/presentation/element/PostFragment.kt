@@ -108,6 +108,10 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
                     }
                 }
 
+                override fun onChangePrivacy(postModel: PostModel, privacyMode: Int) {
+                    TODO("Not yet implemented")
+                }
+
                 override fun onDeletePost(postId: String) {
                     deletePostDialog.showDialog {
                         viewModel.deleteMyPost(postId).observe(viewLifecycleOwner) { responseState ->
@@ -134,7 +138,7 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
 
             infoBinding.setupListener(
                 listener = postListener,
-                postId = postModel.id
+                postModel
             )
         }
     }

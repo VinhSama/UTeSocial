@@ -56,7 +56,7 @@ class PostPagedAdapter(
             } else {
                 infoBinding.setupListener(
                     listener = listener,
-                    postId = post.id
+                    post
                 )
             }
 

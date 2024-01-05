@@ -9,4 +9,6 @@ interface PostListener {
     fun onChangePrivacy(postId: String, privacyMode: Int)
 
     fun onDeletePost(postId: String)
+    fun onChangePrivacy(postModel: PostModel, privacyMode: Int)
+    fun onDeletePost(postModel: PostModel)
 }

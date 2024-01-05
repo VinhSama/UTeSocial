@@ -15,11 +15,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@android:color/transparent"
         android:id="@+id/constraint_layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="4dp"
-        android:background="@drawable/bac_it_search"
         android:onClick="@{() -> listener.onProfileClick(searchUser)}"
         android:padding="16dp">
 
