@@ -37,6 +37,8 @@ import com.utesocial.android.feature_settings.domain.use_case.LogoutUseCase
 import com.utesocial.android.feature_settings.domain.use_case.SettingsUseCase
 import com.utesocial.android.feature_post.domain.use_case.UploadPostResourcesUseCase
 import com.utesocial.android.feature_post.domain.use_case.DeletePostUseCase
+import com.utesocial.android.feature_post.domain.use_case.GetCommentsByPostIdUseCase
+import com.utesocial.android.feature_post.domain.use_case.SendCommentUseCase
 import com.utesocial.android.feature_profile.domain.use_case.GetMyPostsUseCase
 import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
 import com.utesocial.android.feature_profile.domain.use_case.UpdateUsernameUseCase
@@ -79,7 +81,9 @@ class AppModuleImpl(private val appRepository: AppRepository) : AppModule {
         likePostUseCase = LikePostUseCase(appRepository.postRepository),
         unlikePostUseCase = UnlikePostUseCase(appRepository.postRepository),
         deletePostUseCase = DeletePostUseCase(appRepository.postRepository),
-        changePrivacyUseCase = ChangePrivacyUseCase(appRepository.postRepository)
+        changePrivacyUseCase = ChangePrivacyUseCase(appRepository.postRepository),
+        getCommentsByPostIdUseCase = GetCommentsByPostIdUseCase(appRepository.postRepository),
+        sendCommentUseCase = SendCommentUseCase(appRepository.postRepository)
     )}
 
     override val settingsUseCase: SettingsUseCase by lazy { SettingsUseCase(

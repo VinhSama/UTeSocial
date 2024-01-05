@@ -9,13 +9,13 @@ import com.utesocial.android.feature_community.domain.dao.FriendRequestRemoteKey
 import com.utesocial.android.feature_community.domain.dao.FriendRequestsDao
 import com.utesocial.android.feature_community.domain.dao.FriendsListDao
 import com.utesocial.android.feature_community.domain.dao.FriendsRemoteKeysDao
-import com.utesocial.android.feature_community.domain.model.FriendRequest
+import com.utesocial.android.feature_community.domain.model.FriendRequestEntity
 import com.utesocial.android.feature_community.domain.model.FriendRequestRemoteKeys
 import com.utesocial.android.feature_community.domain.model.FriendsListRemoteKeys
 
 @Database(
-    entities = [User::class, FriendsListRemoteKeys::class, FriendRequest::class, FriendRequestRemoteKeys::class],
-    version = 4
+    entities = [User::class, FriendsListRemoteKeys::class, FriendRequestEntity::class, FriendRequestRemoteKeys::class],
+    version = 5
 )
 @TypeConverters(Converters::class)
 abstract class CommunityDatabase : RoomDatabase() {

@@ -21,21 +21,22 @@ import com.bumptech.glide.request.target.Target
 import com.utesocial.android.R
 import com.utesocial.android.databinding.LayoutFriendRequestItemBinding
 import com.utesocial.android.feature_community.domain.model.FriendRequest
+import com.utesocial.android.feature_community.domain.model.FriendRequestEntity
 import kotlinx.coroutines.withContext
 
 class FriendRequestsPagedAdapter(
     val requestItemOnActions: RequestItemOnActions
-) : PagingDataAdapter<FriendRequest, ViewHolder>(FriendRequestDiffCallback()) {
-    class FriendRequestDiffCallback : DiffUtil.ItemCallback<FriendRequest>() {
-        override fun areItemsTheSame(oldItem: FriendRequest, newItem: FriendRequest): Boolean {
+) : PagingDataAdapter<FriendRequestEntity, ViewHolder>(FriendRequestDiffCallback()) {
+    class FriendRequestDiffCallback : DiffUtil.ItemCallback<FriendRequestEntity>() {
+        override fun areItemsTheSame(oldItem: FriendRequestEntity, newItem: FriendRequestEntity): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: FriendRequest, newItem: FriendRequest): Boolean {
+        override fun areContentsTheSame(oldItem: FriendRequestEntity, newItem: FriendRequestEntity): Boolean {
             return oldItem.requestId == newItem.requestId
         }
 
-        override fun getChangePayload(oldItem: FriendRequest, newItem: FriendRequest): Any? {
+        override fun getChangePayload(oldItem: FriendRequestEntity, newItem: FriendRequestEntity): Any? {
             if(oldItem != newItem) {
                 return newItem
             }
@@ -44,9 +45,9 @@ class FriendRequestsPagedAdapter(
     }
     inner class FriendRequestViewHolder(private val binding: LayoutFriendRequestItemBinding) : ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(friendRequest: FriendRequest) {
+        fun bind(friendRequestEntity: FriendRequestEntity) {
             binding.apply {
-                val url = friendRequest.sender.avatar?.url
+                val url = friendRequestEntity.avatar?.url
                 url?.let {
                     Glide.with(binding.root.context)
                         .load(it)
@@ -117,12 +118,12 @@ class FriendRequestsPagedAdapter(
                         })
                         .into(imvAvatar)
                 }
-                txvFullName.text = "${friendRequest.sender.firstName} ${friendRequest.sender.lastName}"
-                txvUsername.text = friendRequest.sender.username ?: ""
+                txvFullName.text = friendRequestEntity.fullName
+                txvUsername.text = friendRequestEntity.username ?: ""
 
-                viewGroupBtnActions.isVisible = friendRequest.status == FriendRequest.FriendState.PENDING
-                txvRespondNotify.isVisible = friendRequest.status != FriendRequest.FriendState.PENDING
-                when(friendRequest.status) {
+                viewGroupBtnActions.isVisible = friendRequestEntity.status == FriendRequest.FriendState.PENDING
+                txvRespondNotify.isVisible = friendRequestEntity.status != FriendRequest.FriendState.PENDING
+                when(friendRequestEntity.status) {
                     FriendRequest.FriendState.ACCEPTED -> {
                         root.context?.apply {
                             txvRespondNotify.text = getString(R.string.str_accept_friend_request_notify)
@@ -136,13 +137,13 @@ class FriendRequestsPagedAdapter(
                     else -> {}
                 }
                 btnAccept.setOnClickListener {
-                    requestItemOnActions.onAcceptClick(friendRequest)
+                    requestItemOnActions.onAcceptClick(friendRequestEntity)
                 }
                 btnDeny.setOnClickListener {
-                    requestItemOnActions.onDenyClick(friendRequest)
+                    requestItemOnActions.onDenyClick(friendRequestEntity)
                 }
                 root.setOnClickListener {
-                    requestItemOnActions.onProfileClick(friendRequest)
+                    requestItemOnActions.onProfileClick(friendRequestEntity)
                 }
             }
         }
@@ -161,8 +162,8 @@ class FriendRequestsPagedAdapter(
     }
 
     interface RequestItemOnActions {
-        fun onAcceptClick(request: FriendRequest)
-        fun onDenyClick(request: FriendRequest)
-        fun onProfileClick(request: FriendRequest)
+        fun onAcceptClick(request: FriendRequestEntity)
+        fun onDenyClick(request: FriendRequestEntity)
+        fun onProfileClick(request: FriendRequestEntity)
     }
 }
