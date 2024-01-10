@@ -213,6 +213,7 @@
                         app:icon="@drawable/ico_user_plus_solid"
                         app:iconGravity="textStart"
                         app:iconPadding="12dp"
+                        android:visibility="gone"
                         app:iconSize="0dp" />
                     <com.google.android.material.button.MaterialButton
                         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -227,6 +228,7 @@
                         android:textAllCaps="true"
                         app:icon="@drawable/ico_user_check_solid"
                         app:iconGravity="textStart"
+                        android:visibility="gone"
                         app:iconPadding="12dp"
                         app:iconSize="0dp"
                         />

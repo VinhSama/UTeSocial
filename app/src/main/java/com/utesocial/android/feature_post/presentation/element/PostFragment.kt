@@ -134,6 +134,10 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
                         }
                     }
                 }
+
+                override fun onDeletePost(postModel: PostModel) {
+                    TODO("Not yet implemented")
+                }
             }
 
             infoBinding.setupListener(

@@ -9,7 +9,7 @@ import java.io.Serializable
 data class SearchUser(
     @PrimaryKey(autoGenerate = false)
     val userId: String,
-    @Embedded
+    @Embedded(prefix = "result_")
     val user: User,
     val friendState: String = "",
     val isSender: Boolean? = false

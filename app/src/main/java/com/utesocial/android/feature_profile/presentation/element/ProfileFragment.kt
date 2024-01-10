@@ -198,9 +198,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             searchUser.userId != (viewModel.authorizedUser.value?.userId ?: "")
         when (searchUser.friendState) {
             "Pending" -> {
-                binding.buttonRequest.isVisible = searchUser.isSender == true
-                binding.btnFriendState.isVisible = true
-                binding.btnFriendState.text = getString(R.string.str_fra_profile_sent_friend_request)
+                if(searchUser.isSender !== true) {
+                    binding.btnFriendState.text = getString(R.string.str_fra_profile_sent_friend_request)
+
+                } else {
+                    binding.buttonRequest.isVisible = searchUser.isSender != true
+                    binding.btnFriendState.isVisible = searchUser.isSender == false
+                }
+
             }
             "Accepted" -> {
                 binding.btnFriendState.isVisible = true
