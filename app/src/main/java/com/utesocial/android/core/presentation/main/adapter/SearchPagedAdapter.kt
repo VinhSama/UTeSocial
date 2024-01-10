@@ -3,6 +3,7 @@ package com.utesocial.android.core.presentation.main.adapter
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
@@ -42,6 +43,9 @@ class SearchPagedAdapter(
         fun bind(searchUser: SearchUser) {
             binding.searchUser = searchUser
             binding.listener = mainListener
+            binding.btnInFriendState.isVisible = searchUser.friendState == "Accepted"
+            binding.buttonInteract.isVisible = searchUser.friendState == ""
+            binding.txvSentRequestNotify.isVisible = searchUser.friendState == "Pending" && searchUser.isSender == false
 
             if (searchUser.user.type == User.UserType.Candidate) {
                 binding.linearLayoutFaculty.visibility = GONE

@@ -13,12 +13,6 @@
         android:layout_height="match_parent"
         tools:context=".feature_home.presentation.element.HomeFragment">
 
-        <!--        <com.facebook.shimmer.ShimmerFrameLayout-->
-        <!--            android:id="@+id/shimmer_frame_layout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            app:loading="@{viewModel.homeState.loading}">-->
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -75,41 +69,6 @@
                 app:layout_constraintTop_toBottomOf="@id/lottie_empty_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-        <!--            android:id="@+id/swipe_refresh_layout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent">-->
-        <!--            <RelativeLayout-->
-        <!--                android:id="@+id/relative_layout_content"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent">-->
-        <!--                <androidx.recyclerview.widget.RecyclerView-->
-        <!--                    android:id="@+id/recycler_view_post"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="match_parent"-->
-        <!--                    android:layout_centerInParent="true"-->
-        <!--                    android:orientation="vertical"-->
-        <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-        <!--                    tools:listitem="@layout/item_post" />-->
-
-        <!--                <com.google.android.material.textview.MaterialTextView-->
-        <!--                    android:id="@+id/text_view_empty"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="match_parent"-->
-        <!--                    android:layout_centerInParent="true"-->
-        <!--                    android:fontFamily="serif"-->
-        <!--                    android:gravity="center"-->
-        <!--                    android:paddingBottom="@dimen/fra_home_tv_empty_padding_bottom"-->
-        <!--                    android:text="@string/str_fra_home_tv_empty"-->
-        <!--                    android:textColor="?attr/colorOnBackground"-->
-        <!--                    android:textSize="@dimen/fra_home_tv_empty" />-->
-
-
-        <!--            </RelativeLayout>-->
-
-        <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

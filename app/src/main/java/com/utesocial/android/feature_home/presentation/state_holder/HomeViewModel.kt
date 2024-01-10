@@ -11,17 +11,16 @@ import androidx.paging.cachedIn
 import androidx.paging.liveData
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.domain.model.User
-import com.utesocial.android.feature_home.presentation.state_holder.state.HomeState
 import com.utesocial.android.feature_login.data.network.dto.AppResponse
 import com.utesocial.android.feature_post.data.datasource.database.PostDatabase
-import com.utesocial.android.feature_post.data.datasource.paging.PostPageKeyedDataSource
 import com.utesocial.android.feature_post.data.network.dto.PrivacyResponse
 import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
 import com.utesocial.android.feature_post.data.repository.FeedPostsRemoteMediator
-import com.utesocial.android.feature_post.domain.model.Like
 import com.utesocial.android.feature_post.domain.model.LikesPostHeader
+import com.utesocial.android.feature_post.domain.model.PostInteraction
 import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
+import com.utesocial.android.remote.networkState.Error
 import com.utesocial.android.remote.simpleCallAdapter.SimpleCall
 import com.utesocial.android.remote.simpleCallAdapter.SimpleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,9 +28,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.processors.PublishProcessor
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -40,12 +36,14 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val postUseCase: PostUseCase,
     private val database: PostDatabase,
-    val authorizedUser: BehaviorSubject<User>) : ViewModel() {
+    val authorizedUser: BehaviorSubject<User>
+) : ViewModel() {
 
     val disposable = CompositeDisposable()
-    val onLikeStateChanged : PublishProcessor<PostInteraction> = PublishProcessor.create()
-    val onLikeResponseState : MutableLiveData<SimpleResponse<AppResponse<Int>?>> = MutableLiveData()
+    val onLikeStateChanged: PublishProcessor<PostInteraction> = PublishProcessor.create()
+    val onErrorResponseState: MutableLiveData<Error?> = MutableLiveData()
     val likeStateInProcessing = HashSet<String>()
+
     init {
         disposable
             .add(
@@ -57,7 +55,7 @@ class HomeViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .subscribe { interaction ->
-                        when(interaction.javaClass) {
+                        when (interaction.javaClass) {
                             PostInteraction.Like::class.java -> likePost(interaction.postModel)
                             PostInteraction.Unlike::class.java -> unlikePost(interaction.postModel)
                         }
@@ -65,14 +63,19 @@ class HomeViewModel @Inject constructor(
             )
     }
 
-    private fun List<LikesPostHeader>.updateLikes(currentUserId: String, isLiked: Boolean, fullName: String = ""): List<LikesPostHeader> {
+    private fun List<LikesPostHeader>.updateLikes(
+        currentUserId: String,
+        isLiked: Boolean,
+        fullName: String = ""
+    ): List<LikesPostHeader> {
         val updatedLikes = toMutableList()
         val existingLike = updatedLikes.find { it.userId == currentUserId && !it.isFriend }
-        if(existingLike != null) {
+        if (existingLike != null) {
             updatedLikes.remove(existingLike)
         }
-        if(isLiked) {
-            val newLike = LikesPostHeader(userId = currentUserId, isFriend = false, fullName = fullName)
+        if (isLiked) {
+            val newLike =
+                LikesPostHeader(userId = currentUserId, isFriend = false, fullName = fullName)
             updatedLikes.add(0, newLike)
         }
         return updatedLikes
@@ -86,20 +89,21 @@ class HomeViewModel @Inject constructor(
                 isLiked = false
             )
         }
-        var postModelUpdate = likes?.let { postModel.copy(likes = it, likeCounts = postModel.likeCounts - 1) }
+        var postModelUpdate =
+            likes?.let { postModel.copy(likes = it, likeCounts = postModel.likeCounts - 1) }
         postUseCase.unlikePostUseCase
             .invoke(postModel.id)
             .process(
                 disposable,
                 onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Int>?> {
                     override fun onChanged(response: SimpleResponse<AppResponse<Int>?>) {
-                        if(response.isRunning()) {
+                        if (response.isRunning()) {
                             viewModelScope.launch {
                                 database.getPostDao()
                                     .update(postModelUpdate!!)
                             }
                         }
-                        if(response.isSuccessful()) {
+                        if (response.isSuccessful()) {
                             likeStateInProcessing.remove(postModel.id)
                             response.getResponseBody()?.data?.let {
                                 postModelUpdate = postModel.copy(likes = likes!!, likeCounts = it)
@@ -109,13 +113,13 @@ class HomeViewModel @Inject constructor(
                                 }
                             }
                         }
-                        if(response.isFailure()) {
+                        if (response.isFailure()) {
                             likeStateInProcessing.remove(postModel.id)
                             viewModelScope.launch {
                                 database.getPostDao()
                                     .update(postModel)
                             }
-                            onLikeResponseState.postValue(response)
+                            onErrorResponseState.postValue(response.getError())
                         }
 
                     }
@@ -124,6 +128,7 @@ class HomeViewModel @Inject constructor(
             )
 
     }
+
     private fun likePost(postModel: PostModel) {
         likeStateInProcessing.add(postModel.id)
         val likes = authorizedUser.value?.let {
@@ -134,20 +139,21 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        var postModelUpdate = likes?.let { postModel.copy(likes = it, likeCounts = postModel.likeCounts + 1) }
+        var postModelUpdate =
+            likes?.let { postModel.copy(likes = it, likeCounts = postModel.likeCounts + 1) }
         postUseCase.likePostUseCase
             .invoke(postModel.id)
             .process(
                 disposable,
                 onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Int>?> {
                     override fun onChanged(response: SimpleResponse<AppResponse<Int>?>) {
-                        if(response.isRunning()) {
+                        if (response.isRunning()) {
                             viewModelScope.launch {
                                 database.getPostDao()
                                     .update(postModelUpdate!!)
                             }
                         }
-                        if(response.isSuccessful()) {
+                        if (response.isSuccessful()) {
                             likeStateInProcessing.remove(postModel.id)
                             response.getResponseBody()?.data?.let {
                                 postModelUpdate = postModel.copy(likes = likes!!, likeCounts = it)
@@ -157,20 +163,21 @@ class HomeViewModel @Inject constructor(
                                 }
                             }
                         }
-                        if(response.isFailure()) {
+                        if (response.isFailure()) {
                             likeStateInProcessing.remove(postModel.id)
                             viewModelScope.launch {
                                 database.getPostDao()
                                     .update(postModel)
                             }
-                            onLikeResponseState.postValue(response)
+                            onErrorResponseState.postValue(response.getError())
                         }
                     }
 
                 }
             )
     }
-    fun getCurrentUserId() : String? {
+
+    fun getCurrentUserId(): String? {
         return authorizedUser.value?.userId
     }
 
@@ -196,14 +203,20 @@ class HomeViewModel @Inject constructor(
         postId: String,
         changePrivacyRequest: PrivacyRequest
     ): LiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> {
-        val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> = MutableLiveData()
+        val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<PrivacyResponse>?>> =
+            MutableLiveData()
         postUseCase.changePrivacyUseCase(postId, changePrivacyRequest).process(
             disposable,
             onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<PrivacyResponse>?> {
 
                 override fun onChanged(response: SimpleResponse<AppResponse<PrivacyResponse>?>) {
                     if (response.isSuccessful()) {
-                        response.getResponseBody()?.data?.let { Debug.log("changePrivacySuccess", it.toString()) }
+                        response.getResponseBody()?.data?.let {
+                            Debug.log(
+                                "changePrivacySuccess",
+                                it.toString()
+                            )
+                        }
                     }
                     mutableLiveData.postValue(response)
                 }
@@ -212,15 +225,62 @@ class HomeViewModel @Inject constructor(
         return mutableLiveData
     }
 
-    fun deleteMyPost(postId: String): LiveData<SimpleResponse<AppResponse<Void>?>> {
+    fun changePrivacy(
+        postModel: PostModel,
+        changePrivacyRequest: PrivacyRequest
+    ) {
+        var updatePost = postModel.copy(privacyMode = changePrivacyRequest.privacyMode)
+        postUseCase
+            .changePrivacyUseCase(postModel.id, changePrivacyRequest)
+            .process(
+                disposable,
+                onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<PrivacyResponse>?> {
+                    override fun onChanged(response: SimpleResponse<AppResponse<PrivacyResponse>?>) {
+                        if (response.isRunning()) {
+                            viewModelScope.launch {
+                                database.getPostDao().update(updatePost)
+                            }
+                        }
+                        if (response.isSuccessful()) {
+                            response.getResponseBody()?.data?.let {
+                                updatePost = updatePost.copy(
+                                    updatedAt = it.updatedAt,
+                                    privacyMode = it.privacyMode
+                                )
+                                viewModelScope.launch {
+                                    database.getPostDao().update(updatePost)
+                                }
+                            }
+                        }
+                        if (response.isFailure()) {
+                            viewModelScope.launch {
+                                database.getPostDao().update(postModel)
+                            }
+                            onErrorResponseState.postValue(response.getError())
+                        }
+                    }
+                }
+            )
+    }
+
+    fun deleteMyPost(postModel: PostModel): LiveData<SimpleResponse<AppResponse<Void>?>> {
         val mutableLiveData: MutableLiveData<SimpleResponse<AppResponse<Void>?>> = MutableLiveData()
-        postUseCase.deletePostUseCase(postId).process(
+        postUseCase.deletePostUseCase(postModel.id).process(
             disposable,
             onStateChanged = object : SimpleCall.OnStateChanged<AppResponse<Void>?> {
 
                 override fun onChanged(response: SimpleResponse<AppResponse<Void>?>) {
-                    if (response.isSuccessful()) {
-                        response.getResponseBody()?.data?.let { Debug.log("deletePostSuccess", it.toString()) }
+                    if(response.isRunning()) {
+                        viewModelScope.launch {
+                            database.getPostDao()
+                                .deleteOne(postModel)
+                        }
+                    }
+                    if(response.isFailure()) {
+                        viewModelScope.launch {
+                            database.getPostDao()
+                                .insertOne(postModel)
+                        }
                     }
                     mutableLiveData.postValue(response)
                 }
@@ -234,8 +294,4 @@ class HomeViewModel @Inject constructor(
         super.onCleared()
     }
 
-    sealed class PostInteraction(open val postModel: PostModel) {
-        data class Like(override val postModel: PostModel) : PostInteraction(postModel)
-        data class Unlike(override val postModel: PostModel) : PostInteraction(postModel)
-    }
 }

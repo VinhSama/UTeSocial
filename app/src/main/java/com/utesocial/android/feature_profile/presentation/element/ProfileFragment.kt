@@ -1,12 +1,9 @@
 package com.utesocial.android.feature_profile.presentation.element
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
@@ -24,18 +21,21 @@ import com.google.android.material.textfield.TextInputLayout
 import com.utesocial.android.R
 import com.utesocial.android.core.data.util.Debug
 import com.utesocial.android.core.presentation.base.BaseFragment
-import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
+import com.utesocial.android.core.presentation.util.ResponseException
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
+import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.databinding.FragmentProfileBinding
 import com.utesocial.android.databinding.ViewDialogInputBinding
 import com.utesocial.android.feature_post.data.network.request.PrivacyRequest
+import com.utesocial.android.feature_post.domain.model.PostInteraction
 import com.utesocial.android.feature_post.domain.model.PostModel
+import com.utesocial.android.feature_post.presentation.adapter.PostPagedAdapter
 import com.utesocial.android.feature_post.presentation.dialog.ChangePrivacyDialog
 import com.utesocial.android.feature_post.presentation.dialog.DeletePostDialog
+import com.utesocial.android.feature_post.presentation.element.CommentBottomDialogFragment
 import com.utesocial.android.feature_post.presentation.listener.PostListener
 import com.utesocial.android.feature_profile.presentation.adapter.ProfileLoadStateAdapter
-import com.utesocial.android.feature_profile.presentation.adapter.ProfilePagedAdapter
 import com.utesocial.android.feature_profile.presentation.state_holder.ProfileViewModel
 import com.utesocial.android.remote.networkState.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +48,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override val viewModel: ProfileViewModel by viewModels()
     private val args: ProfileFragmentArgs by navArgs()
 
-    private val mainViewModel: MainViewModel by viewModels(ownerProducer = { getBaseActivity() })
     private val searchUser by lazy { args.searchUser }
 
     private lateinit var bindingDialogUsername: ViewDialogInputBinding
@@ -67,58 +66,72 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         override fun onChangePrivacy(postId: String, privacyMode: Int) {
+        }
+
+        override fun onChangePrivacy(postModel: PostModel, privacyMode: Int) {
             changePrivacyDialog.setDefaultChecked(privacyMode)
             changePrivacyDialog.showDialog {
-                viewModel.changePrivacy(postId, PrivacyRequest(changePrivacyDialog.getPrivacySelected()))
-                    .observe(viewLifecycleOwner) { responseState ->
-                        when (responseState.getNetworkState().getStatus()) {
-                            Status.RUNNING -> showLoadingDialog()
-
-                            Status.SUCCESS -> {
-                                dismissLoadingDialog()
-                                getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_success))
-                                refreshData()
-                            }
-
-                            Status.FAILED -> {
-                                dismissLoadingDialog()
-                                getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_scope_fail))
-                            }
-
-                            else -> return@observe
-                        }
-                    }
+                viewModel.changePrivacy(postModel, PrivacyRequest(changePrivacyDialog.getPrivacySelected()))
             }
         }
 
         override fun onDeletePost(postId: String) {
+        }
+
+        override fun onDeletePost(postModel: PostModel) {
             deletePostDialog.showDialog {
-                viewModel.deleteMyPost(postId).observe(viewLifecycleOwner) { responseState ->
-                    when (responseState.getNetworkState().getStatus()) {
-                        Status.RUNNING -> showLoadingDialog()
-
-                        Status.SUCCESS -> {
-                            dismissLoadingDialog()
+                viewModel.deleteMyPost(postModel)
+                    .observe(viewLifecycleOwner) { responseState ->
+                        if(responseState.isSuccessful()) {
                             getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_success))
-                            refreshData()
                         }
-
-                        Status.FAILED -> {
-                            dismissLoadingDialog()
-                            getBaseActivity().showSnackbar(message = getString(R.string.str_dialog_confirm_delete_post_fail))
+                        if(responseState.isFailure()) {
+                            showError(responseState)
                         }
-
-                        else -> return@observe
                     }
-                }
             }
         }
     }
-    private val pagedAdapter: ProfilePagedAdapter by lazy {
-        ProfilePagedAdapter(
+    private val pagedAdapter: PostPagedAdapter by lazy {
+        PostPagedAdapter(
             viewLifecycleOwner,
             postListener,
-            mainViewModel.authorizedUser.value?.userId ?: ""
+            viewModel.authorizedUser.value?.userId ?: "",
+            onItemActionsListener = object : PostPagedAdapter.OnItemActionsListener {
+                override fun onLikeChanged(isChecked: Boolean, postModel: PostModel): Boolean {
+                    when(isChecked) {
+                        true -> {
+                            if(!viewModel.likeStateInProcessing.contains(postModel.id)) {
+                                viewModel.onLikeStateChanged.onNext(
+                                    PostInteraction.Like(
+                                        postModel.copy()
+                                    )
+                                )
+                                return true
+                            }
+                            return false
+                        }
+                        false -> {
+                            return if(!viewModel.likeStateInProcessing.contains(postModel.id)) {
+                                viewModel.onLikeStateChanged.onNext(
+                                    PostInteraction.Unlike(
+                                        postModel.copy()
+                                    )
+                                )
+                                true
+                            } else {
+                                false
+                            }
+
+                        }
+                    }
+                }
+
+                override fun onCommentClicked(postModel: PostModel) {
+                    CommentBottomDialogFragment.newInstance(postId = postModel.id).show(childFragmentManager, CommentBottomDialogFragment.TAG)
+                }
+
+            }
         )
     }
 
@@ -173,52 +186,91 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         popupMenu.menuInflater.inflate(R.menu.menu_fra_profile_btn, popupMenu.menu)
 
         bindingDialogUsername.buttonPositive.isEnabled = false
-
-        binding.post.recyclerViewPost.layoutParams = RelativeLayout.LayoutParams(
-            MATCH_PARENT,
-            Resources.getSystem().displayMetrics.heightPixels
-        )
     }
 
     private fun setupBinding() {
         binding.user = searchUser.user
-        binding.isVisit = searchUser.userId != (mainViewModel.authorizedUser.value?.userId ?: "")
+//        (searchUser.userId != (viewModel.authorizedUser.value?.userId ?: "")).apply {
+//            Debug.log("isCurrentUser", this.toString())
+//            binding.viewGroupBtnState.isVisible = this
+//        }
+        binding.isVisit =
+            searchUser.userId != (viewModel.authorizedUser.value?.userId ?: "")
+        when (searchUser.friendState) {
+            "Pending" -> {
+                if(searchUser.isSender !== true) {
+                    binding.btnFriendState.text = getString(R.string.str_fra_profile_sent_friend_request)
+
+                } else {
+                    binding.buttonRequest.isVisible = searchUser.isSender != true
+                    binding.btnFriendState.isVisible = searchUser.isSender == false
+                }
+
+            }
+            "Accepted" -> {
+                binding.btnFriendState.isVisible = true
+                binding.btnFriendState.text = getString(R.string.str_fra_profile_be_friend)
+                binding.buttonRequest.isVisible = false
+            }
+            else -> {
+                binding.buttonRequest.isVisible = true
+                binding.btnFriendState.isVisible = false
+                binding.buttonRequest.setOnClickListener {
+
+                }
+            }
+        }
+//        binding.isVisit = searchUser.userId != (viewModel.authorizedUser.value?.userId ?: "")
         bindingDialogUsername.fragment = this@ProfileFragment
     }
 
     private fun setupRecyclerView() {
-        binding.post.recyclerViewPost.setHasFixedSize(true)
         val profileLoadStateAdapter = ProfileLoadStateAdapter { pagedAdapter.retry() }
-        binding.post.recyclerViewPost.adapter =
+        binding.recyclerViewPost.adapter =
             pagedAdapter.withLoadStateFooter(profileLoadStateAdapter)
 
         pagedAdapter.addLoadStateListener { loadState ->
-            val loadingState = loadState.source.refresh is LoadState.Loading
-            val firstFailed = loadState.source.refresh is LoadState.Error
+            loadState.mediator?.let {
+                val loadingState = it.refresh is LoadState.Loading
+                val firstFailed = it.refresh is LoadState.Error
+                val firstEmptyLoaded =
+                    it.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0
+                val appendFailed = it.append is LoadState.Error
+                Debug.log("postProfile", pagedAdapter.itemCount.toString())
+                if (appendFailed) {
+                    (loadState.append as LoadState.Error).error.let { ex ->
+                        (ex as ResponseException).error?.let { error ->
+                            showError(error)
+                        }
+                    }
+                }
+                binding.shimmerFrameLayout.isVisible = loadingState
+                binding.recyclerViewPost.isVisible = !loadingState && !firstFailed
+                binding.loadStateViewGroup.isVisible = firstEmptyLoaded || firstFailed
+                binding.lottieEmptyView.isVisible = true
+                binding.txvErrorMessage.isVisible = firstFailed
+                Debug.log("recyclerView visible", binding.recyclerViewPost.isVisible.toString())
 
-            if (loadState.refresh is LoadState.Error) {
-                val errorState = loadState.refresh as LoadState.Error
-                val errorMessage = errorState.error.localizedMessage
-                if (errorMessage != null) {
-                    getBaseActivity().showSnackbar(message = errorMessage)
+                if(loadState.refresh is LoadState.Error) {
+                    val errorState = loadState.refresh as LoadState.Error
+                    val errorResponse = errorState.error as ResponseException
+                    errorResponse.error?.let { error ->
+                        if(error.undefinedMessage.isNullOrEmpty()) {
+                            binding.txvErrorMessage.text = getString(error.errorType.stringResId)
+                        } else {
+                            binding.txvErrorMessage.text = error.undefinedMessage
+                        }
+                    }
                 }
             }
-
-            binding.post.recyclerViewPost.isVisible = !loadingState && !firstFailed
-            Debug.log(
-                "ProfileFragment",
-                "recyclerViewPost - visible: " + binding.post.recyclerViewPost.isVisible
-            )
-            Debug.log("ProfileFragment", "loadingState: $loadingState")
-            Debug.log("ProfileFragment", "firstFailed: $firstFailed")
-
-            binding.post.shimmerFrameLayout.isVisible = loadingState
-            binding.post.lottieEmptyView.isVisible =
-                firstFailed || (loadState.source.refresh is LoadState.NotLoading && pagedAdapter.itemCount == 0)
         }
+
     }
 
     private fun setupListener() {
+        binding.btnRefresh.setOnClickListener {
+            refreshData()
+        }
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_change_username -> {
@@ -297,9 +349,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun refreshData() {
-        val userId = searchUser.userId
-        viewModel.getMyPosts(userId, 10).observe(viewLifecycleOwner) { pagingData ->
-            pagedAdapter.submitData(lifecycle, pagingData)
+        searchUser.userId?.let {
+            viewModel.getPostsByUserId(it)
+                .observe(viewLifecycleOwner) { pagingData ->
+                    pagedAdapter.submitData(lifecycle, pagingData)
+                }
         }
     }
 
@@ -339,33 +393,4 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    /*private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.linearLayoutPosts) }
-
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-
-        override fun handleOnBackPressed() {
-            bottomSheetBehavior.state = STATE_COLLAPSED
-            isEnabled = false
-        }
-    }
-    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            if (newState == STATE_EXPANDED) {
-                onBackPressedCallback.isEnabled = true
-                getBaseActivity().onBackPressedDispatcher.addCallback(this@ProfileFragment, onBackPressedCallback)
-            } else {
-                onBackPressedCallback.isEnabled = false
-            }
-        }
-
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-    }
-
-    private fun setup() { bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback) }
-
-    override fun onDestroyView() {
-        bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
-        super.onDestroyView()
-    }*/
 }

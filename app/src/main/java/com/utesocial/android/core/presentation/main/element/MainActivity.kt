@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
@@ -31,6 +32,7 @@ import com.utesocial.android.core.presentation.main.listener.MainListener
 import com.utesocial.android.core.presentation.main.state_holder.MainViewModel
 import com.utesocial.android.core.presentation.util.NavigationUICustom
 import com.utesocial.android.core.presentation.util.dismissLoadingDialog
+import com.utesocial.android.core.presentation.util.showError
 import com.utesocial.android.core.presentation.util.showLoadingDialog
 import com.utesocial.android.core.presentation.util.showUnauthorizedDialog
 import com.utesocial.android.databinding.ActivityMainBinding
@@ -43,7 +45,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    override val binding: ActivityMainBinding by lazy { DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main) }
+    override val binding: ActivityMainBinding by lazy {
+        DataBindingUtil.setContentView(
+            this@MainActivity,
+            R.layout.activity_main
+        )
+    }
     override val viewModel: MainViewModel by viewModels()
 
     @Inject
@@ -53,51 +60,60 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val searchBinding by lazy { MainActivitySearch(this@MainActivity, binding.search) }
     private val topBinding by lazy { MainActivityTop(this@MainActivity, binding.topBar) }
 
-    private val pagedAdapter by lazy { SearchPagedAdapter(
-        this@MainActivity,
-        object : MainListener {
+    private val pagedAdapter by lazy {
+        SearchPagedAdapter(
+            this@MainActivity,
+            object : MainListener {
 
-            override fun onSendFriendRequest(receiverId: String) =
-                viewModel.sendFriendRequest(receiverId).observe(this@MainActivity) { response ->
-                    when (response.getNetworkState().getStatus()) {
-                        Status.RUNNING -> showLoadingDialog()
+                override fun onSendFriendRequest(receiverId: String) {
+                    Toast.makeText(baseContext, "alo", Toast.LENGTH_SHORT).show()
+                    viewModel.sendFriendRequest(receiverId).observe(this@MainActivity) { response ->
+                        when (response.getNetworkState().getStatus()) {
+                            Status.RUNNING -> showLoadingDialog()
 
-                        Status.SUCCESS -> {
-                            dismissLoadingDialog()
-                            showSnackbar(getString(R.string.str_send_friend_request_success))
-                        }
+                            Status.SUCCESS -> {
+                                dismissLoadingDialog()
+                                showSnackbar(getString(R.string.str_send_friend_request_success))
+                            }
 
-                        Status.FAILED -> {
-                            dismissLoadingDialog()
-                            response.getError()?.let { error ->
-                                if (error.undefinedMessage.isNullOrEmpty()) {
-                                    Snackbar.make(
-                                        binding.root,
-                                        error.errorType.stringResId,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Snackbar.make(
-                                        binding.root,
-                                        error.undefinedMessage.toString(),
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
+                            Status.FAILED -> {
+                                dismissLoadingDialog()
+                                response.getError()?.let { error ->
+                                    if (error.undefinedMessage.isNullOrEmpty()) {
+                                        Snackbar.make(
+                                            binding.root,
+                                            error.errorType.stringResId,
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Snackbar.make(
+                                            binding.root,
+                                            error.undefinedMessage.toString(),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
                             }
-                        }
 
-                        else -> return@observe
+                            else -> return@observe
+                        }
                     }
                 }
 
-            override fun onProfileClick(searchUser: SearchUser) {
-                searchBinding.searchView().hide()
-                val action = NavActMainDirections.actionMainProfile(searchUser)
-                screenBinding.navController().navigate(action)
-                handleBar(false)
+                override fun onSendFriendRequest(searchUser: SearchUser) {
+                    viewModel.sendFriendRequest(searchUser)
+                }
+
+
+                override fun onProfileClick(searchUser: SearchUser) {
+                    searchBinding.searchView().hide()
+                    val action = NavActMainDirections.actionMainProfile(searchUser)
+                    screenBinding.navController().navigate(action)
+                    handleBar(false)
+                }
             }
-        }
-    ) }
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -110,54 +126,69 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setupFloatingActionButton()
 
         viewModel.apply {
+            onErrorResponseState.observe(this@MainActivity) { error -> showError(error)}
             unauthorizedEventBroadcast.observe(this@MainActivity) {
-                if(it) {
-                    showUnauthorizedDialog {dialog ->
+                if (it) {
+                    showUnauthorizedDialog { dialog ->
                         handleUnauthorizedEvent()
                         dialog.dismiss()
                     }
                 }
             }
 
-            disposable.add(searchUserRequest.distinctUntilChanged().debounce(500, TimeUnit.MILLISECONDS).subscribe {
-                if (!it.isNullOrEmpty()) {
-                    Handler(Looper.getMainLooper()).post { refreshData(it) }
-                }
-            })
+            disposable.add(
+                searchUserRequest.distinctUntilChanged().debounce(500, TimeUnit.MILLISECONDS)
+                    .subscribe {
+                        if (!it.isNullOrEmpty()) {
+                            Handler(Looper.getMainLooper()).post { refreshSearchData(it) }
+                        }
+                    })
 
-            disposable.add(binding.search.searchView.editText.textChanges().skipInitialValue().subscribe { charSequence ->
-                if (charSequence.toString().trim().isEmpty()) {
-                    searchBinding.isClear()
-                    searchUserRequest.onNext("")
-                } else {
-                    searchBinding.isTyping()
-                    searchUserRequest.onNext(charSequence.toString())
-                }
-            })
+            disposable.add(
+                binding.search.searchView.editText.textChanges().skipInitialValue()
+                    .subscribe { charSequence ->
+                        if (charSequence.toString().trim().isEmpty()) {
+                            searchBinding.isClear()
+                            searchUserRequest.onNext("")
+                        } else {
+                            searchBinding.isTyping()
+                            searchUserRequest.onNext(charSequence.toString())
+                        }
+                    })
         }
     }
 
-    private fun setSplashScreenExit(splashScreen: SplashScreen) = splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
-        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.animator_act_main_splash_screen_exit).apply {
-            setTarget(splashScreenViewProvider.view)
-            doOnEnd { splashScreenViewProvider.remove() }
-            start()
+    private fun setSplashScreenExit(splashScreen: SplashScreen) =
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            AnimatorInflater.loadAnimator(
+                this@MainActivity,
+                R.animator.animator_act_main_splash_screen_exit
+            ).apply {
+                setTarget(splashScreenViewProvider.view)
+                doOnEnd { splashScreenViewProvider.remove() }
+                start()
+            }
         }
-    }
 
     private fun setup(splashScreen: SplashScreen) {
         splashScreen.setKeepOnScreenCondition { true }
         viewModel.apply {
             authorizedUser.observe(this@MainActivity) { user ->
-                if(user == User.EMPTY) {
+                if (user == User.EMPTY) {
                     Intent(this@MainActivity, AuthActivity::class.java).apply {
                         startActivity(this)
                         finish()
                     }
                 } else {
                     disableDragActionBar(topBinding.appBarLayout())
-                    setupActionBar(topBinding.relativeLayoutAction(), screenBinding.frameLayoutScreen())
-                    setupBottomBar(bottomBinding.bottomAppBar(), bottomBinding.bottomViewOnScrollBehavior())
+                    setupActionBar(
+                        topBinding.relativeLayoutAction(),
+                        screenBinding.frameLayoutScreen()
+                    )
+                    setupBottomBar(
+                        bottomBinding.bottomAppBar(),
+                        bottomBinding.bottomViewOnScrollBehavior()
+                    )
 
                     val navController = screenBinding.navController()
                     setupNavController(navController)
@@ -188,7 +219,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    private fun setupRecyclerView() { searchBinding.setupRecyclerView(pagedAdapter) }
+    private fun setupRecyclerView() {
+        searchBinding.setupRecyclerView(pagedAdapter)
+    }
 
     private fun setupListener() {
         binding.floatingActionButtonCreate.setOnClickListener {
@@ -197,6 +230,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             handleBar(false)
         }
         topBinding.setListener(searchBinding.searchView())
+    }
+
+    private fun refreshSearchData(search: String) {
+        viewModel.searchUsers(search)
+            .observe(this) { paging ->
+                pagedAdapter.submitData(lifecycle, paging)
+            }
     }
 
     private fun refreshData(search: String) = viewModel.searchUsers(
@@ -208,13 +248,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun setupFloatingActionButton() {
         val fab = binding.floatingActionButtonCreate
-        val listener = NavController.OnDestinationChangedListener {_, destination, _ ->
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             fab.isVisible = destination.id == R.id.item_fra_home
         }
 
         screenBinding.navController().addOnDestinationChangedListener(listener)
-        lifecycle.addObserver(LifecycleEventObserver {_ , event ->
-            if(event == Lifecycle.Event.ON_DESTROY) {
+        lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
                 screenBinding.navController().removeOnDestinationChangedListener(listener)
             }
         })

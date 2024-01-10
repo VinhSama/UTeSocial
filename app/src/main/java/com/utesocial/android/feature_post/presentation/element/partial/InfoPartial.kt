@@ -9,6 +9,7 @@ import androidx.appcompat.widget.PopupMenu
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.utesocial.android.R
+import com.utesocial.android.feature_post.domain.model.PostModel
 import com.utesocial.android.feature_post.presentation.listener.PostListener
 
 @SuppressLint("RestrictedApi")
@@ -57,19 +58,20 @@ abstract class InfoPartial(
 
     fun setupListener(
         listener: PostListener,
-        postId: String
+        postModel: PostModel
     ) {
         buttonMenu.visibility = View.VISIBLE
 
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_remove -> {
-                    listener.onDeletePost(postId)
+                    listener.onDeletePost(postModel)
                     true
                 }
 
                 R.id.item_edit -> {
-                    listener.onChangePrivacy(postId, privacyMode)
+                    listener.onChangePrivacy(postModel, privacyMode)
+//                    listener.onChangePrivacy(postModel.id, privacyMode)
                     true
                 }
 

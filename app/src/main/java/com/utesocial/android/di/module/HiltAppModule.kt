@@ -33,6 +33,7 @@ import com.utesocial.android.feature_post.data.network.PostApi
 import com.utesocial.android.feature_post.domain.use_case.PostUseCase
 import com.utesocial.android.feature_profile.data.network.ProfileApi
 import com.utesocial.android.feature_profile.domain.use_case.ProfileUseCase
+import com.utesocial.android.feature_search.data.data_source.database.SearchCacheDatabase
 import com.utesocial.android.feature_search.data.network.SearchApi
 import dagger.Module
 import dagger.Provides
@@ -226,6 +227,21 @@ class HiltAppModule {
             })
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideSearchCacheDatabase(@ApplicationContext context: Context) : SearchCacheDatabase {
+        return Room
+            .databaseBuilder(context, SearchCacheDatabase::class.java, "SearchCacheDatabase")
+            .fallbackToDestructiveMigration()
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    Debug.log("SearchCacheDatabase", "onCreate")
+                }
+            })
+            .build()
+    }
+
 
     @Singleton
     @Provides
